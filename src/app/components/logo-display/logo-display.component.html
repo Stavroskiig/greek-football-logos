@@ -29,8 +29,11 @@
       <div class="select-wrapper">
         <select [(ngModel)]="selectedLeague" (change)="applyFilters()">
           <option value="">🌍 All Leagues</option>
-          <option *ngFor="let league of leagues$ | async" [value]="league">
-            {{ league }} {{ selectedLeague === league ? '✓' : '' }}
+          <option 
+            *ngFor="let league of leagues$ | async" 
+            [value]="league" 
+            [class.selected]="selectedLeague === league">
+            {{ league }}
           </option>
         </select>
         <div class="select-arrow">▼</div>
