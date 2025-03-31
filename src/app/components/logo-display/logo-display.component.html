@@ -1,0 +1,56 @@
+<div class="container">
+  <h1>Greek Football Team Logos</h1>
+  
+  <div class="filters-container">
+    <!-- Search Box -->
+    <div class="search-container">
+      <div class="search-wrapper">
+        <input
+          type="text"
+          class="search-input"
+          [(ngModel)]="searchTerm"
+          (input)="applyFilters()"
+          placeholder="Search teams..."
+        />
+        <button
+          type="button"
+          class="clear-button"
+          *ngIf="searchTerm"
+          (click)="clearSearch()"
+        >
+          ✖
+        </button>
+      </div>
+    </div>
+    
+    <!-- League Selector -->
+    <div class="league-filter">
+      <label>Competition:</label>
+      <div class="select-wrapper">
+        <select [(ngModel)]="selectedLeague" (change)="applyFilters()">
+          <option value="">🌍 All Leagues</option>
+          <option *ngFor="let league of leagues$ | async" [value]="league">
+            {{ league }} {{ selectedLeague === league ? '✓' : '' }}
+          </option>
+        </select>
+        <div class="select-arrow">▼</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logo-grid">
+    <div class="logo-item" *ngFor="let logo of logos$ | async">
+      <img 
+        [src]="logo.path" 
+        [alt]="logo.name + ' logo'"
+        (error)="handleImageError($event)"
+      >
+      <h3>{{ logo.name }}</h3>
+      <p *ngIf="logo.league">{{ logo.league }}</p>
+    </div>
+  </div>
+  
+  <div *ngIf="(logos$ | async)?.length === 0" class="no-results">
+    No teams found matching your criteria.
+  </div>
+</div>
