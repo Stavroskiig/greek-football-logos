@@ -1,13 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { TeamLogo } from '../../models/team-logo';
 import { CommonModule } from '@angular/common';
+import { TeamInfoService } from '../../services/team-info.service';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-logo-item',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="logo-item">
+    <div class="logo-item" (click)="showDetails()">
       <div class="logo-image-container">
         <img 
           [src]="logo.path" 
@@ -33,6 +35,7 @@ import { CommonModule } from '@angular/common';
       min-height: 160px;
       box-sizing: border-box;
       margin: 0 auto;
+      cursor: pointer;
     }
 
     .logo-item:hover {
@@ -86,7 +89,27 @@ import { CommonModule } from '@angular/common';
 export class LogoItemComponent {
   @Input() logo!: TeamLogo;
 
+  constructor(
+    private teamInfoService: TeamInfoService,
+    private modalService: ModalService
+  ) {}
+
   handleImageError(event: Event) {
     (event.target as HTMLImageElement).style.display = 'none';
+  }
+
+  showDetails() {
+    this.teamInfoService.getTeamInfo(this.logo.id).subscribe(
+      info => {
+        this.modalService.openModal({
+          teamInfo: info,
+          logoPath: this.logo.path
+        });
+      },
+      error => {
+        console.error('Error loading team details:', error);
+        // You could show a user-friendly error message here
+      }
+    );
   }
 } 

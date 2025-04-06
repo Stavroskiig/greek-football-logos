@@ -71,10 +71,10 @@ export class LogoDisplayComponent {
   }
 
   getGroupedLeagues(logos: TeamLogo[]): {name: string, logos: TeamLogo[]}[] {
-    const leagues = [...new Set(logos.map(logo => logo.league))];
+    const leagues = [...new Set(logos.map(logo => logo.league || 'Uncategorized'))];
     return leagues.map(league => ({
       name: league,
-      logos: logos.filter(logo => logo.league === league)
+      logos: logos.filter(logo => (logo.league || 'Uncategorized') === league)
     }));
   }
 
