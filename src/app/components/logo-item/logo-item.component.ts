@@ -9,7 +9,7 @@ import { ModalService } from '../../services/modal.service';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="logo-item" (click)="showDetails()">
+    <div class="logo-item">
       <div class="logo-image-container">
         <img 
           [src]="logo.path" 
@@ -19,6 +19,10 @@ import { ModalService } from '../../services/modal.service';
       </div>
       <h3>{{ logo.name }}</h3>
       <p *ngIf="logo.league">{{ logo.league }}</p>
+      <div class="logo-actions">
+        <button class="details-btn" (click)="showDetails()">Details</button>
+        <button class="download-btn" (click)="downloadLogo()">Download</button>
+      </div>
     </div>
   `,
   styles: [`
@@ -35,7 +39,6 @@ import { ModalService } from '../../services/modal.service';
       min-height: 160px;
       box-sizing: border-box;
       margin: 0 auto;
-      cursor: pointer;
     }
 
     .logo-item:hover {
@@ -84,6 +87,39 @@ import { ModalService } from '../../services/modal.service';
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
+    .logo-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .details-btn, .download-btn {
+      padding: 0.25rem 0.5rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .details-btn {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .details-btn:hover {
+      background-color: #e0e0e0;
+    }
+
+    .download-btn {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .download-btn:hover {
+      background-color: #0056b3;
+    }
   `]
 })
 export class LogoItemComponent {
@@ -108,8 +144,16 @@ export class LogoItemComponent {
       },
       error => {
         console.error('Error loading team details:', error);
-        // You could show a user-friendly error message here
       }
     );
+  }
+
+  downloadLogo() {
+    const link = document.createElement('a');
+    link.href = this.logo.path;
+    link.download = `${this.logo.name.toLowerCase().replace(/\s+/g, '-')}-logo.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 } 
