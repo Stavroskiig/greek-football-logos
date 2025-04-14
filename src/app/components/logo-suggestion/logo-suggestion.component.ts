@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LogoSuggestionService } from '../../services/logo-suggestion.service';
@@ -41,16 +41,32 @@ import { LogoSuggestionService } from '../../services/logo-suggestion.service';
         </div>
 
         <div class="form-group">
-          <label for="logoImage">Logo Image *</label>
+          <label for="url">Logo URL *</label>
+          <input
+            type="url"
+            id="url"
+            formControlName="url"
+            placeholder="Enter direct URL to the logo image"
+            [class.error]="url.invalid && url.touched"
+          >
+          <div class="error-message" *ngIf="url.invalid && url.touched">
+            Please provide a valid URL to the logo image
+          </div>
+          <div class="help-text">
+            Please provide a direct link to the logo image (e.g., ending in .png, .jpg, etc.)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="logoImage">Preview Image (Optional)</label>
           <input
             type="file"
             id="logoImage"
             (change)="onFileSelected($event)"
             accept="image/*"
-            [class.error]="logoImage.invalid && logoImage.touched"
           >
-          <div class="error-message" *ngIf="logoImage.invalid && logoImage.touched">
-            Logo image is required
+          <div class="help-text">
+            This is only for preview purposes. The actual logo will be downloaded from the URL provided above.
           </div>
           <div class="preview-container" *ngIf="previewUrl">
             <img [src]="previewUrl" alt="Logo preview" class="preview-image">
@@ -71,25 +87,19 @@ import { LogoSuggestionService } from '../../services/logo-suggestion.service';
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="url">Team Website (Optional)</label>
-          <input
-            type="url"
-            id="url"
-            formControlName="url"
-            placeholder="Enter team website URL"
-          >
-        </div>
-
         <div class="form-actions">
           <button
             type="submit"
             class="submit-btn"
-            [disabled]="suggestionForm.invalid || isSubmitting"
+            [disabled]="!isFormValid() || isSubmitting"
           >
             <span *ngIf="!isSubmitting">Submit Suggestion</span>
             <div class="loading-spinner" *ngIf="isSubmitting"></div>
           </button>
+        </div>
+
+        <div class="error-message" *ngIf="submitError">
+          {{ submitError }}
         </div>
       </form>
     </div>
@@ -150,6 +160,13 @@ import { LogoSuggestionService } from '../../services/logo-suggestion.service';
       margin-top: 0.25rem;
     }
 
+    .help-text {
+      color: #666;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      font-style: italic;
+    }
+
     .preview-container {
       margin-top: 1rem;
       text-align: center;
@@ -200,33 +217,20 @@ import { LogoSuggestionService } from '../../services/logo-suggestion.service';
       border-top: 2px solid #3498db;
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin-left: 0.5rem;
     }
 
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
-    @media (max-width: 768px) {
-      .suggestion-container {
-        margin: 1rem auto;
-      }
-
-      .suggestion-form {
-        padding: 1.5rem;
-      }
-
-      .submit-btn {
-        width: 100%;
-      }
-    }
   `]
 })
-export class LogoSuggestionComponent {
+export class LogoSuggestionComponent implements OnInit {
   suggestionForm: FormGroup;
   previewUrl: string | null = null;
   isSubmitting = false;
+  selectedFile: File | null = null;
+  submitError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -235,61 +239,63 @@ export class LogoSuggestionComponent {
     this.suggestionForm = this.fb.group({
       teamName: ['', Validators.required],
       eps: ['', Validators.required],
-      logoImage: [null, Validators.required],
       senderEmail: ['', [Validators.required, Validators.email]],
-      url: ['']
+      url: ['', [Validators.required, Validators.pattern('https?://.*\\.(png|jpg|jpeg|gif|svg|webp)$')]]
     });
   }
 
+  ngOnInit() {}
+
   get teamName() { return this.suggestionForm.get('teamName')!; }
   get eps() { return this.suggestionForm.get('eps')!; }
-  get logoImage() { return this.suggestionForm.get('logoImage')!; }
   get senderEmail() { return this.suggestionForm.get('senderEmail')!; }
   get url() { return this.suggestionForm.get('url')!; }
 
-  onFileSelected(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.suggestionForm.patchValue({ logoImage: file });
-      this.suggestionForm.get('logoImage')?.updateValueAndValidity();
-
-      // Create preview
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.previewUrl = reader.result as string;
-      };
-      reader.readAsDataURL(file);
+  async onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+      this.previewUrl = URL.createObjectURL(this.selectedFile);
+    } else {
+      this.selectedFile = null;
+      this.previewUrl = null;
     }
   }
 
-  onSubmit() {
-    if (this.suggestionForm.valid) {
-      this.isSubmitting = true;
-      
-      const formData = new FormData();
-      formData.append('teamName', this.suggestionForm.value.teamName);
-      formData.append('eps', this.suggestionForm.value.eps);
-      formData.append('logoImage', this.suggestionForm.value.logoImage);
-      formData.append('senderEmail', this.suggestionForm.value.senderEmail);
-      if (this.suggestionForm.value.url) {
-        formData.append('url', this.suggestionForm.value.url);
-      }
+  isFormValid(): boolean {
+    return this.suggestionForm.valid;
+  }
 
-      this.suggestionService.submitSuggestion(formData).subscribe({
-        next: () => {
-          this.suggestionForm.reset();
-          this.previewUrl = null;
-          this.isSubmitting = false;
-          // Show success message
-          alert('Thank you for your suggestion! We will review it soon.');
-        },
-        error: (error) => {
-          console.error('Error submitting suggestion:', error);
-          this.isSubmitting = false;
-          // Show error message
-          alert('There was an error submitting your suggestion. Please try again.');
-        }
-      });
+  async onSubmit() {
+    if (!this.isFormValid()) return;
+    
+    this.isSubmitting = true;
+    this.submitError = null;
+
+    try {
+      const formData = new FormData();
+      formData.append('teamName', this.teamName.value);
+      formData.append('eps', this.eps.value);
+      formData.append('senderEmail', this.senderEmail.value);
+      formData.append('url', this.url.value);
+      
+      const response = await this.suggestionService.submitSuggestion(formData).toPromise();
+      console.log('Submission response:', response);
+      
+      // Reset form after successful submission
+      this.suggestionForm.reset();
+      this.selectedFile = null;
+      this.previewUrl = null;
+      alert('Logo suggestion submitted successfully!');
+    } catch (error) {
+      console.error('Error in form submission:', error);
+      if (error instanceof Error) {
+        this.submitError = `Error: ${error.message}`;
+      } else {
+        this.submitError = 'Failed to submit logo suggestion. Please try again.';
+      }
+    } finally {
+      this.isSubmitting = false;
     }
   }
 } 
