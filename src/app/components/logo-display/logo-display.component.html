@@ -37,6 +37,12 @@
         <div class="select-arrow">▼</div>
       </div>
     </div>
+
+    <!-- Logo Count -->
+    <div class="logo-count" *ngIf="logos$ | async as logos">
+      {{ logos.length }} {{ logos.length === 1 ? 'logo' : 'logos' }}
+      {{ selectedLeague ? 'in ' + selectedLeague : 'total' }}
+    </div>
   </div>
 
   <div class="logo-grid">
