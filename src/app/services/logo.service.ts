@@ -81,10 +81,16 @@ export class LogoService {
         }
 
         if (searchTerm) {
-          const term = searchTerm.toLowerCase();
-          result = result.filter((logo) =>
-            logo.name.toLowerCase().includes(term)
-          );
+          const term = searchTerm
+            .toUpperCase()
+            .normalize('NFKC'); // Use NFKC normalization for better Greek character handling
+          
+          result = result.filter((logo) => {
+            const name = logo.name
+              .toUpperCase()
+              .normalize('NFKC'); // Use NFKC normalization for better Greek character handling
+            return name.includes(term);
+          });
         }
 
         return result;
