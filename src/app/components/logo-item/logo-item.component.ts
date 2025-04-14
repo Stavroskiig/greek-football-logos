@@ -17,7 +17,7 @@ import { ModalService } from '../../services/modal.service';
           (error)="handleImageError($event)"
         >
       </div>
-      <h3>{{ logo.name }}</h3>
+      <h3 class="team-name" [title]="logo.name">{{ logo.name }}</h3>
       <p *ngIf="logo.league">{{ logo.league }}</p>
       <div class="logo-actions">
         <button class="details-btn" (click)="showDetails()">Details</button>
@@ -63,7 +63,7 @@ import { ModalService } from '../../services/modal.service';
       display: block;
     }
 
-    h3 {
+    .team-name {
       margin: 0;
       font-size: 0.9rem;
       text-align: center;
@@ -74,6 +74,18 @@ import { ModalService } from '../../services/modal.service';
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      cursor: help;
+      position: relative;
+    }
+
+    .team-name:hover {
+      overflow: visible;
+      white-space: normal;
+      z-index: 1;
+      background: white;
+      padding: 0.25rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     p {
