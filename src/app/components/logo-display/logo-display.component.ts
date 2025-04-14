@@ -15,7 +15,7 @@ import { Logo } from '../../models/logo';
 })
 export class LogoDisplayComponent implements OnInit {
   searchTerm: string = '';
-  selectedLeague: string = '';
+  selectedLeague: string = 'SUPERLEAGUE';
   logos$: Observable<Logo[]>;
   leagues$: Observable<string[]>;
 
