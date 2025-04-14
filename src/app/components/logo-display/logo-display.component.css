@@ -184,71 +184,94 @@ option.selected::after {
 /* Filters Container */
 .filters-container {
   display: flex;
-  justify-content: space-between; /* Push search bar to the left and filter to the right */
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
-  flex-wrap: nowrap; /* Prevent wrapping */
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 /* Search Box */
 .search-container {
-  flex: 0; /* Prevent it from taking up extra space */
-  margin-right: 20px; /* Add spacing between search and filter */
+  flex: 0 1 250px;
 }
 
 .search-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
+  width: 100%;
 }
 
 .search-input {
-  width: auto;
-  min-width: 250px;
-  padding: 10px 15px;
-  border: 2px solid #ccc;
+  width: 100%;
+  padding: 8px 30px 8px 12px;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  padding-right: 35px; /* Add space for the "X" button */
+  font-size: 14px;
+  line-height: 20px;
+  height: 36px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #007bff;
 }
 
 .clear-button {
   position: absolute;
-  right: 10px;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
-  color: red;
-  font-size: 16px;
+  color: #999;
   cursor: pointer;
-  padding: 0;
+  font-size: 14px;
+  padding: 4px;
   line-height: 1;
 }
 
 .clear-button:hover {
-  color: darkred;
+  color: #666;
 }
 
 /* League Filter */
 .league-filter {
-  flex: 0; /* Prevent it from growing */
   display: flex;
-  flex-direction: column; /* Stack label and dropdown */
-  align-items: flex-end; /* Align to the right */
-  gap: 5px; /* Add spacing between label and dropdown */
+  align-items: center;
+  gap: 1rem;
+  min-width: 250px;
 }
 
 .select-wrapper {
   position: relative;
-  min-width: 220px;
+  flex: 1;
 }
 
 select {
-  height: 42px; /* Match search input height */
-  padding: 0 15px;
-  border: 2px solid #ccc;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  padding-right: 2.5rem;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  background-image: none; /* Ensure no arrow conflicts */
+  font-size: 1rem;
+  appearance: none;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #666;
 }
 
 /* Responsive Behavior */

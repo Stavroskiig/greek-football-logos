@@ -1,6 +1,4 @@
 <div class="container">
-  <h1>Greek Football Team Logos</h1>
-  
   <div class="filters-container">
     <!-- Search Box -->
     <div class="search-container">
@@ -42,15 +40,10 @@
   </div>
 
   <div class="logo-grid">
-    <div class="logo-item" *ngFor="let logo of logos$ | async">
-      <img 
-        [src]="logo.path" 
-        [alt]="logo.name + ' logo'"
-        (error)="handleImageError($event)"
-      >
-      <h3>{{ logo.name }}</h3>
-      <p *ngIf="logo.league">{{ logo.league }}</p>
-    </div>
+    <app-logo-item
+      *ngFor="let logo of logos$ | async"
+      [logo]="logo"
+    ></app-logo-item>
   </div>
   
   <div *ngIf="(logos$ | async)?.length === 0" class="no-results">

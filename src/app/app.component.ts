@@ -1,19 +1,29 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './components/header/header.component';
 import { CommonModule } from '@angular/common';
-import { LogoDisplayComponent } from './components/logo-display/logo-display.component';
-import { TeamDetailsComponent } from './components/team-details/team-details.component';
 import { ModalService } from './services/modal.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, LogoDisplayComponent, TeamDetailsComponent],
+  imports: [RouterOutlet, HeaderComponent, CommonModule],
   template: `
-    <app-logo-display></app-logo-display>
-    <app-team-details *ngIf="modalService.modalData$ | async"></app-team-details>
+    <app-header></app-header>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
   `,
-  styles: []
+  styles: [`
+    .main-content {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  `]
 })
 export class AppComponent {
   constructor(public modalService: ModalService) {}
+
+  title = 'greek-football-logos';
 }

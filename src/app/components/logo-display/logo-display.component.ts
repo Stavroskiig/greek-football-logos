@@ -1,89 +1,59 @@
-import { Component } from '@angular/core';
-import { LogoService } from '../../services/logo.service';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TeamLogo } from '../../models/team-logo';
-import { LogoFiltersComponent } from '../logo-filters/logo-filters.component';
-import { LogoGridComponent } from '../logo-grid/logo-grid.component';
+import { FormsModule } from '@angular/forms';
+import { LogoService } from '../../services/logo.service';
+import { Observable, combineLatest, map } from 'rxjs';
+import { LogoItemComponent } from '../logo-item/logo-item.component';
+import { Logo } from '../../models/logo';
 
 @Component({
   selector: 'app-logo-display',
   standalone: true,
-  imports: [CommonModule, LogoFiltersComponent, LogoGridComponent],
-  template: `
-    <div class="container">
-      <h1>Greek Football Team Logos</h1>
-      
-      <app-logo-filters
-        [leagues]="(leagues$ | async) || []"
-        [selectedLeague]="selectedLeague"
-        [searchTerm]="searchTerm"
-        (searchChange)="onSearchChange($event)"
-        (leagueChange)="onLeagueChange($event)"
-      ></app-logo-filters>
-
-      <app-logo-grid
-        [logos]="(logos$ | async) || []"
-      ></app-logo-grid>
-    </div>
-  `,
-  styles: [`
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 0;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-      color: #333;
-      padding: 0 1rem;
-    }
-  `]
+  imports: [CommonModule, FormsModule, LogoItemComponent],
+  templateUrl: './logo-display.component.html',
+  styleUrls: ['./logo-display.component.css']
 })
-export class LogoDisplayComponent {
-  logos$: Observable<TeamLogo[]>;
-  leagues$: Observable<string[]>;
-  selectedLeague: string = 'SUPERLEAGUE';
+export class LogoDisplayComponent implements OnInit {
   searchTerm: string = '';
+  selectedLeague: string = '';
+  logos$: Observable<Logo[]>;
+  leagues$: Observable<string[]>;
 
   constructor(private logoService: LogoService) {
-    this.logos$ = this.logoService.getLogos(this.selectedLeague);
+    this.logos$ = this.logoService.getLogos();
     this.leagues$ = this.logoService.getLeagues();
   }
 
-  onSearchChange(searchTerm: string) {
-    this.searchTerm = searchTerm;
+  ngOnInit() {
     this.applyFilters();
   }
 
-  onLeagueChange(league: string) {
-    this.selectedLeague = league;
-    this.applyFilters();
-  }
-
-  private applyFilters(): void {
-    this.logos$ = this.logoService.getLogos(
-      this.selectedLeague === 'All Leagues' ? '' : this.selectedLeague,
-      this.searchTerm
+  applyFilters() {
+    this.logos$ = combineLatest([
+      this.logoService.getLogos(),
+      this.logoService.getLeagues()
+    ]).pipe(
+      map(([logos, leagues]) => {
+        return logos.filter(logo => {
+          const matchesSearch = !this.searchTerm || 
+            this.normalizeString(logo.name).includes(this.normalizeString(this.searchTerm));
+          const matchesLeague = !this.selectedLeague || logo.league === this.selectedLeague;
+          return matchesSearch && matchesLeague;
+        });
+      })
     );
   }
 
-  getGroupedLeagues(logos: TeamLogo[]): {name: string, logos: TeamLogo[]}[] {
-    const leagues = [...new Set(logos.map(logo => logo.league || 'Uncategorized'))];
-    return leagues.map(league => ({
-      name: league,
-      logos: logos.filter(logo => (logo.league || 'Uncategorized') === league)
-    }));
+  clearSearch() {
+    this.searchTerm = '';
+    this.applyFilters();
   }
 
-  handleImageError(event: Event) {
-    (event.target as HTMLImageElement).style.display = 'none';
-  }
-
-  getLeagueDisplayName(league: string): string {
-    if (!league) return '🌍 All Leagues';
-    return league === 'SUPERLEAGUE' ? '🏆 Superleague' : league;
+  private normalizeString(str: string): string {
+    return str
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9α-ωά-ώ]/g, '');
   }
 }
