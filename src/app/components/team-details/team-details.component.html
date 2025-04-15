@@ -1,0 +1,86 @@
+<div class="modal-backdrop" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-button" (click)="closeModal()">✕</button>
+    
+    <ng-container *ngIf="modalService.modalData$ | async as data">
+      <div class="team-header">
+        <img [src]="data.logoPath" [alt]="data.teamInfo.name + ' logo'" class="team-logo">
+        <div class="team-title">
+          <h2>{{ data.teamInfo.fullName }}</h2>
+          <p class="founded">Founded in {{ data.teamInfo.founded }}</p>
+        </div>
+      </div>
+
+      <div class="team-details">
+        <section class="stadium-section">
+          <h3>Stadium</h3>
+          <div class="stadium-info">
+            <img *ngIf="data.teamInfo.stadium.image" 
+                 [src]="data.teamInfo.stadium.image" 
+                 [alt]="data.teamInfo.stadium.name"
+                 class="stadium-image">
+            <div class="stadium-details">
+              <p><strong>{{ data.teamInfo.stadium.name }}</strong></p>
+              <p>Capacity: {{ data.teamInfo.stadium.capacity.toLocaleString() }}</p>
+              <p>Location: {{ data.teamInfo.stadium.location }}</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="history-section">
+          <h3>History</h3>
+          <p>{{ data.teamInfo.history }}</p>
+        </section>
+
+        <section class="achievements-section">
+          <h3>Achievements</h3>
+          <div class="achievements-grid">
+            <div class="achievement">
+              <span class="number">{{ data.teamInfo.achievements.leagueTitles }}</span>
+              <span class="label">League Titles</span>
+            </div>
+            <div class="achievement">
+              <span class="number">{{ data.teamInfo.achievements.cupTitles }}</span>
+              <span class="label">Cup Titles</span>
+            </div>
+            <ng-container *ngIf="data.teamInfo.achievements.otherTitles">
+              <div class="achievement" *ngFor="let title of getOtherTitles(data.teamInfo)">
+                <span class="number">{{ title.count }}</span>
+                <span class="label">{{ formatTitleName(title.name) }}</span>
+              </div>
+            </ng-container>
+          </div>
+        </section>
+
+        <section class="links-section" *ngIf="data.teamInfo.website || data.teamInfo.socialMedia">
+          <h3>Official Links</h3>
+          <div class="links-grid">
+            <a *ngIf="data.teamInfo.website" 
+               [href]="data.teamInfo.website" 
+               target="_blank" 
+               class="website-link">
+              Official Website
+            </a>
+            <div class="social-links" *ngIf="data.teamInfo.socialMedia">
+              <a *ngIf="data.teamInfo.socialMedia.facebook" 
+                 [href]="data.teamInfo.socialMedia.facebook" 
+                 target="_blank">
+                Facebook
+              </a>
+              <a *ngIf="data.teamInfo.socialMedia.twitter" 
+                 [href]="data.teamInfo.socialMedia.twitter" 
+                 target="_blank">
+                Twitter
+              </a>
+              <a *ngIf="data.teamInfo.socialMedia.instagram" 
+                 [href]="data.teamInfo.socialMedia.instagram" 
+                 target="_blank">
+                Instagram
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </ng-container>
+  </div>
+</div> 

@@ -1,0 +1,10 @@
+<div class="modal-backdrop" (click)="modalService.closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-button" (click)="modalService.closeModal()">×</button>
+    <img 
+      [src]="(modalService.modalData$ | async)?.logoPath" 
+      [alt]="(modalService.modalData$ | async)?.teamInfo?.name + ' logo'"
+      class="full-size-logo"
+    >
+  </div>
+</div> 

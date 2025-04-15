@@ -1,0 +1,34 @@
+<div class="logo-item">
+  <button 
+    class="zoom-btn" 
+    (click)="showFullImage()"
+    [attr.aria-label]="'View full size logo for ' + logo.name"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+      <path fill="currentColor" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+    </svg>
+  </button>
+  <div class="logo-image-container">
+    <div class="image-placeholder" *ngIf="!imageLoaded">
+      <div class="loading-spinner"></div>
+    </div>
+    <img 
+      [src]="logo.path" 
+      [alt]="logo.name + ' logo'"
+      (load)="onImageLoad()"
+      (error)="handleImageError($event)"
+      [class.loaded]="imageLoaded"
+    >
+  </div>
+  <h3 class="team-name" [title]="logo.name">{{ logo.name }}</h3>
+  <p class="league-name" *ngIf="logo.league" [title]="logo.league">{{ logo.league }}</p>
+  <div class="logo-actions">
+    <button 
+      class="download-btn" 
+      (click)="downloadLogo()"
+      [attr.aria-label]="'Download logo for ' + logo.name"
+    >
+      Download
+    </button>
+  </div>
+</div> 

@@ -1,0 +1,10 @@
+<div class="logo-grid">
+  <app-logo-item 
+    *ngFor="let logo of logos" 
+    [logo]="logo"
+  ></app-logo-item>
+</div>
+
+<div *ngIf="logos.length === 0" class="no-results">
+  No teams found matching your criteria.
+</div> 
