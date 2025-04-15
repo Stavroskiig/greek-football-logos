@@ -54,6 +54,6 @@ export class LogoDisplayComponent implements OnInit {
       .toLowerCase()
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9α-ωά-ώ]/g, '');
+      .replace(/[^a-z0-9α-ωά-ώ\s]/g, '');
   }
 }
