@@ -10,6 +10,15 @@ import { ModalService } from '../../services/modal.service';
   imports: [CommonModule],
   template: `
     <div class="logo-item">
+      <button 
+        class="zoom-btn" 
+        (click)="showFullImage()"
+        [attr.aria-label]="'View full size logo for ' + logo.name"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+          <path fill="currentColor" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+      </button>
       <div class="logo-image-container">
         <div class="image-placeholder" *ngIf="!imageLoaded">
           <div class="loading-spinner"></div>
@@ -25,15 +34,6 @@ import { ModalService } from '../../services/modal.service';
       <h3 class="team-name" [title]="logo.name">{{ logo.name }}</h3>
       <p class="league-name" *ngIf="logo.league" [title]="logo.league">{{ logo.league }}</p>
       <div class="logo-actions">
-        <button 
-          class="details-btn" 
-          (click)="showDetails()"
-          [disabled]="isLoadingDetails"
-          [attr.aria-label]="'View details for ' + logo.name"
-        >
-          <span *ngIf="!isLoadingDetails">Details</span>
-          <div class="loading-spinner" *ngIf="isLoadingDetails"></div>
-        </button>
         <button 
           class="download-btn" 
           (click)="downloadLogo()"
@@ -117,6 +117,35 @@ import { ModalService } from '../../services/modal.service';
       opacity: 1;
     }
 
+    .zoom-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #333;
+      padding: 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background-color 0.2s ease;
+      z-index: 2;
+    }
+
+    .logo-image-container:hover .zoom-btn {
+      opacity: 1;
+    }
+
+    .zoom-btn:hover {
+      background: white;
+      color: #007bff;
+    }
+
     .team-name {
       margin: 0;
       font-size: 0.9rem;
@@ -177,7 +206,7 @@ import { ModalService } from '../../services/modal.service';
       width: 100%;
     }
 
-    .details-btn, .download-btn {
+    .download-btn {
       flex: 1;
       padding: 0.5rem;
       border: none;
@@ -189,24 +218,6 @@ import { ModalService } from '../../services/modal.service';
       align-items: center;
       justify-content: center;
       min-height: 32px;
-    }
-
-    .details-btn {
-      background-color: #f0f0f0;
-      color: #333;
-    }
-
-    .details-btn:hover:not(:disabled) {
-      background-color: #e0e0e0;
-      transform: translateY(-1px);
-    }
-
-    .details-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-
-    .download-btn {
       background-color: #007bff;
       color: white;
     }
@@ -216,7 +227,7 @@ import { ModalService } from '../../services/modal.service';
       transform: translateY(-1px);
     }
 
-    .details-btn:focus, .download-btn:focus {
+    .download-btn:focus {
       outline: 2px solid #007bff;
       outline-offset: 2px;
     }
@@ -235,7 +246,7 @@ import { ModalService } from '../../services/modal.service';
         font-size: 0.8rem;
       }
 
-      .details-btn, .download-btn {
+      .download-btn {
         padding: 0.4rem;
         font-size: 0.7rem;
       }
@@ -245,12 +256,8 @@ import { ModalService } from '../../services/modal.service';
 export class LogoItemComponent {
   @Input() logo!: TeamLogo;
   imageLoaded = false;
-  isLoadingDetails = false;
 
-  constructor(
-    private teamInfoService: TeamInfoService,
-    private modalService: ModalService
-  ) {}
+  constructor(private modalService: ModalService) {}
 
   onImageLoad() {
     this.imageLoaded = true;
@@ -260,21 +267,24 @@ export class LogoItemComponent {
     (event.target as HTMLImageElement).style.display = 'none';
   }
 
-  showDetails() {
-    this.isLoadingDetails = true;
-    this.teamInfoService.getTeamInfo(this.logo.id).subscribe(
-      info => {
-        this.modalService.openModal({
-          teamInfo: info,
-          logoPath: this.logo.path
-        });
-        this.isLoadingDetails = false;
+  showFullImage() {
+    this.modalService.openModal({
+      teamInfo: {
+        id: this.logo.id,
+        name: this.logo.name,
+        fullName: this.logo.name,
+        path: this.logo.path,
+        founded: 0,
+        colors: {
+          primary: '#000000',
+          secondary: '#FFFFFF'
+        },
+        stadium: { name: '', capacity: 0, location: '' },
+        history: '',
+        achievements: { leagueTitles: 0, cupTitles: 0 }
       },
-      error => {
-        console.error('Error loading team details:', error);
-        this.isLoadingDetails = false;
-      }
-    );
+      logoPath: this.logo.path
+    });
   }
 
   downloadLogo() {
