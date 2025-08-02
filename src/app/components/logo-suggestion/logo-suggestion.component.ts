@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LogoSuggestionService } from '../../services/logo-suggestion.service';
 
 @Component({
   selector: 'app-logo-suggestion',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './logo-suggestion.component.html',
-  styleUrls: ['./logo-suggestion.component.css']
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './logo-suggestion.component.html'
 })
 export class LogoSuggestionComponent implements OnInit {
   suggestionForm: FormGroup;

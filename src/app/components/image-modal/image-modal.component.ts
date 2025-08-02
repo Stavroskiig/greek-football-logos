@@ -6,8 +6,7 @@ import { ModalService } from '../../services/modal.service';
   selector: 'app-image-modal',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './image-modal.component.html',
-  styleUrls: ['./image-modal.component.css']
+  templateUrl: './image-modal.component.html'
 })
 export class ImageModalComponent {
   constructor(public modalService: ModalService) {}

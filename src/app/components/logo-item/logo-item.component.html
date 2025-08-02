@@ -1,6 +1,6 @@
-<div class="logo-item">
+<div class="flex flex-col items-center p-4 rounded-lg bg-white shadow-sm transition-all duration-300 ease-in-out w-44 min-h-40 box-border mx-auto relative hover:-translate-y-1 hover:shadow-lg">
   <button 
-    class="zoom-btn" 
+    class="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 border-none flex items-center justify-center cursor-pointer text-gray-700 p-0 shadow-sm transition-colors duration-200 ease-in-out z-10 hover:bg-white hover:text-blue-600"
     (click)="showFullImage()"
     [attr.aria-label]="'View full size logo for ' + logo.name"
   >
@@ -8,23 +8,24 @@
       <path fill="currentColor" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
     </svg>
   </button>
-  <div class="logo-image-container">
-    <div class="image-placeholder" *ngIf="!imageLoaded">
-      <div class="loading-spinner"></div>
+  <div class="w-20 h-20 flex items-center justify-center mb-3 flex-shrink-0 relative">
+    <div class="absolute inset-0 flex items-center justify-center bg-gray-100 rounded" *ngIf="!imageLoaded">
+      <div class="w-5 h-5 border-2 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
     </div>
     <img 
       [src]="logo.path" 
       [alt]="logo.name + ' logo'"
       (load)="onImageLoad()"
       (error)="handleImageError($event)"
-      [class.loaded]="imageLoaded"
+      [class.opacity-100]="imageLoaded"
+      class="max-w-full max-h-full object-contain block opacity-0 transition-opacity duration-300 ease-in-out"
     >
   </div>
-  <h3 class="team-name" [title]="logo.name">{{ logo.name }}</h3>
-  <p class="league-name" *ngIf="logo.league" [title]="logo.league">{{ logo.league }}</p>
-  <div class="logo-actions">
+  <h3 class="m-0 text-sm text-center font-semibold text-gray-700 leading-tight w-full overflow-hidden text-ellipsis whitespace-nowrap cursor-help relative transition-all duration-300 ease-in-out hover:overflow-visible hover:whitespace-normal hover:z-10 hover:bg-white hover:p-1 hover:rounded hover:shadow-sm hover:-translate-y-0.5" [title]="logo.name">{{ logo.name }}</h3>
+  <p class="mt-1 mb-0 text-xs text-gray-500 text-center leading-tight w-full overflow-hidden text-ellipsis whitespace-nowrap cursor-help relative transition-all duration-300 ease-in-out hover:overflow-visible hover:whitespace-normal hover:z-10 hover:bg-white hover:p-1 hover:rounded hover:shadow-sm hover:-translate-y-0.5" *ngIf="logo.league" [title]="logo.league">{{ logo.league }}</p>
+  <div class="flex gap-2 mt-3 w-full">
     <button 
-      class="download-btn" 
+      class="flex-1 py-2 border-none rounded text-xs cursor-pointer transition-all duration-200 ease-in-out flex items-center justify-center min-h-8 bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" 
       (click)="downloadLogo()"
       [attr.aria-label]="'Download logo for ' + logo.name"
     >

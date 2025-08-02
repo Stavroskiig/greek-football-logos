@@ -6,8 +6,7 @@ import { ModalService } from '../../services/modal.service';
   selector: 'app-team-details',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './team-details.component.html',
-  styleUrls: ['./team-details.component.css']
+  templateUrl: './team-details.component.html'
 })
 export class TeamDetailsComponent {
   constructor(public modalService: ModalService) {}

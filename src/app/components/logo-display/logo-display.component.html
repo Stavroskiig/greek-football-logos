@@ -1,58 +1,95 @@
-<div class="container">
-  <div class="filters-container">
-    <!-- Search Box -->
-    <div class="search-container">
-      <div class="search-wrapper">
-        <input
-          type="text"
-          class="search-input"
-          [(ngModel)]="searchTerm"
-          (input)="applyFilters()"
-          placeholder="Search teams..."
-        />
-        <button
-          type="button"
-          class="clear-button"
-          *ngIf="searchTerm"
-          (click)="clearSearch()"
-        >
-          ✖
-        </button>
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-16">
+
+    <!-- Search and Filters -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
+      <div class="flex flex-col lg:flex-row gap-6 items-start lg:items-center">
+        
+        <!-- Search Box -->
+        <div class="flex-1 w-full">
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none" aria-hidden="true">
+              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <input 
+              type="text"
+              [(ngModel)]="searchTerm"
+              (input)="applyFilters()"
+              placeholder="Search teams..."
+              aria-label="Search teams"
+              class="block w-full pl-12 pr-12 py-3 text-gray-900 placeholder-gray-500 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200"
+            />
+            <button 
+              type="button"
+              *ngIf="searchTerm"
+              (click)="clearSearch()"
+              aria-label="Clear search"
+              class="absolute inset-y-0 right-0 pr-4 flex items-center hover:bg-gray-100 rounded-full p-1 transition"
+            >
+              <svg class="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- League Selector -->
+        <div class="w-full lg:w-64">
+          <app-league-selector
+            [selectedLeague]="selectedLeague"
+            (leagueChange)="onLeagueChange($event)"
+          ></app-league-selector>
+        </div>
       </div>
-    </div>
-    
-    <!-- League Selector -->
-    <div class="league-filter">
-      <label>Competition:</label>
-      <div class="select-wrapper">
-        <select [(ngModel)]="selectedLeague" (change)="applyFilters()">
-          <option value="">🌍 All Leagues</option>
-          <option 
-            *ngFor="let league of leagues$ | async" 
-            [value]="league" 
-            [class.selected]="selectedLeague === league">
-            {{ league }}
-          </option>
-        </select>
-        <div class="select-arrow">▼</div>
+
+      <!-- Results Count -->
+      <div class="mt-6 pt-6 border-t border-gray-100" *ngIf="logos$ | async as logos">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <!-- Results Badge -->
+            <div class="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-lg border border-blue-200">
+              <img src="assets/counter/team-counter.png" alt="Results" class="h-5 w-auto" />
+              <span class="text-sm font-medium">
+                {{ logos.length }} {{ logos.length === 1 ? 'logo' : 'logos' }}
+              </span>
+            </div>
+            
+            <!-- League Badge -->
+            <div *ngIf="selectedLeague" class="flex items-center gap-2 bg-gray-50 text-gray-700 px-3 py-1.5 rounded-lg border border-gray-200">
+              <img 
+                src="assets/counter/greece.png" 
+                alt="League Badge" 
+                class="h-5 w-auto"
+              />
+              <span class="text-sm font-medium">{{ selectedLeague }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Logo Count -->
-    <div class="logo-count" *ngIf="logos$ | async as logos">
-      {{ logos.length }} {{ logos.length === 1 ? 'logo' : 'logos' }}
-      {{ selectedLeague ? 'in ' + selectedLeague : 'total' }}
+    <!-- Logo Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 transition-all duration-200 ease-in-out">
+      <app-logo-item
+        *ngFor="let logo of logos$ | async"
+        [logo]="logo"
+      ></app-logo-item>
     </div>
-  </div>
 
-  <div class="logo-grid">
-    <app-logo-item
-      *ngFor="let logo of logos$ | async"
-      [logo]="logo"
-    ></app-logo-item>
-  </div>
-  
-  <div *ngIf="(logos$ | async)?.length === 0" class="no-results">
-    No teams found matching your criteria.
+    <!-- No Results -->
+    <div *ngIf="(logos$ | async)?.length === 0" class="text-center py-16">
+      <div class="max-w-md mx-auto">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47-.881-6.08-2.33" />
+        </svg>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">No teams found</h3>
+        <p class="mt-2 text-gray-500">Try adjusting your search or filter criteria.</p>
+      </div>
+    </div>
+
   </div>
 </div>

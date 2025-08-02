@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { LogoService } from '../../services/logo.service';
 import { Observable, combineLatest, map } from 'rxjs';
 import { LogoItemComponent } from '../logo-item/logo-item.component';
+import { LeagueSelectorComponent } from '../league-selector/league-selector.component';
 import { Logo } from '../../models/logo';
 
 @Component({
   selector: 'app-logo-display',
   standalone: true,
-  imports: [CommonModule, FormsModule, LogoItemComponent],
-  templateUrl: './logo-display.component.html',
-  styleUrls: ['./logo-display.component.css']
+  imports: [CommonModule, FormsModule, LogoItemComponent, LeagueSelectorComponent],
+  templateUrl: './logo-display.component.html'
 })
 export class LogoDisplayComponent implements OnInit {
   searchTerm: string = '';
@@ -47,6 +47,21 @@ export class LogoDisplayComponent implements OnInit {
   clearSearch() {
     this.searchTerm = '';
     this.applyFilters();
+  }
+
+  clearAllFilters() {
+    this.searchTerm = '';
+    this.selectedLeague = '';
+    this.applyFilters();
+  }
+
+  onLeagueChange(league: string) {
+    this.selectedLeague = league;
+    this.applyFilters();
+  }
+
+  getLeagueLogoPath(leagueName: string): string {
+    return this.logoService.getLeagueLogoPath(leagueName);
   }
 
   private normalizeString(str: string): string {

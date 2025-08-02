@@ -1,15 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { TeamLogo } from '../../models/team-logo';
 import { CommonModule } from '@angular/common';
-import { TeamInfoService } from '../../services/team-info.service';
+import { TeamLogo } from '../../models/team-logo';
 import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-logo-item',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './logo-item.component.html',
-  styleUrls: ['./logo-item.component.css']
+  templateUrl: './logo-item.component.html'
 })
 export class LogoItemComponent {
   @Input() logo!: TeamLogo;

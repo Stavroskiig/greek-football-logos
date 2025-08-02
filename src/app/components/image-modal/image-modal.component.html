@@ -1,10 +1,10 @@
-<div class="modal-backdrop" (click)="modalService.closeModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <button class="close-button" (click)="modalService.closeModal()">×</button>
+<div class="fixed inset-0 bg-black/80 flex justify-center items-center z-50" (click)="modalService.closeModal()">
+  <div class="bg-transparent relative p-0 max-w-[90vw] max-h-[90vh]" (click)="$event.stopPropagation()">
+    <button class="absolute -top-10 -right-10 bg-transparent border-none text-3xl cursor-pointer text-white p-2 z-50" (click)="modalService.closeModal()">×</button>
     <img 
       [src]="(modalService.modalData$ | async)?.logoPath" 
       [alt]="(modalService.modalData$ | async)?.teamInfo?.name + ' logo'"
-      class="full-size-logo"
+      class="max-w-[90vw] max-h-[90vh] object-contain"
     >
   </div>
 </div> 

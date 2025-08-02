@@ -1,80 +1,83 @@
-<div class="modal-backdrop" (click)="closeModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <button class="close-button" (click)="closeModal()">✕</button>
+<div class="fixed inset-0 bg-black/50 flex justify-center items-center z-50" (click)="closeModal()">
+  <div class="bg-white rounded-lg w-[90%] max-w-4xl max-h-[90vh] overflow-y-auto relative p-8" (click)="$event.stopPropagation()">
+    <button class="absolute top-4 right-4 bg-transparent border-none text-2xl cursor-pointer text-gray-500" (click)="closeModal()">✕</button>
     
     <ng-container *ngIf="modalService.modalData$ | async as data">
-      <div class="team-header">
-        <img [src]="data.logoPath" [alt]="data.teamInfo.name + ' logo'" class="team-logo">
-        <div class="team-title">
-          <h2>{{ data.teamInfo.fullName }}</h2>
-          <p class="founded">Founded in {{ data.teamInfo.founded }}</p>
+      <div class="flex items-center gap-8 mb-8">
+        <img [src]="data.logoPath" [alt]="data.teamInfo.name + ' logo'" class="w-24 h-24 object-contain">
+        <div>
+          <h2 class="m-0 text-3xl text-gray-800">{{ data.teamInfo.fullName }}</h2>
+          <p class="mt-2 mb-0 text-gray-500">Founded in {{ data.teamInfo.founded }}</p>
         </div>
       </div>
 
-      <div class="team-details">
-        <section class="stadium-section">
-          <h3>Stadium</h3>
-          <div class="stadium-info">
+      <div>
+        <section class="mb-8">
+          <h3 class="text-gray-800 mb-4 text-2xl">Stadium</h3>
+          <div class="flex gap-6 items-start">
             <img *ngIf="data.teamInfo.stadium.image" 
                  [src]="data.teamInfo.stadium.image" 
                  [alt]="data.teamInfo.stadium.name"
-                 class="stadium-image">
-            <div class="stadium-details">
-              <p><strong>{{ data.teamInfo.stadium.name }}</strong></p>
+                 class="w-48 h-36 object-cover rounded">
+            <div class="flex-1">
+              <p class="font-semibold">{{ data.teamInfo.stadium.name }}</p>
               <p>Capacity: {{ data.teamInfo.stadium.capacity.toLocaleString() }}</p>
               <p>Location: {{ data.teamInfo.stadium.location }}</p>
             </div>
           </div>
         </section>
 
-        <section class="history-section">
-          <h3>History</h3>
+        <section class="mb-8">
+          <h3 class="text-gray-800 mb-4 text-2xl">History</h3>
           <p>{{ data.teamInfo.history }}</p>
         </section>
 
-        <section class="achievements-section">
-          <h3>Achievements</h3>
-          <div class="achievements-grid">
-            <div class="achievement">
-              <span class="number">{{ data.teamInfo.achievements.leagueTitles }}</span>
-              <span class="label">League Titles</span>
+        <section class="mb-8">
+          <h3 class="text-gray-800 mb-4 text-2xl">Achievements</h3>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <div class="text-center p-4 bg-gray-100 rounded">
+              <span class="block text-4xl font-bold text-gray-800">{{ data.teamInfo.achievements.leagueTitles }}</span>
+              <span class="block mt-2 text-gray-600">League Titles</span>
             </div>
-            <div class="achievement">
-              <span class="number">{{ data.teamInfo.achievements.cupTitles }}</span>
-              <span class="label">Cup Titles</span>
+            <div class="text-center p-4 bg-gray-100 rounded">
+              <span class="block text-4xl font-bold text-gray-800">{{ data.teamInfo.achievements.cupTitles }}</span>
+              <span class="block mt-2 text-gray-600">Cup Titles</span>
             </div>
             <ng-container *ngIf="data.teamInfo.achievements.otherTitles">
-              <div class="achievement" *ngFor="let title of getOtherTitles(data.teamInfo)">
-                <span class="number">{{ title.count }}</span>
-                <span class="label">{{ formatTitleName(title.name) }}</span>
+              <div class="text-center p-4 bg-gray-100 rounded" *ngFor="let title of getOtherTitles(data.teamInfo)">
+                <span class="block text-4xl font-bold text-gray-800">{{ title.count }}</span>
+                <span class="block mt-2 text-gray-600">{{ formatTitleName(title.name) }}</span>
               </div>
             </ng-container>
           </div>
         </section>
 
-        <section class="links-section" *ngIf="data.teamInfo.website || data.teamInfo.socialMedia">
-          <h3>Official Links</h3>
-          <div class="links-grid">
+        <section class="mb-8" *ngIf="data.teamInfo.website || data.teamInfo.socialMedia">
+          <h3 class="text-gray-800 mb-4 text-2xl">Official Links</h3>
+          <div class="flex flex-col gap-4">
             <a *ngIf="data.teamInfo.website" 
                [href]="data.teamInfo.website" 
                target="_blank" 
-               class="website-link">
+               class="inline-block px-4 py-2 bg-gray-100 rounded text-gray-800 no-underline transition-colors duration-200 hover:bg-gray-200">
               Official Website
             </a>
-            <div class="social-links" *ngIf="data.teamInfo.socialMedia">
+            <div class="flex gap-4" *ngIf="data.teamInfo.socialMedia">
               <a *ngIf="data.teamInfo.socialMedia.facebook" 
                  [href]="data.teamInfo.socialMedia.facebook" 
-                 target="_blank">
+                 target="_blank"
+                 class="inline-block px-4 py-2 bg-gray-100 rounded text-gray-800 no-underline transition-colors duration-200 hover:bg-gray-200">
                 Facebook
               </a>
               <a *ngIf="data.teamInfo.socialMedia.twitter" 
                  [href]="data.teamInfo.socialMedia.twitter" 
-                 target="_blank">
+                 target="_blank"
+                 class="inline-block px-4 py-2 bg-gray-100 rounded text-gray-800 no-underline transition-colors duration-200 hover:bg-gray-200">
                 Twitter
               </a>
               <a *ngIf="data.teamInfo.socialMedia.instagram" 
                  [href]="data.teamInfo.socialMedia.instagram" 
-                 target="_blank">
+                 target="_blank"
+                 class="inline-block px-4 py-2 bg-gray-100 rounded text-gray-800 no-underline transition-colors duration-200 hover:bg-gray-200">
                 Instagram
               </a>
             </div>
@@ -83,4 +86,4 @@
       </div>
     </ng-container>
   </div>
-</div> 
+</div>
