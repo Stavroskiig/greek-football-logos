@@ -10,8 +10,9 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Path to the team-tags.json file
+// Path to the data files
 const TEAM_TAGS_FILE = path.join(__dirname, 'src', 'assets', 'data', 'team-tags.json');
+const AVAILABLE_TAGS_FILE = path.join(__dirname, 'src', 'assets', 'data', 'available-tags.json');
 
 // API endpoint to save team tags
 app.post('/api/team-tags', async (req, res) => {
@@ -45,6 +46,38 @@ app.get('/api/team-tags', async (req, res) => {
   }
 });
 
+// API endpoint to save available tags
+app.post('/api/available-tags', async (req, res) => {
+  try {
+    const availableTags = req.body;
+    
+    // Ensure the directory exists
+    const dir = path.dirname(AVAILABLE_TAGS_FILE);
+    await fs.mkdir(dir, { recursive: true });
+    
+    // Write the available tags to the file
+    await fs.writeFile(AVAILABLE_TAGS_FILE, JSON.stringify(availableTags, null, 2), 'utf8');
+    
+    console.log(`✅ Available tags saved to: ${AVAILABLE_TAGS_FILE}`);
+    res.json({ success: true, message: 'Available tags saved successfully' });
+  } catch (error) {
+    console.error('❌ Error saving available tags:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// API endpoint to get current available tags
+app.get('/api/available-tags', async (req, res) => {
+  try {
+    const data = await fs.readFile(AVAILABLE_TAGS_FILE, 'utf8');
+    const availableTags = JSON.parse(data);
+    res.json(availableTags);
+  } catch (error) {
+    console.error('❌ Error reading available tags:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Team tags server is running' });
@@ -53,6 +86,7 @@ app.get('/api/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Team tags server running on http://localhost:${PORT}`);
   console.log(`📁 Team tags file: ${TEAM_TAGS_FILE}`);
+  console.log(`📁 Available tags file: ${AVAILABLE_TAGS_FILE}`);
 });
 
 // Handle graceful shutdown

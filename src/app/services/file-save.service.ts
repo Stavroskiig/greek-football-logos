@@ -7,13 +7,14 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class FileSaveService {
-  private readonly API_URL = 'http://localhost:3000/api/team-tags'; // Backend API endpoint
+  private readonly TEAM_TAGS_API_URL = 'http://localhost:3000/api/team-tags';
+  private readonly AVAILABLE_TAGS_API_URL = 'http://localhost:3000/api/available-tags';
 
   constructor(private http: HttpClient) {}
 
   saveTeamTags(teamTags: { [teamId: string]: string[] }): Observable<boolean> {
     // Make actual HTTP request to backend API
-    return this.http.post<boolean>(this.API_URL, teamTags).pipe(
+    return this.http.post<boolean>(this.TEAM_TAGS_API_URL, teamTags).pipe(
       tap(() => {
         console.log('Team tags saved successfully to external file');
       }),
@@ -21,6 +22,21 @@ export class FileSaveService {
         console.error('Error saving team tags:', error);
         // Fallback: download file for manual replacement
         this.downloadTeamTagsFile(teamTags);
+        return of(false);
+      })
+    );
+  }
+
+  saveAvailableTags(availableTags: string[]): Observable<boolean> {
+    // Make actual HTTP request to backend API
+    return this.http.post<boolean>(this.AVAILABLE_TAGS_API_URL, availableTags).pipe(
+      tap(() => {
+        console.log('Available tags saved successfully to external file');
+      }),
+      catchError(error => {
+        console.error('Error saving available tags:', error);
+        // Fallback: download file for manual replacement
+        this.downloadAvailableTagsFile(availableTags);
         return of(false);
       })
     );
@@ -34,6 +50,17 @@ export class FileSaveService {
     const link = document.createElement('a');
     link.href = url;
     link.download = 'team-tags.json';
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  downloadAvailableTagsFile(availableTags: string[]): void {
+    const dataStr = JSON.stringify(availableTags, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'available-tags.json';
     link.click();
     URL.revokeObjectURL(url);
   }
