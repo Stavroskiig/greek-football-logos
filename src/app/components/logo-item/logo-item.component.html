@@ -25,11 +25,17 @@
   <p class="mt-1 mb-0 text-xs text-gray-500 text-center leading-tight w-full overflow-hidden text-ellipsis whitespace-nowrap cursor-help relative transition-all duration-300 ease-in-out hover:overflow-visible hover:whitespace-normal hover:z-10 hover:bg-white hover:p-1 hover:rounded hover:shadow-sm hover:-translate-y-0.5" *ngIf="logo.league" [title]="logo.league">{{ logo.league }}</p>
   <div class="flex gap-2 mt-3 w-full">
     <button 
-      class="flex-1 py-2 border-none rounded text-xs cursor-pointer transition-all duration-200 ease-in-out flex items-center justify-center min-h-8 bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" 
-      (click)="downloadLogo()"
-      [attr.aria-label]="'Download logo for ' + logo.name"
-    >
-      Download
-    </button>
+    class="flex-1 py-2 border-none rounded text-xs cursor-pointer transition-all duration-200 ease-in-out flex items-center justify-center min-h-8 bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" 
+    (click)="downloadLogo()"
+    [attr.aria-label]="'Download logo for ' + logo.name"
+  >
+    <!-- Download Icon -->
+    <svg class="w-4 h-4 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+      <path fill-rule="evenodd" d="M13 11.15V4a1 1 0 1 0-2 0v7.15L8.78 8.374a1 1 0 1 0-1.56 1.25l4 5a1 1 0 0 0 1.56 0l4-5a1 1 0 1 0-1.56-1.25L13 11.15Z" clip-rule="evenodd"/>
+      <path fill-rule="evenodd" d="M9.657 15.874 7.358 13H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-2.358l-2.3 2.874a3 3 0 0 1-4.685 0ZM17 16a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z" clip-rule="evenodd"/>
+    </svg>
+    Download
+  </button>
+  
   </div>
 </div> 
