@@ -7,8 +7,7 @@ import { LogoItemComponent } from '../logo-item/logo-item.component';
   selector: 'app-logo-grid',
   standalone: true,
   imports: [CommonModule, LogoItemComponent],
-  templateUrl: './logo-grid.component.html',
-  styleUrls: ['./logo-grid.component.css']
+  templateUrl: './logo-grid.component.html'
 })
 export class LogoGridComponent {
   @Input() logos: TeamLogo[] = [];
