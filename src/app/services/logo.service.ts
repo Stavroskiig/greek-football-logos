@@ -4,6 +4,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map, shareReplay, tap } from 'rxjs/operators';
 import { TeamLogo } from '../models/team-logo';
+import { TagService } from './tag.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,11 @@ export class LogoService {
   private allLogos$: Observable<TeamLogo[]>;
   private defaultLeague = 'superleague';
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    private http: HttpClient, 
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private tagService: TagService
+  ) {
     let manifestPath: string;
 
     if (isPlatformBrowser(this.platformId)) {
@@ -24,10 +29,14 @@ export class LogoService {
     }
 
     this.allLogos$ = this.http.get<Omit<TeamLogo, 'id'>[]>(manifestPath).pipe(
-      map(logos => logos.map(logo => ({
-        ...logo,
-        id: this.generateId(logo.name)
-      }))),
+      map(logos => logos.map(logo => {
+        const id = this.generateId(logo.name);
+        return {
+          ...logo,
+          id: id,
+          tags: this.tagService.getTeamTags(id)
+        };
+      })),
       catchError((error) => {
         console.error('Error loading logos:', error);
         return of([]);
@@ -56,12 +65,34 @@ export class LogoService {
     };
 
     // Return the mapped ID if it exists, otherwise generate one from the name
-    return teamIdMap[name] || name
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
-      .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens
-      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+    let generatedId = teamIdMap[name];
+    
+    if (!generatedId) {
+      // Generate a unique ID based on the name
+      generatedId = name
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+        .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens
+        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+      
+      // Add a hash to ensure uniqueness
+      const hash = this.hashCode(name);
+      generatedId = `${generatedId}-${hash}`;
+    }
+    
+    return generatedId;
+  }
+
+  private hashCode(str: string): number {
+    let hash = 0;
+    if (str.length === 0) return hash;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    return Math.abs(hash);
   }
 
   getLogosManifest(): Observable<TeamLogo[]> {

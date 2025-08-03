@@ -1,0 +1,56 @@
+<div class="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <div class="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-blue-100">
+        <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        Admin Access
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        Enter password to access tag management
+      </p>
+    </div>
+    
+    <form class="mt-8 space-y-6" (ngSubmit)="login()">
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div>
+          <label for="password" class="sr-only">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            [(ngModel)]="password"
+            (keypress)="onKeyPress($event)"
+            required
+            class="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+            placeholder="Enter admin password"
+          >
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          [disabled]="!password.trim() || isLoading"
+          class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+        >
+          <span *ngIf="!isLoading">Sign in</span>
+          <div *ngIf="isLoading" class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        </button>
+      </div>
+
+      <div *ngIf="errorMessage" class="text-center">
+        <p class="text-red-600 text-sm">{{ errorMessage }}</p>
+      </div>
+    </form>
+
+    <div class="text-center">
+      <a routerLink="/" class="text-blue-600 hover:text-blue-500 text-sm">
+        ← Back to Home
+      </a>
+    </div>
+  </div>
+</div> 
