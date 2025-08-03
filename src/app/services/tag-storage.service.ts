@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { FileSaveService } from './file-save.service';
 
 export interface TagData {
   availableTags: string[];
@@ -11,12 +15,17 @@ export interface TagData {
 })
 export class TagStorageService {
   private readonly STORAGE_KEY = 'greek_football_tags';
+  private readonly TEAM_TAGS_FILE = 'assets/data/team-tags.json';
   private tagDataSubject = new BehaviorSubject<TagData>({
     availableTags: [],
     teamTags: {}
   });
+  
+  // Track pending changes
+  private pendingChanges: { [teamId: string]: string[] } = {};
+  private hasPendingChanges = false;
 
-  constructor() {
+  constructor(private http: HttpClient, private fileSaveService: FileSaveService) {
     this.loadFromStorage();
     // Initialize with defaults if no data exists
     if (!localStorage.getItem(this.STORAGE_KEY)) {
@@ -36,6 +45,27 @@ export class TagStorageService {
     }
   }
 
+  private loadTeamTagsFromFile(): Observable<{ [teamId: string]: string[] }> {
+    return this.http.get<{ [teamId: string]: string[] }>(this.TEAM_TAGS_FILE).pipe(
+      catchError(error => {
+        console.error('Error loading team tags from file:', error);
+        return of({});
+      })
+    );
+  }
+
+  private saveTeamTagsToFile(teamTags: { [teamId: string]: string[] }): void {
+    this.fileSaveService.saveTeamTags(teamTags).subscribe(
+      success => {
+        if (success) {
+          console.log('Team tags saved to external file successfully');
+        } else {
+          console.error('Failed to save team tags to external file');
+        }
+      }
+    );
+  }
+
   private saveToStorage(data: TagData): void {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
@@ -51,6 +81,29 @@ export class TagStorageService {
 
   getCurrentTagData(): TagData {
     return this.tagDataSubject.value;
+  }
+
+  // Get current team tags including pending changes
+  getTeamTagsWithPendingChanges(teamId: string): string[] {
+    const currentData = this.getCurrentTagData();
+    const baseTags = currentData.teamTags[teamId] || [];
+    
+    // If there are pending changes for this team, use them
+    if (this.pendingChanges[teamId] !== undefined) {
+      return this.pendingChanges[teamId];
+    }
+    
+    return baseTags;
+  }
+
+  // Check if there are pending changes
+  hasChanges(): boolean {
+    return this.hasPendingChanges;
+  }
+
+  // Get pending changes count
+  getPendingChangesCount(): number {
+    return Object.keys(this.pendingChanges).length;
   }
 
   updateAvailableTags(tags: string[]): void {
@@ -72,23 +125,92 @@ export class TagStorageService {
       }
     };
     this.saveToStorage(newData);
+    // Also save to external file
+    this.saveTeamTagsToFile(newData.teamTags);
   }
 
   addTagToTeam(teamId: string, tag: string): void {
-    const currentData = this.getCurrentTagData();
-    const currentTeamTags = currentData.teamTags[teamId] || [];
+    const currentTeamTags = this.getTeamTagsWithPendingChanges(teamId);
     
     if (!currentTeamTags.includes(tag)) {
       const newTeamTags = [...currentTeamTags, tag];
-      this.updateTeamTags(teamId, newTeamTags);
+      this.pendingChanges[teamId] = newTeamTags;
+      this.hasPendingChanges = true;
+      
+      // Update the observable to reflect pending changes
+      this.updateObservableWithPendingChanges();
     }
   }
 
   removeTagFromTeam(teamId: string, tag: string): void {
-    const currentData = this.getCurrentTagData();
-    const currentTeamTags = currentData.teamTags[teamId] || [];
+    const currentTeamTags = this.getTeamTagsWithPendingChanges(teamId);
     const newTeamTags = currentTeamTags.filter(t => t !== tag);
-    this.updateTeamTags(teamId, newTeamTags);
+    this.pendingChanges[teamId] = newTeamTags;
+    this.hasPendingChanges = true;
+    
+    // Update the observable to reflect pending changes
+    this.updateObservableWithPendingChanges();
+  }
+
+  // Save all pending changes
+  savePendingChanges(): void {
+    if (!this.hasPendingChanges) {
+      console.log('No pending changes to save');
+      return;
+    }
+
+    const currentData = this.getCurrentTagData();
+    const newData: TagData = {
+      ...currentData,
+      teamTags: {
+        ...currentData.teamTags,
+        ...this.pendingChanges
+      }
+    };
+    
+    this.saveToStorage(newData);
+    this.saveTeamTagsToFile(newData.teamTags);
+    
+    // Clear pending changes
+    this.pendingChanges = {};
+    this.hasPendingChanges = false;
+    
+    console.log('All pending changes saved successfully');
+  }
+
+  // Discard all pending changes
+  discardPendingChanges(): void {
+    this.pendingChanges = {};
+    this.hasPendingChanges = false;
+    this.updateObservableWithPendingChanges();
+    console.log('All pending changes discarded');
+  }
+
+  // Clear all tags from all teams
+  clearAllTeamTags(): void {
+    const currentData = this.getCurrentTagData();
+    const allTeamIds = Object.keys(currentData.teamTags);
+    
+    // Set all teams to have empty tag arrays
+    allTeamIds.forEach(teamId => {
+      this.pendingChanges[teamId] = [];
+    });
+    
+    this.hasPendingChanges = true;
+    this.updateObservableWithPendingChanges();
+    console.log('All team tags cleared (pending save)');
+  }
+
+  private updateObservableWithPendingChanges(): void {
+    const currentData = this.getCurrentTagData();
+    const updatedData: TagData = {
+      ...currentData,
+      teamTags: {
+        ...currentData.teamTags,
+        ...this.pendingChanges
+      }
+    };
+    this.tagDataSubject.next(updatedData);
   }
 
   addNewTag(tag: string): void {
@@ -104,10 +226,17 @@ export class TagStorageService {
     const newAvailableTags = currentData.availableTags.filter(t => t !== tag);
     this.updateAvailableTags(newAvailableTags);
 
-    // Remove tag from all teams
+    // Remove tag from all teams (including pending changes)
     const newTeamTags = { ...currentData.teamTags };
     Object.keys(newTeamTags).forEach(teamId => {
       newTeamTags[teamId] = newTeamTags[teamId].filter(t => t !== tag);
+    });
+    
+    // Also remove from pending changes
+    Object.keys(this.pendingChanges).forEach(teamId => {
+      if (this.pendingChanges[teamId]) {
+        this.pendingChanges[teamId] = this.pendingChanges[teamId].filter(t => t !== tag);
+      }
     });
     
     const newData: TagData = {
@@ -115,6 +244,8 @@ export class TagStorageService {
       teamTags: newTeamTags
     };
     this.saveToStorage(newData);
+    // Also save to external file
+    this.saveTeamTagsToFile(newTeamTags);
   }
 
   resetToDefaults(): void {
@@ -126,24 +257,14 @@ export class TagStorageService {
         'Geometric', 'Circles', 'Triangles', 'Squares',
         'Text', 'Greek Letters', 'Modern', 'Classic', 'Minimalist', 'Complex'
       ],
-      teamTags: {
-        'panathinaikos': ['Green', 'Shamrock', 'Classic'],
-        'aek': ['Eagles', 'Black', 'Yellow', 'Shields'],
-        'paok': ['Black', 'White', 'Double-headed Eagle', 'Classic'],
-        'olympiakos': ['Red', 'White', 'Laurel Wreath', 'Classic'],
-        'aris': ['Yellow', 'Black', 'Lions', 'Shields'],
-        'lamia': ['Blue', 'White', 'Modern'],
-        'ofi': ['Green', 'White', 'Classic'],
-        'volos': ['Blue', 'White', 'Ships', 'Modern'],
-        'asteras-tripolis': ['Yellow', 'Black', 'Stars', 'Modern'],
-        'panetolikos': ['Green', 'White', 'Shields', 'Modern'],
-        'atromitos': ['Blue', 'White', 'Shields', 'Classic'],
-        'panserraikos': ['Blue', 'White', 'Shields', 'Classic'],
-        'kallithea': ['Blue', 'White', 'Shields', 'Classic'],
-        'levadiakos': ['Blue', 'White', 'Shields', 'Classic']
-      }
+      teamTags: {}
     };
     this.saveToStorage(defaultData);
+    // Load team tags from external file
+    this.loadTeamTagsFromFile().subscribe(teamTags => {
+      const updatedData = { ...defaultData, teamTags };
+      this.saveToStorage(updatedData);
+    });
   }
 
   exportData(): string {
@@ -159,5 +280,11 @@ export class TagStorageService {
       console.error('Error importing tag data:', error);
       return false;
     }
+  }
+
+  // Method to download current team tags as a file (for development)
+  downloadTeamTagsFile(): void {
+    const currentData = this.getCurrentTagData();
+    this.fileSaveService.downloadTeamTagsFile(currentData.teamTags);
   }
 } 

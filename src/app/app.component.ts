@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { ModalService } from './services/modal.service';
 import { ImageModalComponent } from './components/image-modal/image-modal.component';
 import { FooterComponent } from "./components/footer/footer.component";
+import { ChangeManagerComponent } from './components/change-manager/change-manager.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, CommonModule, ImageModalComponent, FooterComponent],
+  imports: [RouterOutlet, HeaderComponent, CommonModule, ImageModalComponent, FooterComponent, ChangeManagerComponent],
   template: `
     <app-header></app-header>
     <main class="main-content">
@@ -17,6 +18,7 @@ import { FooterComponent } from "./components/footer/footer.component";
     </main>
     <app-footer></app-footer>
     <app-image-modal *ngIf="modalService.modalData$ | async"></app-image-modal>
+    <app-change-manager></app-change-manager>
   `,
   styles: [`
     .main-content {

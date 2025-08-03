@@ -4,15 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TagService } from '../../services/tag.service';
 import { TagStorageService } from '../../services/tag-storage.service';
-import { LocalFileEditorService } from '../../services/local-file-editor.service';
 import { AdminService } from '../../services/admin.service';
 import { LogoService } from '../../services/logo.service';
 import { TeamLogo } from '../../models/team-logo';
+import { FileManagerComponent } from '../file-manager/file-manager.component';
 
 @Component({
   selector: 'app-tag-manager',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FileManagerComponent],
   templateUrl: './tag-manager.component.html'
 })
 export class TagManagerComponent implements OnInit {
@@ -23,12 +23,14 @@ export class TagManagerComponent implements OnInit {
   selectedTeam: TeamLogo | null = null;
   teamTags: { [teamId: string]: string[] } = {};
   searchTerm: string = '';
+  selectedLeague: string = '';
+  leagues: string[] = [];
+  isLeagueDropdownOpen: boolean = false;
   showSavedMessage: boolean = false;
 
   constructor(
     private tagService: TagService,
     private tagStorage: TagStorageService,
-    private localFileEditor: LocalFileEditorService,
     private adminService: AdminService,
     private logoService: LogoService,
     private router: Router
@@ -50,6 +52,10 @@ export class TagManagerComponent implements OnInit {
       this.teamTags = this.tagService.getAllTeamTags();
     });
 
+    this.logoService.getLeagues().subscribe(leagues => {
+      this.leagues = leagues;
+    });
+
     this.tagService.getAvailableTags().subscribe(tags => {
       this.availableTags = tags;
     });
@@ -62,15 +68,67 @@ export class TagManagerComponent implements OnInit {
   }
 
   filterTeams() {
-    if (!this.searchTerm.trim()) {
-      this.filteredTeams = this.teams;
-    } else {
+    let filtered = this.teams;
+
+    // Filter by league
+    if (this.selectedLeague) {
+      filtered = filtered.filter(team => 
+        team.league === this.selectedLeague
+      );
+    }
+
+    // Filter by search term
+    if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase();
-      this.filteredTeams = this.teams.filter(team => 
+      filtered = filtered.filter(team => 
         team.name.toLowerCase().includes(term) ||
         (team.league && team.league.toLowerCase().includes(term))
       );
     }
+
+    this.filteredTeams = filtered;
+  }
+
+  onLeagueChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.selectedLeague = target.value;
+    this.filterTeams();
+  }
+
+  toggleLeagueDropdown() {
+    this.isLeagueDropdownOpen = !this.isLeagueDropdownOpen;
+  }
+
+  closeLeagueDropdown() {
+    this.isLeagueDropdownOpen = false;
+  }
+
+  onLeagueSelect(league: string) {
+    this.selectedLeague = league;
+    this.isLeagueDropdownOpen = false;
+    this.filterTeams();
+  }
+
+  getLeagueLogoPath(leagueName: string): string {
+    return this.logoService.getLeagueLogoPath(leagueName);
+  }
+
+  getLeagueDisplayName(league: string): string {
+    if (!league) return '🌍 All Leagues';
+    return league;
+  }
+
+  onImageError(event: Event): void {
+    const target = event.target as HTMLImageElement;
+    if (target) {
+      target.style.display = 'none';
+    }
+  }
+
+  clearFilters() {
+    this.searchTerm = '';
+    this.selectedLeague = '';
+    this.filterTeams();
   }
 
   selectTeam(team: TeamLogo) {
@@ -108,39 +166,6 @@ export class TagManagerComponent implements OnInit {
     }
   }
 
-  resetToDefaults() {
-    if (confirm('Are you sure you want to reset all tags to defaults? This will overwrite all current data.')) {
-      this.tagStorage.resetToDefaults();
-    }
-  }
-
-  exportData() {
-    const data = this.tagStorage.exportData();
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'greek-football-tags.json';
-    a.click();
-    window.URL.revokeObjectURL(url);
-  }
-
-  importData(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const success = this.tagStorage.importData(e.target.result);
-        if (success) {
-          alert('Tag data imported successfully!');
-        } else {
-          alert('Error importing tag data. Please check the file format.');
-        }
-      };
-      reader.readAsText(file);
-    }
-  }
-
   logout() {
     this.adminService.logout();
     this.router.navigate(['/']);
@@ -158,41 +183,5 @@ export class TagManagerComponent implements OnInit {
     return team.id;
   }
 
-  // Local File Editor Methods
-  generateLocalFile() {
-    const fileData = this.localFileEditor.generateLocalFileContent();
-    this.showFileContent(fileData);
-  }
 
-  generateBackupFile() {
-    const fileData = this.localFileEditor.generateBackupContent();
-    this.showFileContent(fileData);
-  }
-
-  generateSimpleFile() {
-    const fileData = this.localFileEditor.generateSimpleFileContent();
-    this.showFileContent(fileData);
-  }
-
-  private showFileContent(fileData: { filename: string; content: string }) {
-    const instructions = this.localFileEditor.generateInstructions(fileData.filename);
-    const gitCommands = this.localFileEditor.generateGitCommands(fileData.filename);
-    
-    const message = `${instructions}\n\n📄 Filename: ${fileData.filename}\n\n🔧 Git Commands:\n${gitCommands}\n\n📄 File Content:\n${fileData.content}`;
-    
-    alert(message);
-  }
-
-  async loadFromLocalFile(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const result = await this.localFileEditor.loadFromLocalFile(file);
-      if (result.success) {
-        alert(result.message);
-        this.showSavedIndicator();
-      } else {
-        alert('Error: ' + result.message);
-      }
-    }
-  }
 } 

@@ -20,8 +20,7 @@ export class TagService {
   }
 
   getTeamTags(teamId: string): string[] {
-    const data = this.tagStorage.getCurrentTagData();
-    return data.teamTags[teamId] || [];
+    return this.tagStorage.getTeamTagsWithPendingChanges(teamId);
   }
 
   getAllTeamTags(): { [teamId: string]: string[] } {
@@ -39,6 +38,10 @@ export class TagService {
 
   addNewTag(tag: string): void {
     this.tagStorage.addNewTag(tag);
+  }
+
+  clearAllTeamTags(): void {
+    this.tagStorage.clearAllTeamTags();
   }
 
   getTeamsByTag(tag: string, allTeams: TeamLogo[]): TeamLogo[] {

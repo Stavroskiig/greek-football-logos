@@ -12,107 +12,135 @@
     </div>
   </div>
 
-  <!-- Admin Actions -->
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
-    <h2 class="text-xl font-semibold text-gray-800 mb-4">Admin Actions</h2>
-    <div class="flex flex-wrap gap-4">
-      <button
-        (click)="resetToDefaults()"
-        class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors duration-200"
-      >
-        Reset to Defaults
-      </button>
-             <button
-         (click)="exportData()"
-         class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200"
-       >
-         Export Data
-       </button>
-               <button
-          (click)="generateLocalFile()"
-          class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200"
-        >
-          Generate Local File
-        </button>
-        <button
-          (click)="generateBackupFile()"
-          class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200"
-        >
-          Generate Backup
-        </button>
-        <button
-          (click)="generateSimpleFile()"
-          class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200"
-        >
-          Generate Simple File
-        </button>
-        <label class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 cursor-pointer">
-          Import Data
-          <input
-            type="file"
-            (change)="importData($event)"
-            accept=".json"
-            class="hidden"
-          >
-        </label>
-        <label class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 cursor-pointer">
-          Load from Local File
-          <input
-            type="file"
-            (change)="loadFromLocalFile($event)"
-            accept=".json"
-            class="hidden"
-          >
-        </label>
-      <button
-        (click)="logout()"
-        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
-      >
-        Logout
-      </button>
-    </div>
-  </div>
-  
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-         <!-- Teams List -->
-     <div class="lg:col-span-1">
-       <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-         <h2 class="text-xl font-semibold text-gray-800 mb-4">Teams</h2>
-         
-         <!-- Search Teams -->
-         <div class="mb-4">
-           <input
-             type="text"
-             [(ngModel)]="searchTerm"
-             (input)="filterTeams()"
-             placeholder="Search teams..."
-             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-           >
-         </div>
-
-         <div class="space-y-2 max-h-96 overflow-y-auto">
-           <div 
-             *ngFor="let team of filteredTeams; trackBy: trackByTeamId"
-             (click)="selectTeam(team)"
-             class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-gray-50"
-             [class.bg-blue-50]="selectedTeam?.id === team.id"
-             [attr.data-selected]="selectedTeam?.id === team.id ? 'true' : 'false'"
-           >
-            <img [src]="team.path" [alt]="team.name" class="w-8 h-8 object-contain">
-            <div class="flex-1 min-w-0">
-              <div class="font-medium text-gray-900 truncate">{{ team.name }}</div>
-              <div class="text-sm text-gray-500">{{ team.league }}</div>
-            </div>
-            <div class="text-xs text-gray-400">
-              {{ getTeamTags(team.id).length }} tags
-            </div>
-          </div>
+    <!-- Left Column: Admin Actions + Teams -->
+    <div class="lg:col-span-1">
+      <!-- Admin Actions -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Admin Actions</h2>
+        <div class="flex flex-col gap-4">
+          <button
+            (click)="logout()"
+            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+          >
+            Logout
+          </button>
         </div>
       </div>
-    </div>
 
-    <!-- Tag Management -->
-    <div class="lg:col-span-2">
+      <!-- Teams List -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Teams</h2>
+        
+        <!-- Search and Filter Teams -->
+        <div class="mb-4 space-y-3">
+          <!-- Search Teams -->
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            (input)="filterTeams()"
+            placeholder="Search teams..."
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+          
+          <!-- League Filter -->
+          <div class="relative">
+            <!-- Selected League Display -->
+            <button
+              type="button"
+              (click)="toggleLeagueDropdown()"
+              class="w-full px-3 py-2 text-sm text-left bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent flex items-center justify-between"
+            >
+              <div class="flex items-center gap-2">
+                <img 
+                  *ngIf="selectedLeague"
+                  [src]="getLeagueLogoPath(selectedLeague)" 
+                  [alt]="selectedLeague + ' logo'"
+                  class="w-4 h-4 object-contain"
+                  (error)="onImageError($event)"
+                />
+                <span>{{ getLeagueDisplayName(selectedLeague) }}</span>
+              </div>
+              <svg class="h-4 w-4 text-gray-400 transition-transform duration-200" 
+                   [class.rotate-180]="isLeagueDropdownOpen"
+                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div 
+              *ngIf="isLeagueDropdownOpen"
+              class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+            >
+              <!-- All Leagues Option -->
+              <button
+                type="button"
+                (click)="onLeagueSelect('')"
+                class="w-full px-3 py-2 text-sm text-left hover:bg-gray-50 flex items-center gap-2"
+              >
+                <span>🌍</span>
+                <span>All Leagues</span>
+              </button>
+
+              <!-- League Options -->
+              <button
+                *ngFor="let league of leagues"
+                type="button"
+                (click)="onLeagueSelect(league)"
+                class="w-full px-3 py-2 text-sm text-left hover:bg-gray-50 flex items-center gap-2"
+                [class.bg-blue-50]="selectedLeague === league"
+              >
+                <img 
+                  [src]="getLeagueLogoPath(league)" 
+                  [alt]="league + ' logo'"
+                  class="w-4 h-4 object-contain"
+                  (error)="onImageError($event)"
+                />
+                <span>{{ league }}</span>
+              </button>
+            </div>
+
+            <!-- Backdrop to close dropdown -->
+            <div 
+              *ngIf="isLeagueDropdownOpen"
+              class="fixed inset-0 z-40"
+              (click)="closeLeagueDropdown()"
+            ></div>
+          </div>
+          
+          <!-- Clear Filters Button -->
+          <button
+            (click)="clearFilters()"
+            class="w-full px-3 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-200"
+          >
+            Clear Filters
+          </button>
+        </div>
+
+        <div class="space-y-2 max-h-96 overflow-y-auto">
+          <div 
+            *ngFor="let team of filteredTeams; trackBy: trackByTeamId"
+            (click)="selectTeam(team)"
+            class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-gray-50"
+            [class.bg-blue-50]="selectedTeam?.id === team.id"
+            [attr.data-selected]="selectedTeam?.id === team.id ? 'true' : 'false'"
+          >
+           <img [src]="team.path" [alt]="team.name" class="w-8 h-8 object-contain">
+           <div class="flex-1 min-w-0">
+             <div class="font-medium text-gray-900 truncate">{{ team.name }}</div>
+             <div class="text-sm text-gray-500">{{ team.league }}</div>
+           </div>
+           <div class="text-xs text-gray-400">
+             {{ getTeamTags(team.id).length }} tags
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+
+   <!-- Right Column: Tag Management -->
+   <div class="lg:col-span-2">
       <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
         <div *ngIf="selectedTeam; else noTeamSelected">
           <div class="flex items-center gap-4 mb-6">
@@ -222,5 +250,10 @@
         </ng-template>
       </div>
     </div>
+  </div>
+
+  <!-- File Manager -->
+  <div class="mt-8">
+    <app-file-manager></app-file-manager>
   </div>
 </div> 
