@@ -5,13 +5,16 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:greek-football-logos": "node dist/greek-football-logos/server/server.mjs",
     "generate-logos": "node generate-logos-manifest.js",
     "prebuild": "npm run generate-logos",
     "prestart": "npm run generate-logos",
-    "prerender": "ng run greek-football-logos:prerender"
+    "prerender": "ng run greek-football-logos:prerender",
+    "serve:prod": "npm run build:prod && node web-server.js",
+    "deploy": "npm run build:prod"
   },
   "private": true,
   "dependencies": {

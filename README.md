@@ -87,6 +87,66 @@ The application uses these data files:
 - `src/assets/data/team-tags.json` - Team-specific tags
 - `src/assets/data/available-tags.json` - Available tags for selection
 
+## Production Deployment
+
+### Building for Production
+
+```bash
+ng build --configuration production
+```
+
+This creates optimized files in the `dist/greek-football-logos/` directory.
+
+### Deployment Options
+
+#### Option 1: Express Web Server (Recommended)
+
+1. Install dependencies:
+```bash
+npm install express
+```
+
+2. Start the web server:
+```bash
+node web-server.js
+```
+
+The server will serve the Angular app with proper MIME types for sitemap.xml and robots.txt.
+
+#### Option 2: Nginx Configuration
+
+Use the provided `nginx.conf` file for nginx deployment:
+
+1. Copy the built files to your web server directory
+2. Configure nginx using the provided `nginx.conf`
+3. Restart nginx
+
+#### Option 3: Static Hosting (Netlify, Vercel, etc.)
+
+For static hosting services:
+1. Build the project: `ng build --configuration production`
+2. Upload the contents of `dist/greek-football-logos/` to your hosting service
+3. Configure the hosting service to serve sitemap.xml with `application/xml` MIME type
+4. Configure the hosting service to serve robots.txt with `text/plain` MIME type
+
+### SEO Files
+
+The following SEO files are automatically included in the build:
+- `sitemap.xml` - XML sitemap for search engines
+- `robots.txt` - Crawling instructions for search engines
+
+### Verifying SEO Setup
+
+After deployment, verify your SEO setup:
+
+1. **Sitemap**: Visit `https://greek-football-logos.site/sitemap.xml`
+   - Should return XML content with `Content-Type: application/xml`
+
+2. **Robots**: Visit `https://greek-football-logos.site/robots.txt`
+   - Should return text content with `Content-Type: text/plain`
+
+3. **Google Search Console**: Submit your sitemap URL
+
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
