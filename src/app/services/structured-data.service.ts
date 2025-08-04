@@ -37,7 +37,7 @@ export class StructuredDataService {
       "alternateName": "Ελληνικά Λογότυπα Ποδοσφαίρου",
       "url": "https://greek-football-logos.site",
       "description": "Complete collection of Greek football team logos from all leagues",
-      "logo": "https://greek-football-logos.site/assets/images/logo.png",
+      "logo": "https://greek-football-logos.site/assets/app-logo/app-logo.png",
       "sameAs": [
         "https://twitter.com/greekfootballlogos",
         "https://facebook.com/greekfootballlogos"
