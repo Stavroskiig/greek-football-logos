@@ -46,10 +46,18 @@ export class TagManagerComponent implements OnInit {
   }
 
   loadData() {
+    console.log('🔍 Starting data load...');
     this.logoService.getLogosManifest().subscribe(teams => {
+      console.log('🔍 Loaded teams:', teams.length, 'teams');
+      console.log('🔍 Teams by league:', teams.reduce((acc, team) => {
+        acc[team.league] = (acc[team.league] || 0) + 1;
+        return acc;
+      }, {} as { [key: string]: number }));
+      console.log('🔍 First 5 teams:', teams.slice(0, 5).map(t => ({ name: t.name, league: t.league, id: t.id })));
       this.teams = teams;
       this.filteredTeams = teams;
       this.teamTags = this.tagService.getAllTeamTags();
+      console.log('🔍 Team tags loaded:', Object.keys(this.teamTags).length, 'teams have tags');
     });
 
     this.logoService.getLeagues().subscribe(leagues => {
@@ -62,6 +70,11 @@ export class TagManagerComponent implements OnInit {
 
     // Subscribe to tag data changes
     this.tagStorage.getTagData().subscribe(data => {
+      console.log('🔍 Tag data loaded:', {
+        availableTags: data.availableTags.length,
+        teamTagsCount: Object.keys(data.teamTags).length,
+        sampleTeamTags: Object.entries(data.teamTags).slice(0, 3)
+      });
       this.availableTags = data.availableTags;
       this.teamTags = data.teamTags;
     });
@@ -69,12 +82,18 @@ export class TagManagerComponent implements OnInit {
 
   filterTeams() {
     let filtered = this.teams;
+    console.log('🔍 Filtering teams:', {
+      totalTeams: this.teams.length,
+      selectedLeague: this.selectedLeague,
+      searchTerm: this.searchTerm
+    });
 
     // Filter by league
     if (this.selectedLeague) {
       filtered = filtered.filter(team => 
         team.league === this.selectedLeague
       );
+      console.log('🔍 After league filter:', filtered.length, 'teams');
     }
 
     // Filter by search term
@@ -84,9 +103,11 @@ export class TagManagerComponent implements OnInit {
         team.name.toLowerCase().includes(term) ||
         (team.league && team.league.toLowerCase().includes(term))
       );
+      console.log('🔍 After search filter:', filtered.length, 'teams');
     }
 
     this.filteredTeams = filtered;
+    console.log('🔍 Final filtered teams:', filtered.length, 'teams');
   }
 
   onLeagueChange(event: Event) {
