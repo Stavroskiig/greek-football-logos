@@ -1,0 +1,267 @@
+<div class="min-h-screen bg-gradient-to-br from-purple-50 to-blue-100">
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <div class="mb-6">
+        <div class="w-24 h-24 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          </svg>
+        </div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">Logo Quiz Game</h1>
+        <p class="text-xl text-gray-600">Test your knowledge of Greek football teams!</p>
+      </div>
+    </div>
+
+    <!-- Main Menu -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <!-- Quick Start -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Quick Start</h3>
+        <p class="text-gray-600 mb-4">Start a game with default settings</p>
+        <button 
+          (click)="startGame()"
+          class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-medium transition-colors"
+        >
+          Start Game
+        </button>
+      </div>
+
+      <!-- Settings -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
+        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Customize</h3>
+        <p class="text-gray-600 mb-4">Configure game settings</p>
+        <button 
+          (click)="toggleSettings()"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-xl font-medium transition-colors"
+        >
+          Settings
+        </button>
+      </div>
+
+      <!-- Statistics -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
+        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Statistics</h3>
+        <p class="text-gray-600 mb-4">View your performance</p>
+        <button 
+          (click)="toggleStats()"
+          class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-xl font-medium transition-colors"
+        >
+          View Stats
+        </button>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div *ngIf="showSettings" class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-900">Game Settings</h2>
+        <button 
+          (click)="toggleSettings()"
+          class="text-gray-400 hover:text-gray-600 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Game Mode -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Game Mode</label>
+          <select 
+            [(ngModel)]="settings.mode"
+            class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="guess-team">Guess the Team</option>
+            <option value="guess-league">Guess the League</option>
+            <option value="mixed">Mixed Mode</option>
+          </select>
+          <p class="text-sm text-gray-500 mt-1">{{ getModeDescription(settings.mode) }}</p>
+        </div>
+
+        <!-- Difficulty -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Difficulty</label>
+          <select 
+            [(ngModel)]="settings.difficulty"
+            class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+            <option value="mixed">Mixed</option>
+          </select>
+          <p class="text-sm text-gray-500 mt-1">{{ getDifficultyDescription(settings.difficulty) }}</p>
+        </div>
+
+        <!-- Question Count -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Number of Questions</label>
+          <select 
+            [(ngModel)]="settings.questionCount"
+            class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option [value]="5">5 Questions</option>
+            <option [value]="10">10 Questions</option>
+            <option [value]="15">15 Questions</option>
+            <option [value]="20">20 Questions</option>
+          </select>
+          <p class="text-sm text-gray-500 mt-1">{{ getQuestionCountDescription(settings.questionCount) }}</p>
+        </div>
+
+        <!-- Options -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Options</label>
+          <div class="space-y-3">
+            <label class="flex items-center">
+              <input 
+                type="checkbox" 
+                [(ngModel)]="settings.showTimer"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              >
+              <span class="ml-2 text-sm text-gray-700">Show timer</span>
+            </label>
+            <label class="flex items-center">
+              <input 
+                type="checkbox" 
+                [(ngModel)]="settings.logoBlur"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              >
+              <span class="ml-2 text-sm text-gray-700">Blur logos (makes it harder)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 text-center">
+        <button 
+          (click)="startGame()"
+          class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-xl font-medium transition-colors"
+        >
+          Start Game with Settings
+        </button>
+      </div>
+    </div>
+
+    <!-- Statistics Panel -->
+    <div *ngIf="showStats && stats" class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-900">Your Statistics</h2>
+        <div class="flex items-center gap-4">
+          <button 
+            (click)="resetStats()"
+            class="text-red-600 hover:text-red-700 text-sm font-medium transition-colors"
+          >
+            Reset Stats
+          </button>
+          <button 
+            (click)="toggleStats()"
+            class="text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-blue-600">{{ stats.totalGames }}</div>
+          <div class="text-sm text-gray-600">Games Played</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-green-600">{{ stats.bestScore }}</div>
+          <div class="text-sm text-gray-600">Best Score</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-purple-600">{{ getAccuracyPercentage() }}%</div>
+          <div class="text-sm text-gray-600">Accuracy</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-orange-600">{{ getAverageTimeString() }}</div>
+          <div class="text-sm text-gray-600">Avg. Time</div>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 rounded-xl p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Performance Breakdown</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm text-gray-600">Total Questions</span>
+              <span class="font-medium">{{ stats.totalQuestions }}</span>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm text-gray-600">Correct Answers</span>
+              <span class="font-medium text-green-600">{{ stats.correctAnswers }}</span>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm text-gray-600">Average Score</span>
+              <span class="font-medium text-blue-600">{{ stats.averageScore }}</span>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm text-gray-600">Favorite Mode</span>
+              <span class="font-medium text-purple-600">{{ getFavoriteModeText(stats.favoriteMode) }}</span>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm text-gray-600">Average Time</span>
+              <span class="font-medium text-orange-600">{{ getAverageTimeString() }}</span>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm text-gray-600">Success Rate</span>
+              <span class="font-medium text-green-600">{{ getAccuracyPercentage() }}%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats Preview -->
+    <div *ngIf="!showStats && stats && stats.totalGames > 0" class="bg-white rounded-2xl shadow-lg p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-900">Quick Stats</h3>
+        <button 
+          (click)="toggleStats()"
+          class="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors"
+        >
+          View Full Stats
+        </button>
+      </div>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="text-center">
+          <div class="text-2xl font-bold text-blue-600">{{ stats.totalGames }}</div>
+          <div class="text-xs text-gray-600">Games</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-green-600">{{ stats.bestScore }}</div>
+          <div class="text-xs text-gray-600">Best Score</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-purple-600">{{ getAccuracyPercentage() }}%</div>
+          <div class="text-xs text-gray-600">Accuracy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -29,6 +29,7 @@ export class LogoService {
     }
 
     this.allLogos$ = this.http.get<Omit<TeamLogo, 'id'>[]>(manifestPath).pipe(
+      tap(logos => console.log('Raw logos loaded:', logos.length)),
       map(logos => logos.map(logo => {
         const id = this.generateId(logo.name);
         return {
@@ -37,6 +38,7 @@ export class LogoService {
           tags: this.tagService.getTeamTags(id)
         };
       })),
+      tap(logos => console.log('Processed logos:', logos.length)),
       catchError((error) => {
         console.error('Error loading logos:', error);
         return of([]);
@@ -281,6 +283,6 @@ export class LogoService {
   }
 
   getAllLogos(): Observable<TeamLogo[]> {
-    return this.http.get<TeamLogo[]>('/api/logos'); // Adjust the API endpoint as needed
+    return this.allLogos$;
   }
 }
