@@ -36,6 +36,12 @@ export class MiscDisplayComponent implements OnInit {
   }
 
   applyFilters() {
+    // Only show results if tags are selected or search term is entered
+    if (this.selectedTags.length === 0 && !this.searchTerm.trim()) {
+      this.logos$ = of([]);
+      return;
+    }
+
     this.logos$ = this.logoService.getLogosManifest().pipe(
       map(logos => {
         let filteredLogos = [...logos];

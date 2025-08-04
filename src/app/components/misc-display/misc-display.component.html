@@ -52,7 +52,9 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
             </svg>
             <span class="text-sm font-medium">
-              {{ logos.length + ' ' + (logos.length === 1 ? 'team' : 'teams') + ' found' }}
+              {{ selectedTags.length === 0 && !searchTerm.trim() 
+                ? 'Select tags or search to see teams' 
+                : (logos.length + ' ' + (logos.length === 1 ? 'team' : 'teams') + ' found') }}
             </span>
           </div>
           
@@ -95,10 +97,12 @@
             d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
         </svg>
         <h3 class="mt-4 text-lg font-medium text-gray-900">
-          No teams found
+          {{ selectedTags.length === 0 && !searchTerm.trim() ? 'Select tags to filter teams' : 'No teams found' }}
         </h3>
         <p class="mt-2 text-gray-500">
-          Try adjusting your search or tag filters.
+          {{ selectedTags.length === 0 && !searchTerm.trim() 
+            ? 'Choose tags from the dropdown or search for teams to see results.' 
+            : 'Try adjusting your search or tag filters.' }}
         </p>
       </div>
     </section>
