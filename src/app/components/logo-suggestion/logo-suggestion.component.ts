@@ -11,10 +11,9 @@ import { LogoSuggestionService } from '../../services/logo-suggestion.service';
 })
 export class LogoSuggestionComponent implements OnInit {
   suggestionForm: FormGroup;
-  previewUrl: string | null = null;
   isSubmitting = false;
-  selectedFile: File | null = null;
   submitError: string | null = null;
+  submitSuccess: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -24,7 +23,7 @@ export class LogoSuggestionComponent implements OnInit {
       teamName: ['', Validators.required],
       eps: ['', Validators.required],
       senderEmail: ['', [Validators.required, Validators.email]],
-      url: ['', [Validators.required, Validators.pattern('https?://.*\\.(png|jpg|jpeg|gif|svg|webp)$')]]
+      url: ['', [Validators.required, this.urlValidator()]]
     });
   }
 
@@ -35,51 +34,84 @@ export class LogoSuggestionComponent implements OnInit {
   get senderEmail() { return this.suggestionForm.get('senderEmail')!; }
   get url() { return this.suggestionForm.get('url')!; }
 
+  // Method to validate URL format
+  isValidUrl(url: string): boolean {
+    const urlPattern = /^https?:\/\/.*\.(png|jpg|jpeg|gif|svg|webp)$/i;
+    return urlPattern.test(url);
+  }
+
+  // URL validator
+  urlValidator() {
+    return (control: any): {[key: string]: any} | null => {
+      const url = control.value;
+      if (!url) {
+        return { 'required': true };
+      }
+      
+      if (!this.isValidUrl(url)) {
+        return { 'invalidUrl': true };
+      }
+      
+      return null;
+    };
+  }
+
   isFormValid(): boolean {
     return this.suggestionForm.valid;
   }
 
-  async onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.selectedFile = input.files[0];
-      this.previewUrl = URL.createObjectURL(this.selectedFile);
-    } else {
-      this.selectedFile = null;
-      this.previewUrl = null;
-    }
-  }
-
   async onSubmit() {
-    if (!this.isFormValid()) return;
+    if (!this.isFormValid()) {
+      console.log('Form validation failed:', this.suggestionForm.errors);
+      console.log('Form validation details:', {
+        teamNameValid: this.teamName.valid,
+        epsValid: this.eps.valid,
+        emailValid: this.senderEmail.valid,
+        urlValue: this.url.value,
+        urlValid: this.url.valid
+      });
+      return;
+    }
     
     this.isSubmitting = true;
     this.submitError = null;
+    this.submitSuccess = null;
 
     try {
       const formData = new FormData();
-      formData.append('teamName', this.teamName.value);
-      formData.append('eps', this.eps.value);
-      formData.append('senderEmail', this.senderEmail.value);
-      formData.append('url', this.url.value);
+      formData.append('teamName', this.teamName.value.trim());
+      formData.append('eps', this.eps.value.trim());
+      formData.append('senderEmail', this.senderEmail.value.trim());
+      formData.append('url', this.url.value.trim());
+      formData.append('hasUrl', 'true');
+      formData.append('hasFile', 'false');
+      
+      console.log('Submitting with URL:', this.url.value.trim());
       
       const response = await this.suggestionService.submitSuggestion(formData).toPromise();
       console.log('Submission response:', response);
       
       // Reset form after successful submission
       this.suggestionForm.reset();
-      this.selectedFile = null;
-      this.previewUrl = null;
-      alert('Logo suggestion submitted successfully!');
+      this.submitSuccess = 'Logo suggestion submitted successfully! We will review it and get back to you soon.';
+      console.log('Success message set:', this.submitSuccess);
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        this.submitSuccess = null;
+        console.log('Success message cleared');
+      }, 5000);
+      
     } catch (error) {
       console.error('Error in form submission:', error);
       if (error instanceof Error) {
-        this.submitError = `Error: ${error.message}`;
+        this.submitError = `Submission failed: ${error.message}`;
       } else {
         this.submitError = 'Failed to submit logo suggestion. Please try again.';
       }
     } finally {
       this.isSubmitting = false;
+      console.log('Form submission completed, isSubmitting set to false');
     }
   }
 } 

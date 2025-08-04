@@ -1,100 +1,119 @@
-<div class="max-w-2xl mx-auto my-8 px-4">
-  <h1 class="text-center text-gray-800 mb-8 text-3xl font-bold">Suggest a New Logo</h1>
-  
-  <form [formGroup]="suggestionForm" (ngSubmit)="onSubmit()" class="bg-white p-8 rounded-lg shadow-sm">
-    <div class="mb-6">
-      <label for="teamName" class="block mb-2 text-gray-700 font-medium">Team Name *</label>
-      <input
-        type="text"
-        id="teamName"
-        formControlName="teamName"
-        placeholder="Enter team name"
-        [class.border-red-500]="teamName.invalid && teamName.touched"
-        class="w-full px-3 py-3 border border-gray-300 rounded-lg text-base transition-colors duration-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25"
-      >
-      <div class="text-red-500 text-sm mt-1" *ngIf="teamName.invalid && teamName.touched">
-        Team name is required
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-2xl mx-auto py-8 px-4">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Suggest a New Logo</h1>
+        <p class="text-gray-600">Help us expand our collection by suggesting a new team logo</p>
       </div>
-    </div>
+      
+      <form [formGroup]="suggestionForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <!-- Team Name -->
+        <div>
+          <label for="teamName" class="block text-sm font-medium text-gray-700 mb-2">
+            Team Name <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="teamName"
+            formControlName="teamName"
+            placeholder="Enter team name"
+            [class.border-red-500]="teamName.invalid && teamName.touched"
+            class="block w-full px-4 py-3 text-gray-900 placeholder-gray-500 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200"
+          >
+          <div class="text-red-500 text-sm mt-1" *ngIf="teamName.invalid && teamName.touched">
+            Team name is required
+          </div>
+        </div>
 
-    <div class="mb-6">
-      <label for="eps" class="block mb-2 text-gray-700 font-medium">EPS *</label>
-      <input
-        type="text"
-        id="eps"
-        formControlName="eps"
-        placeholder="Enter EPS name"
-        [class.border-red-500]="eps.invalid && eps.touched"
-        class="w-full px-3 py-3 border border-gray-300 rounded-lg text-base transition-colors duration-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25"
-      >
-      <div class="text-red-500 text-sm mt-1" *ngIf="eps.invalid && eps.touched">
-        EPS is required
-      </div>
-    </div>
+        <!-- EPS -->
+        <div>
+          <label for="eps" class="block text-sm font-medium text-gray-700 mb-2">
+            EPS <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="eps"
+            formControlName="eps"
+            placeholder="Enter EPS name"
+            [class.border-red-500]="eps.invalid && eps.touched"
+            class="block w-full px-4 py-3 text-gray-900 placeholder-gray-500 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200"
+          >
+          <div class="text-red-500 text-sm mt-1" *ngIf="eps.invalid && eps.touched">
+            EPS is required
+          </div>
+        </div>
 
-    <div class="mb-6">
-      <label for="url" class="block mb-2 text-gray-700 font-medium">Logo URL *</label>
-      <input
-        type="url"
-        id="url"
-        formControlName="url"
-        placeholder="Enter direct URL to the logo image"
-        [class.border-red-500]="url.invalid && url.touched"
-        class="w-full px-3 py-3 border border-gray-300 rounded-lg text-base transition-colors duration-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25"
-      >
-      <div class="text-red-500 text-sm mt-1" *ngIf="url.invalid && url.touched">
-        Please provide a valid URL to the logo image
-      </div>
-      <div class="text-gray-500 text-sm mt-1 italic">
-        Please provide a direct link to the logo image (e.g., ending in .png, .jpg, etc.)
-      </div>
-    </div>
+        <!-- Logo Source Section -->
+        <div class="space-y-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Logo URL <span class="text-red-500">*</span>
+          </label>
+          
+          <!-- URL Input -->
+          <div>
+            <label for="url" class="block text-sm text-gray-600 mb-2">
+              Direct link to the logo image
+            </label>
+            <input
+              type="url"
+              id="url"
+              formControlName="url"
+              placeholder="https://example.com/logo.png"
+              [class.border-red-500]="url.invalid && url.touched"
+              class="block w-full px-4 py-3 text-gray-900 placeholder-gray-500 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200"
+            >
+            <div class="text-red-500 text-sm mt-1" *ngIf="url.value && !isValidUrl(url.value)">
+              Please provide a valid URL to the logo image (ending in .png, .jpg, etc.)
+            </div>
+            <div class="text-gray-500 text-sm mt-1 italic">
+              Provide a direct link to the logo image (e.g., ending in .png, .jpg, etc.)
+            </div>
+          </div>
+        </div>
 
-    <div class="mb-6">
-      <label for="logoImage" class="block mb-2 text-gray-700 font-medium">Preview Image (Optional)</label>
-      <input
-        type="file"
-        id="logoImage"
-        (change)="onFileSelected($event)"
-        accept="image/*"
-        class="w-full px-3 py-3 border border-gray-300 rounded-lg text-base transition-colors duration-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25"
-      >
-      <div class="text-gray-500 text-sm mt-1 italic">
-        This is only for preview purposes. The actual logo will be downloaded from the URL provided above.
-      </div>
-      <div class="mt-4 text-center" *ngIf="previewUrl">
-        <img [src]="previewUrl" alt="Logo preview" class="max-w-48 max-h-48 object-contain rounded shadow-sm">
-      </div>
-    </div>
+        <!-- Email -->
+        <div>
+          <label for="senderEmail" class="block text-sm font-medium text-gray-700 mb-2">
+            Your Email <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            id="senderEmail"
+            formControlName="senderEmail"
+            placeholder="your.email@example.com"
+            [class.border-red-500]="senderEmail.invalid && senderEmail.touched"
+            class="block w-full px-4 py-3 text-gray-900 placeholder-gray-500 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200"
+          >
+          <div class="text-red-500 text-sm mt-1" *ngIf="senderEmail.invalid && senderEmail.touched">
+            Please enter a valid email
+          </div>
+        </div>
 
-    <div class="mb-6">
-      <label for="senderEmail" class="block mb-2 text-gray-700 font-medium">Your Email *</label>
-      <input
-        type="email"
-        id="senderEmail"
-        formControlName="senderEmail"
-        placeholder="Enter your email"
-        [class.border-red-500]="senderEmail.invalid && senderEmail.touched"
-        class="w-full px-3 py-3 border border-gray-300 rounded-lg text-base transition-colors duration-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25"
-      >
-      <div class="text-red-500 text-sm mt-1" *ngIf="senderEmail.invalid && senderEmail.touched">
-        Please enter a valid email
-      </div>
-    </div>
+        <!-- Submit Button -->
+        <div class="pt-6">
+          <button
+            type="submit"
+            [disabled]="!isFormValid() || isSubmitting"
+            class="w-full bg-blue-600 text-white px-6 py-3 rounded-xl text-base font-medium cursor-pointer transition-all duration-300 ease-in-out hover:bg-blue-700 hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            <div class="flex items-center justify-center gap-2">
+              <span *ngIf="!isSubmitting">Submit Suggestion</span>
+              <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" *ngIf="isSubmitting"></div>
+              <span *ngIf="isSubmitting">Submitting...</span>
+            </div>
+          </button>
+        </div>
 
-    <div class="text-center mt-8">
-      <button
-        type="submit"
-        [disabled]="!isFormValid() || isSubmitting"
-        class="bg-blue-600 text-white px-6 py-3 rounded-lg text-base cursor-pointer transition-all duration-300 ease-in-out inline-flex items-center justify-center min-w-48 hover:bg-blue-700 hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
-      >
-        <span *ngIf="!isSubmitting">Submit Suggestion</span>
-        <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" *ngIf="isSubmitting"></div>
-      </button>
-    </div>
+        <!-- Error Message -->
+        <div class="text-red-500 text-sm text-center mt-4" *ngIf="submitError">
+          {{ submitError }}
+        </div>
 
-    <div class="text-red-500 text-sm mt-4 text-center" *ngIf="submitError">
-      {{ submitError }}
+        <!-- Success Message -->
+        <div class="text-green-600 text-sm text-center bg-green-50 p-4 rounded-xl border border-green-200 mt-4" *ngIf="submitSuccess">
+          {{ submitSuccess }}
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div> 

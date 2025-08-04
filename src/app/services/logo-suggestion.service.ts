@@ -26,9 +26,16 @@ export class LogoSuggestionService {
       const teamName = formData.get('teamName') as string;
       const eps = formData.get('eps') as string;
       const url = formData.get('url') as string;
+      
+      console.log('Processing submission:', { submitterEmail, teamName, eps, url });
 
       // 1. Send notification to admin with all details
-      const adminResponse = await this.sendAdminNotification(submitterEmail, teamName, eps, url);
+      const adminResponse = await this.sendAdminNotification(
+        submitterEmail, 
+        teamName, 
+        eps, 
+        url
+      );
       console.log('Admin notification sent:', adminResponse);
 
       try {
@@ -47,24 +54,36 @@ export class LogoSuggestionService {
     }
   }
 
-  private async sendAdminNotification(submitterEmail: string, teamName: string, eps: string, url: string): Promise<any> {
-    const params = {
+  private async sendAdminNotification(
+    submitterEmail: string, 
+    teamName: string, 
+    eps: string, 
+    url: string
+  ): Promise<any> {
+    const params: any = {
       to_email: this.ADMIN_EMAIL,
       from_name: 'Logo Submission System',
       submitter_email: submitterEmail,
       team_name: teamName,
       eps: eps,
-      url: url,
-      reply_to: submitterEmail // Ensure admin can reply to submitter
+      url: url
+      // Removed reply_to to fix mail delivery issues
     };
 
-    console.log('Sending admin notification with:', params);
+    console.log('Sending admin notification with params:', params);
 
-    return emailjs.send(
-      this.EMAILJS_SERVICE_ID,
-      this.ADMIN_TEMPLATE_ID,
-      params
-    );
+    try {
+      const result = await emailjs.send(
+        this.EMAILJS_SERVICE_ID,
+        this.ADMIN_TEMPLATE_ID,
+        params
+      );
+      console.log('EmailJS send result:', result);
+      return result;
+    } catch (error) {
+      console.error('EmailJS send error:', error);
+      throw error;
+    }
   }
 
   private async sendThankYouEmail(submitterEmail: string, teamName: string, eps: string): Promise<any> {
@@ -73,16 +92,23 @@ export class LogoSuggestionService {
       to_name: submitterEmail, // Use email as name if no name provided
       from_name: 'Greek Football Logos',
       team_name: teamName,
-      eps: eps,
-      reply_to: this.ADMIN_EMAIL // Ensure user can reply to admin
+      eps: eps
+      // Removed reply_to to fix mail delivery issues
     };
 
     console.log('Sending thank you email with:', params);
 
-    return emailjs.send(
-      this.EMAILJS_SERVICE_ID,
-      this.THANK_YOU_TEMPLATE_ID,
-      params
-    );
+    try {
+      const result = await emailjs.send(
+        this.EMAILJS_SERVICE_ID,
+        this.THANK_YOU_TEMPLATE_ID,
+        params
+      );
+      console.log('Thank you email result:', result);
+      return result;
+    } catch (error) {
+      console.error('Thank you email error:', error);
+      throw error;
+    }
   }
 } 
