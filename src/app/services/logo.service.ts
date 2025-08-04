@@ -68,20 +68,65 @@ export class LogoService {
     let generatedId = teamIdMap[name];
     
     if (!generatedId) {
-      // Generate a unique ID based on the name
-      generatedId = name
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
-        .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens
-        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
-      
-      // Add a hash to ensure uniqueness
-      const hash = this.hashCode(name);
-      generatedId = `${generatedId}-${hash}`;
+      // Generate a consistent ID based on the name
+      generatedId = this.generateConsistentId(name);
     }
     
     return generatedId;
+  }
+
+  private generateConsistentId(name: string): string {
+    // Convert to lowercase and normalize
+    let id = name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+      .replace(/[^a-z0-9α-ωά-ώ]+/g, '-') // Replace non-alphanumeric with hyphens, keep Greek letters
+      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+    
+    // Handle common Greek team name patterns
+    id = id
+      .replace(/^αο-/, '') // Remove "αο-" prefix
+      .replace(/^αε-/, 'ae-') // Convert "αε-" to "ae-"
+      .replace(/^ασ-/, 'as-') // Convert "ασ-" to "as-"
+      .replace(/^απσ-/, 'aps-') // Convert "απσ-" to "aps-"
+      .replace(/^απο-/, 'apo-') // Convert "απο-" to "apo-"
+      .replace(/^γσ-/, 'gs-') // Convert "γσ-" to "gs-"
+      .replace(/^γσσ-/, 'gss-') // Convert "γσσ-" to "gss-"
+      .replace(/^παε-/, 'pae-') // Convert "παε-" to "pae-"
+      .replace(/^παο-/, 'pao-') // Convert "παο-" to "pao-"
+      .replace(/^πασ-/, 'pas-') // Convert "πασ-" to "pas-"
+      .replace(/^πσ-/, 'ps-') // Convert "πσ-" to "ps-"
+      .replace(/^σφπ-/, 'sfp-') // Convert "σφπ-" to "sfp-"
+      .replace(/^νπσ-/, 'nps-') // Convert "νπσ-" to "nps-"
+      .replace(/^μγσ-/, 'mgs-') // Convert "μγσ-" to "mgs-"
+      .replace(/^μγσκ-/, 'mgsk-') // Convert "μγσκ-" to "mgsk-"
+      .replace(/^οφπφ-/, 'ofpf-') // Convert "οφπφ-" to "ofpf-"
+      .replace(/^γαμσ-/, 'gams-') // Convert "γαμσ-" to "gams-"
+      .replace(/^γασ-/, 'gas-') // Convert "γασ-" to "gas-"
+      .replace(/^γε-/, 'ge-') // Convert "γε-" to "ge-"
+      .replace(/^γπσ-/, 'gps-') // Convert "γπσ-" to "gps-"
+      .replace(/^αομ-/, 'aom-') // Convert "αομ-" to "aom-"
+      .replace(/^ηρακλης-/, 'iraklis-') // Convert "ηρακλης" to "iraklis"
+      .replace(/^παναθηναικος/, 'panathinaikos') // Convert "παναθηναικος" to "panathinaikos"
+      .replace(/^ολυμπιακος/, 'olympiakos') // Convert "ολυμπιακος" to "olympiakos"
+      .replace(/^παοκ/, 'paok') // Convert "παοκ" to "paok"
+      .replace(/^αεκ/, 'aek') // Convert "αεκ" to "aek"
+      .replace(/^αρης/, 'aris') // Convert "αρης" to "aris"
+      .replace(/^λαμια/, 'lamia') // Convert "λαμια" to "lamia"
+      .replace(/^οφη/, 'ofi') // Convert "οφη" to "ofi"
+      .replace(/^βολος/, 'volos') // Convert "βολος" to "volos"
+      .replace(/^αστερας-/, 'asteras-') // Convert "αστερας" to "asteras"
+      .replace(/^παναιτωλικος/, 'panetolikos') // Convert "παναιτωλικος" to "panetolikos"
+      .replace(/^ατρομητος/, 'atromitos') // Convert "ατρομητος" to "atromitos"
+      .replace(/^πανσερραικος/, 'panserraikos') // Convert "πανσερραικος" to "panserraikos"
+      .replace(/^καλλιθεα/, 'kallithea') // Convert "καλλιθεα" to "kallithea"
+      .replace(/^λεβαδιακος/, 'levadiakos'); // Convert "λεβαδιακος" to "levadiakos"
+    
+    // Clean up any remaining multiple hyphens
+    id = id.replace(/-+/g, '-');
+    
+    return id;
   }
 
   private hashCode(str: string): number {
