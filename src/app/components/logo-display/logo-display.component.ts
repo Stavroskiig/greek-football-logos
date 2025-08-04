@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LogoService } from '../../services/logo.service';
+import { StructuredDataService } from '../../services/structured-data.service';
 import { Observable, combineLatest, map } from 'rxjs';
 import { LogoItemComponent } from '../logo-item/logo-item.component';
 import { LeagueSelectorComponent } from '../league-selector/league-selector.component';
@@ -19,13 +20,25 @@ export class LogoDisplayComponent implements OnInit {
   logos$: Observable<Logo[]>;
   leagues$: Observable<string[]>;
 
-  constructor(private logoService: LogoService) {
+  constructor(
+    private logoService: LogoService,
+    private structuredDataService: StructuredDataService
+  ) {
     this.logos$ = this.logoService.getLogos();
     this.leagues$ = this.logoService.getLeagues();
   }
 
   ngOnInit() {
     this.applyFilters();
+    this.injectStructuredData();
+  }
+
+  private injectStructuredData(): void {
+    // Inject website and organization structured data
+    this.structuredDataService.injectMultipleStructuredData([
+      this.structuredDataService.generateWebsiteStructuredData(),
+      this.structuredDataService.generateOrganizationStructuredData()
+    ]);
   }
 
   applyFilters() {

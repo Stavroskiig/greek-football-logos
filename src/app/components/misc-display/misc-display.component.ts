@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LogoService } from '../../services/logo.service';
 import { TagService } from '../../services/tag.service';
+import { StructuredDataService } from '../../services/structured-data.service';
 import { Observable, combineLatest, map, of } from 'rxjs';
 import { LogoItemComponent } from '../logo-item/logo-item.component';
 import { TagSelectorComponent } from '../tag-selector/tag-selector.component';
@@ -22,7 +23,8 @@ export class MiscDisplayComponent implements OnInit {
 
   constructor(
     private logoService: LogoService,
-    private tagService: TagService
+    private tagService: TagService,
+    private structuredDataService: StructuredDataService
   ) {
     // Start with empty results by default
     this.logos$ = of([]);
@@ -32,7 +34,16 @@ export class MiscDisplayComponent implements OnInit {
     this.logoService.getLogosManifest().subscribe(logos => {
       this.allLogos = logos;
       this.applyFilters();
+      this.injectStructuredData(logos);
     });
+  }
+
+  private injectStructuredData(logos: TeamLogo[]): void {
+    // Inject search page and collection structured data
+    this.structuredDataService.injectMultipleStructuredData([
+      this.structuredDataService.generateSearchPageStructuredData(),
+      this.structuredDataService.generateCollectionStructuredData(logos)
+    ]);
   }
 
   applyFilters() {

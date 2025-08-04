@@ -7,6 +7,8 @@ import { ImageModalComponent } from './components/image-modal/image-modal.compon
 import { FooterComponent } from "./components/footer/footer.component";
 import { ChangeManagerComponent } from './components/change-manager/change-manager.component';
 import { ServerStatusComponent } from './components/server-status/server-status.component';
+import { SeoService } from './services/seo.service';
+import { StructuredDataService } from './services/structured-data.service';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +33,11 @@ import { ServerStatusComponent } from './components/server-status/server-status.
   `]
 })
 export class AppComponent {
-  constructor(public modalService: ModalService) {}
+  constructor(
+    public modalService: ModalService,
+    private seoService: SeoService,
+    private structuredDataService: StructuredDataService
+  ) {}
 
   title = 'greek-football-logos';
 }

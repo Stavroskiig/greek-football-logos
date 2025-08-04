@@ -6,6 +6,7 @@ import { TagService } from '../../services/tag.service';
 import { TagStorageService } from '../../services/tag-storage.service';
 import { AdminService } from '../../services/admin.service';
 import { LogoService } from '../../services/logo.service';
+import { StructuredDataService } from '../../services/structured-data.service';
 import { TeamLogo } from '../../models/team-logo';
 import { FileManagerComponent } from '../file-manager/file-manager.component';
 
@@ -33,6 +34,7 @@ export class TagManagerComponent implements OnInit {
     private tagStorage: TagStorageService,
     private adminService: AdminService,
     private logoService: LogoService,
+    private structuredDataService: StructuredDataService,
     private router: Router
   ) {}
 
@@ -43,6 +45,14 @@ export class TagManagerComponent implements OnInit {
       return;
     }
     this.loadData();
+    this.injectStructuredData();
+  }
+
+  private injectStructuredData(): void {
+    // Inject tag manager structured data
+    this.structuredDataService.injectStructuredData(
+      this.structuredDataService.generateTagManagerStructuredData()
+    );
   }
 
   loadData() {

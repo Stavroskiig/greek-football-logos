@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://greek-football-logos.site/sitemap.xml
+
+# Disallow admin areas
+Disallow: /tag-manager
+Disallow: /admin-login
+
+# Allow important pages
+Allow: /
+Allow: /misc
+Allow: /team/
+
+# Crawl delay (optional)
+Crawl-delay: 1 
