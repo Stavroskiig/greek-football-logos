@@ -129,30 +129,36 @@ export class StructuredDataService {
   }
 
   injectStructuredData(data: object): void {
-    // Remove existing structured data
-    const existingScript = document.querySelector('script[type="application/ld+json"]');
-    if (existingScript) {
-      existingScript.remove();
-    }
+    // Check if we're in a browser environment
+    if (typeof document !== 'undefined') {
+      // Remove existing structured data
+      const existingScript = document.querySelector('script[type="application/ld+json"]');
+      if (existingScript) {
+        existingScript.remove();
+      }
 
-    // Add new structured data
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.textContent = JSON.stringify(data);
-    document.head.appendChild(script);
-  }
-
-  injectMultipleStructuredData(dataArray: object[]): void {
-    // Remove existing structured data
-    const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
-    existingScripts.forEach(script => script.remove());
-
-    // Add new structured data
-    dataArray.forEach(data => {
+      // Add new structured data
       const script = document.createElement('script');
       script.type = 'application/ld+json';
       script.textContent = JSON.stringify(data);
       document.head.appendChild(script);
-    });
+    }
+  }
+
+  injectMultipleStructuredData(dataArray: object[]): void {
+    // Check if we're in a browser environment
+    if (typeof document !== 'undefined') {
+      // Remove existing structured data
+      const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
+      existingScripts.forEach(script => script.remove());
+
+      // Add new structured data
+      dataArray.forEach(data => {
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(data);
+        document.head.appendChild(script);
+      });
+    }
   }
 } 

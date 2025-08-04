@@ -6,11 +6,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Serve static files from the dist directory
-app.use(express.static(path.join(__dirname, 'dist/greek-football-logos')));
+app.use(express.static(path.join(__dirname, 'dist/greek-football-logos/browser')));
 
 // Serve sitemap.xml with correct MIME type
 app.get('/sitemap.xml', (req, res) => {
-  const sitemapPath = path.join(__dirname, 'dist/greek-football-logos/sitemap.xml');
+  const sitemapPath = path.join(__dirname, 'dist/greek-football-logos/browser/sitemap.xml');
   
   if (fs.existsSync(sitemapPath)) {
     res.setHeader('Content-Type', 'application/xml');
@@ -22,7 +22,7 @@ app.get('/sitemap.xml', (req, res) => {
 
 // Serve robots.txt with correct MIME type
 app.get('/robots.txt', (req, res) => {
-  const robotsPath = path.join(__dirname, 'dist/greek-football-logos/robots.txt');
+  const robotsPath = path.join(__dirname, 'dist/greek-football-logos/browser/robots.txt');
   
   if (fs.existsSync(robotsPath)) {
     res.setHeader('Content-Type', 'text/plain');
@@ -34,7 +34,7 @@ app.get('/robots.txt', (req, res) => {
 
 // Handle all other routes by serving the Angular app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/greek-football-logos/index.html'));
+  res.sendFile(path.join(__dirname, 'dist/greek-football-logos/browser/index.html'));
 });
 
 app.listen(PORT, () => {

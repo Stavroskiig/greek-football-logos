@@ -31,14 +31,20 @@ export class TagStorageService {
   private hasPendingAvailableTagChanges = false;
 
   constructor(private http: HttpClient, private fileSaveService: FileSaveService) {
-    this.loadFromStorage();
-    // Initialize with defaults if no data exists
-    if (!localStorage.getItem(this.STORAGE_KEY)) {
-      this.resetToDefaults();
+    // Check if we're running on the server side
+    if (typeof window !== 'undefined' && window.localStorage) {
+      this.loadFromStorage();
+      // Initialize with defaults if no data exists
+      if (!localStorage.getItem(this.STORAGE_KEY)) {
+        this.resetToDefaults();
+      }
     }
     
     // Always load the latest data from external files to ensure consistency
-    this.loadExternalData();
+    // Only load external data in browser environment (not during SSR)
+    if (typeof window !== 'undefined') {
+      this.loadExternalData();
+    }
   }
 
   private loadExternalData(): void {
@@ -65,10 +71,12 @@ export class TagStorageService {
 
   private loadFromStorage(): void {
     try {
-      const stored = localStorage.getItem(this.STORAGE_KEY);
-      if (stored) {
-        const data: TagData = JSON.parse(stored);
-        this.tagDataSubject.next(data);
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const stored = localStorage.getItem(this.STORAGE_KEY);
+        if (stored) {
+          const data: TagData = JSON.parse(stored);
+          this.tagDataSubject.next(data);
+        }
       }
     } catch (error) {
       console.error('Error loading tag data from storage:', error);
@@ -125,7 +133,9 @@ export class TagStorageService {
 
   private saveToStorage(data: TagData): void {
     try {
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+      }
       this.tagDataSubject.next(data);
     } catch (error) {
       console.error('Error saving tag data to storage:', error);

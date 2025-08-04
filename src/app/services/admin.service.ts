@@ -9,12 +9,16 @@ export class AdminService {
   private readonly ADMIN_KEY = 'greek_football_admin';
 
   constructor() {
-    this.checkAdminStatus();
+    if (typeof window !== 'undefined' && window.localStorage) {
+      this.checkAdminStatus();
+    }
   }
 
   private checkAdminStatus(): void {
-    const adminStatus = localStorage.getItem(this.ADMIN_KEY);
-    this.isAdminSubject.next(adminStatus === 'true');
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const adminStatus = localStorage.getItem(this.ADMIN_KEY);
+      this.isAdminSubject.next(adminStatus === 'true');
+    }
   }
 
   isAdmin(): boolean {
@@ -29,7 +33,9 @@ export class AdminService {
     // Simple password check - you can change this to any password you want
     const correctPassword = 'admin123'; // Change this to your preferred password
     if (password === correctPassword) {
-      localStorage.setItem(this.ADMIN_KEY, 'true');
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem(this.ADMIN_KEY, 'true');
+      }
       this.isAdminSubject.next(true);
       return true;
     }
@@ -37,7 +43,9 @@ export class AdminService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.ADMIN_KEY);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem(this.ADMIN_KEY);
+    }
     this.isAdminSubject.next(false);
   }
 } 
