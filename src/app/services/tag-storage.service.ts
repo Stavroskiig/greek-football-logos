@@ -35,19 +35,32 @@ export class TagStorageService {
     // Initialize with defaults if no data exists
     if (!localStorage.getItem(this.STORAGE_KEY)) {
       this.resetToDefaults();
-    } else {
-      // Load available tags from external file to keep in sync
+    }
+    
+    // Always load the latest data from external files to ensure consistency
+    this.loadExternalData();
+  }
+
+  private loadExternalData(): void {
+    // Load both team tags and available tags from external files
+    this.loadTeamTagsFromFile().subscribe(teamTags => {
       this.loadAvailableTagsFromFile().subscribe(availableTags => {
-        if (availableTags.length > 0) {
-          const currentData = this.getCurrentTagData();
-          const updatedData: TagData = {
-            ...currentData,
-            availableTags: availableTags
-          };
+        const currentData = this.getCurrentTagData();
+        const updatedData: TagData = {
+          availableTags: availableTags.length > 0 ? availableTags : currentData.availableTags,
+          teamTags: Object.keys(teamTags).length > 0 ? teamTags : currentData.teamTags
+        };
+        
+        // Only update if we have external data
+        if (availableTags.length > 0 || Object.keys(teamTags).length > 0) {
           this.saveToStorage(updatedData);
+          console.log('✅ Loaded external tag data:', {
+            availableTags: availableTags.length,
+            teamTags: Object.keys(teamTags).length
+          });
         }
       });
-    }
+    });
   }
 
   private loadFromStorage(): void {
@@ -84,10 +97,13 @@ export class TagStorageService {
     this.fileSaveService.saveTeamTags(teamTags).subscribe(
       success => {
         if (success) {
-          console.log('Team tags saved to external file successfully');
+          console.log('✅ Team tags saved to external file successfully');
         } else {
-          console.error('Failed to save team tags to external file');
+          console.warn('⚠️ Failed to save team tags to external file (server may be offline)');
         }
+      },
+      error => {
+        console.warn('⚠️ Server offline - team tags saved to localStorage only:', error);
       }
     );
   }
@@ -96,10 +112,13 @@ export class TagStorageService {
     this.fileSaveService.saveAvailableTags(availableTags).subscribe(
       success => {
         if (success) {
-          console.log('Available tags saved to external file successfully');
+          console.log('✅ Available tags saved to external file successfully');
         } else {
-          console.error('Failed to save available tags to external file');
+          console.warn('⚠️ Failed to save available tags to external file (server may be offline)');
         }
+      },
+      error => {
+        console.warn('⚠️ Server offline - available tags saved to localStorage only:', error);
       }
     );
   }
@@ -358,5 +377,17 @@ export class TagStorageService {
   downloadTeamTagsFile(): void {
     const currentData = this.getCurrentTagData();
     this.fileSaveService.downloadTeamTagsFile(currentData.teamTags);
+  }
+
+  // Check if server is online
+  isServerOnline(): Observable<boolean> {
+    return this.http.get<boolean>('/api/health').pipe(
+      catchError(() => of(false))
+    );
+  }
+
+  // Get server status message
+  getServerStatusMessage(): string {
+    return 'Server is offline - changes will be saved to browser storage only. Start the server locally to sync with files.';
   }
 } 

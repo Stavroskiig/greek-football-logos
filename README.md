@@ -54,6 +54,39 @@ ng e2e
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
+## Tag Management Server
+
+The application includes a Node.js backend server for managing tag data. The server handles saving and loading team tags and available tags to/from JSON files.
+
+### Starting the Backend Server
+
+To start the backend server, run:
+
+```bash
+node server.js
+```
+
+The server will start on `http://localhost:3000` and provide the following endpoints:
+- `POST /api/team-tags` - Save team tags
+- `GET /api/team-tags` - Get team tags
+- `POST /api/available-tags` - Save available tags
+- `GET /api/available-tags` - Get available tags
+- `GET /api/health` - Health check
+
+### Server Offline Mode
+
+When the backend server is offline:
+- Tag data is loaded from the included JSON files in `src/assets/data/`
+- Changes are saved to browser localStorage only
+- A server status indicator appears in the bottom-right corner
+- The application continues to work normally, but changes won't persist to files
+
+### Data Files
+
+The application uses these data files:
+- `src/assets/data/team-tags.json` - Team-specific tags
+- `src/assets/data/available-tags.json` - Available tags for selection
+
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
