@@ -52,6 +52,10 @@ export class QuizMenuComponent implements OnInit {
     this.showSettings = !this.showSettings;
     if (this.showSettings) {
       this.showStats = false;
+      // Scroll to settings section after a brief delay to ensure DOM is updated
+      setTimeout(() => {
+        this.scrollToSection('settings-section');
+      }, 100);
     }
   }
 
@@ -59,6 +63,20 @@ export class QuizMenuComponent implements OnInit {
     this.showStats = !this.showStats;
     if (this.showStats) {
       this.showSettings = false;
+      // Scroll to stats section after a brief delay to ensure DOM is updated
+      setTimeout(() => {
+        this.scrollToSection('stats-section');
+      }, 100);
+    }
+  }
+
+  private scrollToSection(sectionId: string) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+      });
     }
   }
 
