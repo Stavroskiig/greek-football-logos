@@ -1,15 +1,18 @@
 /* Quiz Game Component Styles */
 
 .selected {
-  @apply border-blue-500 bg-blue-50;
+  border-color: #3b82f6;
+  background-color: #eff6ff;
 }
 
 .correct {
-  @apply border-green-500 bg-green-50;
+  border-color: #22c55e;
+  background-color: #f0fdf4;
 }
 
 .incorrect {
-  @apply border-red-500 bg-red-50;
+  border-color: #ef4444;
+  background-color: #fef2f2;
 }
 
 /* Smooth transitions for answer buttons */
@@ -156,9 +159,10 @@ button:hover:not(:disabled) {
   transition: filter 0.3s ease-in-out;
 }
 
-.logo-blur:hover {
+/* Remove hover effect that clears blur */
+/* .logo-blur:hover {
   filter: blur(1px);
-}
+} */
 
 /* Different blur levels based on difficulty */
 .logo-blur-easy {
@@ -177,7 +181,12 @@ button:hover:not(:disabled) {
   filter: blur(3px);
 }
 
-/* Hover effect for blurred logos */
-img[style*="blur"]:hover {
+/* Show logo without blur after answer submission */
+.logo-no-blur {
+  filter: none !important;
+}
+
+/* Remove hover effect for blurred logos */
+/* img[style*="blur"]:hover {
   filter: blur(1px) !important;
-} 
+} */ 
