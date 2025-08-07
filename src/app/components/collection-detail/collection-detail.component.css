@@ -230,10 +230,14 @@
 
 .logo-image {
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
 }
 
 .logo-image img {
-  width: 100%;
+  width: auto;
   height: auto;
   max-width: 120px;
   max-height: 120px;
