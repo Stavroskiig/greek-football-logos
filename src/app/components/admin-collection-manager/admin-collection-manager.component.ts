@@ -280,4 +280,8 @@ export class AdminCollectionManagerComponent implements OnInit {
   formatDate(date: Date): string {
     return new Date(date).toLocaleDateString();
   }
+
+  exportCollections(): void {
+    this.collectionService.exportCurrentCollections();
+  }
 } 

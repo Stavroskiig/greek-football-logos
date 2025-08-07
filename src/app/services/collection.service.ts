@@ -1,22 +1,47 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, catchError } from 'rxjs/operators';
 import { Collection } from '../models/collection';
 import { TeamLogo } from '../models/team-logo';
 import { LogoService } from './logo.service';
+import { CollectionFileService } from './collection-file.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CollectionService {
   private collectionsSubject = new BehaviorSubject<Collection[]>([]);
-  private readonly STORAGE_KEY = 'logo_collections';
+  private readonly STORAGE_KEY = 'logo_collections_temp';
+  private hasFileData = false;
 
-  constructor(private logoService: LogoService) {
+  constructor(
+    private logoService: LogoService,
+    private collectionFileService: CollectionFileService
+  ) {
     this.loadCollections();
   }
 
   private loadCollections(): void {
+    // First try to load from file
+    this.collectionFileService.loadCollectionsFromFile().subscribe(
+      (fileCollections) => {
+        if (fileCollections.length > 0) {
+          this.collectionsSubject.next(fileCollections);
+          this.hasFileData = true;
+          console.log('Collections loaded from file');
+        } else {
+          // Fallback to localStorage or defaults
+          this.loadFromLocalStorage();
+        }
+      },
+      (error) => {
+        console.error('Error loading from file, falling back to localStorage:', error);
+        this.loadFromLocalStorage();
+      }
+    );
+  }
+
+  private loadFromLocalStorage(): void {
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       if (stored) {
@@ -26,19 +51,26 @@ export class CollectionService {
           updatedAt: new Date(collection.updatedAt)
         }));
         this.collectionsSubject.next(collections);
+        console.log('Collections loaded from localStorage');
       } else {
         // Initialize with default collections if no stored data
         this.initializeDefaultCollections();
       }
     } catch (error) {
-      console.error('Error loading collections:', error);
+      console.error('Error loading collections from localStorage:', error);
       this.initializeDefaultCollections();
     }
   }
 
   private saveCollections(collections: Collection[]): void {
     try {
+      // Always save to localStorage as temporary storage
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(collections));
+      
+      // If we have file data, also export to file
+      if (this.hasFileData) {
+        this.collectionFileService.exportCollectionsToFile(collections);
+      }
     } catch (error) {
       console.error('Error saving collections:', error);
     }
@@ -201,11 +233,20 @@ export class CollectionService {
     );
   }
 
+  exportCurrentCollections(): void {
+    const currentCollections = this.collectionsSubject.value;
+    this.collectionFileService.exportCollectionsToFile(currentCollections);
+  }
+
+  getFileInstructions(): string {
+    return this.collectionFileService.getCollectionsFileContent();
+  }
+
   private generateId(): string {
     return 'collection_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
   }
 
-  // Initialize with pre-defined collections
+  // Initialize with pre-defined collections (fallback only)
   private initializeDefaultCollections(): void {
     const defaultCollections: Collection[] = [
       {

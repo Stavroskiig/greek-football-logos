@@ -1,0 +1,60 @@
+{
+  "collections": [
+    {
+      "id": "big-4-teams",
+      "name": "Big 4 Teams",
+      "description": "The four most successful teams in Greek football history - Panathinaikos, AEK Athens, PAOK, and Olympiacos. These teams have dominated Greek football for decades and have the largest fan bases in the country.",
+      "logoIds": ["panathinaikos", "aek", "paok", "olympiakos"],
+      "tags": ["big-4", "superleague", "classic", "major-teams"],
+      "isPublic": true,
+      "featured": true,
+      "coverImage": "/assets/logos/panathinaikos.png",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "athens-teams",
+      "name": "Athens Teams",
+      "description": "Football clubs based in Athens and surrounding areas. The capital city is home to many historic clubs including Panathinaikos, AEK Athens, and several other teams from the greater Athens area.",
+      "logoIds": ["panathinaikos", "aek", "atromitos", "kallithea", "panionios"],
+      "tags": ["athens", "capital", "central-greece", "attica"],
+      "isPublic": true,
+      "featured": false,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "thessaloniki-teams",
+      "name": "Thessaloniki Teams",
+      "description": "Football clubs from Thessaloniki and northern Greece. The second largest city in Greece has a rich football tradition with teams like PAOK and Aris Thessaloniki.",
+      "logoIds": ["paok", "aris", "panserraikos"],
+      "tags": ["thessaloniki", "northern-greece", "macedonia"],
+      "isPublic": true,
+      "featured": false,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "superleague-classic",
+      "name": "Super League Classic",
+      "description": "Traditional teams that have been part of the Greek Super League for many years. These clubs represent the backbone of Greek football with rich histories and loyal fan bases.",
+      "logoIds": ["olympiakos", "panathinaikos", "aek", "paok", "aris", "ofi"],
+      "tags": ["superleague", "classic", "traditional", "historic"],
+      "isPublic": true,
+      "featured": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cup-winners",
+      "name": "Greek Cup Winners",
+      "description": "Teams that have won the Greek Cup multiple times throughout their history. The Greek Cup is one of the most prestigious domestic competitions in Greek football.",
+      "logoIds": ["olympiakos", "panathinaikos", "aek", "paok", "aris"],
+      "tags": ["cup-winners", "trophies", "success", "prestigious"],
+      "isPublic": true,
+      "featured": false,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+} 
