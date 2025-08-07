@@ -67,9 +67,9 @@ export class CollectionService {
       // Always save to localStorage as temporary storage
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(collections));
       
-      // If we have file data, also export to file
+      // If we have file data, also export to file automatically
       if (this.hasFileData) {
-        this.collectionFileService.exportCollectionsToFile(collections);
+        this.collectionFileService.exportCollectionsToFile(collections, true);
       }
     } catch (error) {
       console.error('Error saving collections:', error);
