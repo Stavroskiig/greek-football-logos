@@ -83,24 +83,27 @@ export class QuizService {
     const difficulty = this.getDifficulty(logo, settings.difficulty);
     const points = this.getPointsForDifficulty(difficulty);
     
+    // Filter logos based on difficulty for options
+    const filteredLogos = this.filterLogosByDifficulty(allLogos, settings.difficulty);
+    
     let options: string[];
     let correctAnswer: string;
     
     if (settings.mode === 'guess-team') {
       correctAnswer = logo.name;
-      options = this.generateTeamOptions(logo, allLogos);
+      options = this.generateTeamOptions(logo, filteredLogos);
     } else if (settings.mode === 'guess-league') {
       correctAnswer = logo.league || 'Unknown';
-      options = this.generateLeagueOptions(logo, allLogos);
+      options = this.generateLeagueOptions(logo, filteredLogos);
     } else {
       // Mixed mode - randomly choose between team and league
       const isTeamQuestion = Math.random() > 0.5;
       if (isTeamQuestion) {
         correctAnswer = logo.name;
-        options = this.generateTeamOptions(logo, allLogos);
+        options = this.generateTeamOptions(logo, filteredLogos);
       } else {
         correctAnswer = logo.league || 'Unknown';
-        options = this.generateLeagueOptions(logo, allLogos);
+        options = this.generateLeagueOptions(logo, filteredLogos);
       }
     }
     

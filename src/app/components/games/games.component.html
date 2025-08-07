@@ -1,0 +1,78 @@
+<div class="min-h-screen">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <div class="mb-6">
+        <div class="w-24 h-24 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">Game Center</h1>
+        <p class="text-xl text-gray-600">Discover and play exciting games with Greek football logos!</p>
+      </div>
+    </div>
+
+    <!-- Games Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <div 
+        *ngFor="let game of games" 
+        class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer"
+        (click)="navigateToGame(game)"
+      >
+        <!-- Game Card -->
+        <div class="p-6">
+          <!-- Status Badge -->
+          <div class="flex justify-between items-start mb-4">
+            <div class="text-4xl">{{ game.icon }}</div>
+            <span 
+              class="px-3 py-1 rounded-full text-xs font-medium"
+              [class]="getStatusBadgeClass(game.status)"
+            >
+              {{ getStatusText(game.status) }}
+            </span>
+          </div>
+
+          <!-- Game Info -->
+          <div class="mb-4">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">{{ game.title }}</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">{{ game.description }}</p>
+          </div>
+
+          <!-- Game Details -->
+          <div class="space-y-2 mb-6">
+            <div class="flex items-center text-xs text-gray-500">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              {{ game.difficulty }}
+            </div>
+            <div class="flex items-center text-xs text-gray-500">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+              </svg>
+              {{ game.players }}
+            </div>
+          </div>
+
+          <!-- Action Button -->
+          <div class="relative">
+            <div 
+              class="w-full py-3 px-4 rounded-xl font-medium text-center transition-all duration-300"
+              [class]="game.status === 'active' ? 'bg-gradient-to-r ' + game.color + ' text-white hover:shadow-lg' : 'bg-gray-100 text-gray-500'"
+            >
+              <span *ngIf="game.status === 'active'">Play Now</span>
+              <span *ngIf="game.status === 'coming-soon'">Coming Soon</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hover Effect Overlay -->
+        <div 
+          class="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+          [class]="game.bgColor"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div> 
