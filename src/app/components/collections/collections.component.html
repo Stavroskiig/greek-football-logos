@@ -1,0 +1,66 @@
+<div class="collections-container">
+  <div class="collections-header">
+    <h1>Logo Collections</h1>
+    <p>Explore curated collections of Greek football team logos</p>
+  </div>
+
+  <div class="search-section">
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="Search collections..."
+        class="search-input"
+      />
+      <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="collections-grid" *ngIf="filteredCollections.length > 0">
+    <div
+      *ngFor="let collection of filteredCollections"
+      class="collection-card"
+      (click)="viewCollection(collection.id)"
+    >
+      <div class="card-header">
+        <h3 class="collection-name">{{ collection.name }}</h3>
+        <div class="collection-meta">
+          <span class="logo-count">{{ collection.logoIds.length }} logos</span>
+          <span class="featured-badge" *ngIf="collection.featured">Featured</span>
+        </div>
+      </div>
+      
+      <div class="card-body">
+        <p class="collection-description">{{ getCollectionPreview(collection) }}</p>
+        
+        <div class="tags-container">
+          <span
+            *ngFor="let tag of collection.tags"
+            class="tag"
+            [ngClass]="getTagClass(tag)"
+          >
+            {{ tag }}
+          </span>
+        </div>
+      </div>
+      
+      <div class="card-footer">
+        <span class="created-date">Created {{ collection.createdAt | date:'shortDate' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="filteredCollections.length === 0">
+    <div class="empty-icon">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+      </svg>
+    </div>
+    <h3>No collections found</h3>
+    <p *ngIf="searchTerm">Try adjusting your search terms</p>
+    <p *ngIf="!searchTerm">No collections are available at the moment</p>
+  </div>
+</div> 

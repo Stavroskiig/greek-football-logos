@@ -1,0 +1,45 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Admin Panel</h1>
+        <p>Manage collections and tags for the Greek Football Logos application</p>
+      </div>
+      <button (click)="logout()" class="logout-btn">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+        </svg>
+        Logout
+      </button>
+    </div>
+  </div>
+
+  <div class="admin-navigation">
+    <nav class="admin-tabs">
+      <a 
+        routerLink="/admin/collections" 
+        routerLinkActive="active"
+        class="admin-tab"
+      >
+        <svg class="tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+        </svg>
+        Collection Management
+      </a>
+      <a 
+        routerLink="/admin/tags" 
+        routerLinkActive="active"
+        class="admin-tab"
+      >
+        <svg class="tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+        </svg>
+        Tag Management
+      </a>
+    </nav>
+  </div>
+
+  <div class="admin-content">
+    <router-outlet></router-outlet>
+  </div>
+</div> 

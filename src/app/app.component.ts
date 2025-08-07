@@ -29,6 +29,7 @@ import { StructuredDataService } from './services/structured-data.service';
       padding: 2rem;
       max-width: 1200px;
       margin: 0 auto;
+      min-height: calc(100vh - 200px);
     }
   `]
 })

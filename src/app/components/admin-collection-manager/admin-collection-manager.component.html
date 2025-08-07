@@ -1,0 +1,364 @@
+<div class="admin-collection-manager">
+  <div class="manager-header">
+    <h2>Collection Management</h2>
+    <button (click)="showCreateCollection()" class="create-btn">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+      </svg>
+      Create New Collection
+    </button>
+  </div>
+
+  <!-- Create Collection Form -->
+  <div class="form-section" *ngIf="showCreateForm">
+    <div class="form-card">
+      <h3>Create New Collection</h3>
+      
+      <div class="form-group">
+        <label for="createName">Collection Name *</label>
+        <input 
+          id="createName"
+          type="text" 
+          [(ngModel)]="newCollection.name"
+          placeholder="Enter collection name..."
+          class="form-input"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="createDescription">Description</label>
+        <textarea 
+          id="createDescription"
+          [(ngModel)]="newCollection.description"
+          placeholder="Describe your collection..."
+          class="form-textarea"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Tags</label>
+        <div class="tags-input">
+          <input 
+            type="text" 
+            [(ngModel)]="newTag"
+            (keyup.enter)="addTagToCreate()"
+            placeholder="Add tags..."
+            class="tag-input"
+          >
+          <button (click)="addTagToCreate()" class="add-tag-btn">Add</button>
+        </div>
+        <div class="tags-display" *ngIf="newCollection.tags.length > 0">
+          <span 
+            *ngFor="let tag of newCollection.tags" 
+            class="tag tag-light"
+          >
+            {{ tag }}
+            <button (click)="removeTagFromCreate(tag)" class="remove-tag">×</button>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Logos</label>
+        <div class="logo-search">
+          <div class="search-filters">
+            <input 
+              type="text" 
+              [(ngModel)]="searchTerm"
+              (input)="onSearchChange()"
+              placeholder="Search logos to add..."
+              class="search-input"
+            >
+            <select 
+              [(ngModel)]="selectedLeague"
+              (change)="onLeagueChange()"
+              class="league-filter"
+            >
+              <option value="">All Leagues</option>
+              <option *ngFor="let league of availableLeagues" [value]="league">
+                {{ league }}
+              </option>
+            </select>
+            <button 
+              (click)="clearFilters()" 
+              class="clear-filters-btn"
+              *ngIf="searchTerm || selectedLeague"
+            >
+              Clear Filters
+            </button>
+          </div>
+        </div>
+        <div class="available-logos" *ngIf="filteredLogos.length > 0">
+          <h4>Available Logos</h4>
+          <div class="logos-grid">
+            <div 
+              *ngFor="let logo of filteredLogos" 
+              class="logo-item"
+              [class.selected]="newCollection.logoIds.includes(logo.id)"
+              (click)="addLogoToCreate(logo.id)"
+            >
+              <img [src]="logo.path" [alt]="logo.name" class="logo-image">
+              <div class="logo-info">
+                <span class="logo-name">{{ logo.name }}</span>
+                <span class="logo-league" *ngIf="logo.league">{{ logo.league }}</span>
+              </div>
+              <button 
+                *ngIf="newCollection.logoIds.includes(logo.id)"
+                (click)="removeLogoFromCreate(logo.id)" 
+                class="remove-logo-btn"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="newCollection.isPublic"
+            class="checkbox-input"
+          >
+          Make collection public
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="newCollection.featured"
+            class="checkbox-input"
+          >
+          Mark as featured
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button (click)="cancelCreate()" class="cancel-btn">Cancel</button>
+        <button 
+          (click)="createCollection()" 
+          class="submit-btn"
+          [disabled]="!newCollection.name.trim()"
+        >
+          Create Collection
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Collection Form -->
+  <div class="form-section" *ngIf="editingCollection">
+    <div class="form-card">
+      <h3>Edit Collection: {{ editingCollection.name }}</h3>
+      
+      <div class="form-group">
+        <label for="editName">Collection Name *</label>
+        <input 
+          id="editName"
+          type="text" 
+          [(ngModel)]="editForm.name"
+          class="form-input"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="editDescription">Description</label>
+        <textarea 
+          id="editDescription"
+          [(ngModel)]="editForm.description"
+          class="form-textarea"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Tags</label>
+        <div class="tags-input">
+          <input 
+            type="text" 
+            [(ngModel)]="editTag"
+            (keyup.enter)="addTagToEdit()"
+            placeholder="Add tags..."
+            class="tag-input"
+          >
+          <button (click)="addTagToEdit()" class="add-tag-btn">Add</button>
+        </div>
+        <div class="tags-display" *ngIf="editForm.tags.length > 0">
+          <span 
+            *ngFor="let tag of editForm.tags" 
+            class="tag tag-light"
+          >
+            {{ tag }}
+            <button (click)="removeTagFromEdit(tag)" class="remove-tag">×</button>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Logos</label>
+        <div class="logo-search">
+          <div class="search-filters">
+            <input 
+              type="text" 
+              [(ngModel)]="searchTerm"
+              (input)="onSearchChange()"
+              placeholder="Search logos to add..."
+              class="search-input"
+            >
+            <select 
+              [(ngModel)]="selectedLeague"
+              (change)="onLeagueChange()"
+              class="league-filter"
+            >
+              <option value="">All Leagues</option>
+              <option *ngFor="let league of availableLeagues" [value]="league">
+                {{ league }}
+              </option>
+            </select>
+            <button 
+              (click)="clearFilters()" 
+              class="clear-filters-btn"
+              *ngIf="searchTerm || selectedLeague"
+            >
+              Clear Filters
+            </button>
+          </div>
+        </div>
+        <div class="available-logos" *ngIf="filteredLogos.length > 0">
+          <h4>Available Logos</h4>
+          <div class="logos-grid">
+            <div 
+              *ngFor="let logo of filteredLogos" 
+              class="logo-item"
+              [class.selected]="editForm.logoIds.includes(logo.id)"
+              (click)="addLogoToEdit(logo.id)"
+            >
+              <img [src]="logo.path" [alt]="logo.name" class="logo-image">
+              <div class="logo-info">
+                <span class="logo-name">{{ logo.name }}</span>
+                <span class="logo-league" *ngIf="logo.league">{{ logo.league }}</span>
+              </div>
+              <button 
+                *ngIf="editForm.logoIds.includes(logo.id)"
+                (click)="removeLogoFromEdit(logo.id)" 
+                class="remove-logo-btn"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="editForm.isPublic"
+            class="checkbox-input"
+          >
+          Make collection public
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="editForm.featured"
+            class="checkbox-input"
+          >
+          Mark as featured
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button (click)="cancelEdit()" class="cancel-btn">Cancel</button>
+        <button 
+          (click)="saveCollection()" 
+          class="submit-btn"
+          [disabled]="!editForm.name.trim()"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collections List -->
+  <div class="collections-list" *ngIf="!showCreateForm && !editingCollection">
+    <div class="list-header">
+      <h3>Existing Collections ({{ collections.length }})</h3>
+    </div>
+
+    <div class="collections-grid" *ngIf="collections.length > 0">
+      <div 
+        *ngFor="let collection of collections" 
+        class="collection-card"
+      >
+        <div class="card-header">
+          <h4 class="collection-name">{{ collection.name }}</h4>
+          <div class="collection-badges">
+            <span class="featured-badge" *ngIf="collection.featured">Featured</span>
+            <span class="public-badge" *ngIf="collection.isPublic">Public</span>
+            <span class="private-badge" *ngIf="!collection.isPublic">Private</span>
+          </div>
+        </div>
+        
+        <div class="card-body">
+          <p class="collection-description">{{ collection.description }}</p>
+          
+          <div class="collection-meta">
+            <div class="meta-item">
+              <span class="meta-label">Logos:</span>
+              <span class="meta-value">{{ collection.logoIds.length }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Created:</span>
+              <span class="meta-value">{{ formatDate(collection.createdAt) }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Updated:</span>
+              <span class="meta-value">{{ formatDate(collection.updatedAt) }}</span>
+            </div>
+          </div>
+          
+          <div class="tags-container" *ngIf="collection.tags.length > 0">
+            <span 
+              *ngFor="let tag of collection.tags" 
+              class="tag"
+              [ngClass]="getTagClass(tag)"
+            >
+              {{ tag }}
+            </span>
+          </div>
+        </div>
+        
+        <div class="card-actions">
+          <button (click)="editCollection(collection)" class="edit-btn">Edit</button>
+          <button (click)="deleteCollection(collection)" class="delete-btn">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="collections.length === 0">
+      <div class="empty-icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+        </svg>
+      </div>
+      <h3>No collections yet</h3>
+      <p>Create your first collection to get started!</p>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="loading-spinner"></div>
+    <p>Loading collections...</p>
+  </div>
+</div> 

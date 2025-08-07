@@ -31,7 +31,7 @@ export class AdminService {
 
   login(password: string): boolean {
     // Simple password check - you can change this to any password you want
-    const correctPassword = 'admin123'; // Change this to your preferred password
+    const correctPassword = 'stavrosadmin'; // Change this to your preferred password
     if (password === correctPassword) {
       if (typeof window !== 'undefined' && window.localStorage) {
         localStorage.setItem(this.ADMIN_KEY, 'true');

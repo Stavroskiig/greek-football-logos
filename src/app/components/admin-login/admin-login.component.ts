@@ -27,7 +27,7 @@ export class AdminLoginComponent {
     // Simulate a small delay for better UX
     setTimeout(() => {
       if (this.adminService.login(this.password)) {
-        this.router.navigate(['/manage-tags']);
+        this.router.navigate(['/admin']);
       } else {
         this.errorMessage = 'Invalid password. Please try again.';
       }
