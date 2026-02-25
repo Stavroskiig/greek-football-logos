@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { LogoService } from './logo.service';
-import { 
-  QuizQuestion, 
-  QuizGame, 
-  QuizMode, 
-  QuizSettings, 
-  QuizStats, 
-  QuizAnswer 
+import {
+  QuizQuestion,
+  QuizGame,
+  QuizMode,
+  QuizSettings,
+  QuizStats,
+  QuizAnswer
 } from '../models/quiz';
 import { TeamLogo } from '../models/team-logo';
 
@@ -48,7 +48,7 @@ export class QuizService {
           timeStarted: new Date(),
           answers: []
         };
-        
+
         console.log('Created game:', game);
         this.currentGame$.next(game);
         return game;
@@ -59,54 +59,47 @@ export class QuizService {
   private generateQuestions(logos: TeamLogo[], settings: QuizSettings): QuizQuestion[] {
     const questions: QuizQuestion[] = [];
     const shuffledLogos = this.shuffleArray([...logos]);
-    
+
     // Filter logos based on difficulty
     let filteredLogos = this.filterLogosByDifficulty(shuffledLogos, settings.difficulty);
-    
+
     // Take required number of logos
     const selectedLogos = filteredLogos.slice(0, settings.questionCount);
-    
+
     selectedLogos.forEach((logo, index) => {
       const question = this.createQuestion(logo, logos, settings, index);
       questions.push(question);
     });
-    
+
     return this.shuffleArray(questions);
   }
 
   private createQuestion(
-    logo: TeamLogo, 
-    allLogos: TeamLogo[], 
-    settings: QuizSettings, 
+    logo: TeamLogo,
+    allLogos: TeamLogo[],
+    settings: QuizSettings,
     index: number
   ): QuizQuestion {
     const difficulty = this.getDifficulty(logo, settings.difficulty);
     const points = this.getPointsForDifficulty(difficulty);
-    
+
     // Filter logos based on difficulty for options
     const filteredLogos = this.filterLogosByDifficulty(allLogos, settings.difficulty);
-    
+
     let options: string[];
     let correctAnswer: string;
-    
-    if (settings.mode === 'guess-team') {
+
+    const isTeamQuestion = settings.mode === 'guess-team' ||
+      (settings.mode === 'mixed' && Math.random() > 0.5);
+
+    if (isTeamQuestion) {
       correctAnswer = logo.name;
       options = this.generateTeamOptions(logo, filteredLogos);
-    } else if (settings.mode === 'guess-league') {
+    } else {
       correctAnswer = logo.league || 'Unknown';
       options = this.generateLeagueOptions(logo, filteredLogos);
-    } else {
-      // Mixed mode - randomly choose between team and league
-      const isTeamQuestion = Math.random() > 0.5;
-      if (isTeamQuestion) {
-        correctAnswer = logo.name;
-        options = this.generateTeamOptions(logo, filteredLogos);
-      } else {
-        correctAnswer = logo.league || 'Unknown';
-        options = this.generateLeagueOptions(logo, filteredLogos);
-      }
     }
-    
+
     return {
       id: `question-${index}`,
       logoPath: logo.path,
@@ -121,12 +114,12 @@ export class QuizService {
     const options = [correctLogo.name];
     const otherLogos = allLogos.filter(logo => logo.id !== correctLogo.id);
     const shuffledOthers = this.shuffleArray(otherLogos);
-    
+
     // Add 3 random team names
     for (let i = 0; i < 3 && i < shuffledOthers.length; i++) {
       options.push(shuffledOthers[i].name);
     }
-    
+
     return options;
   }
 
@@ -135,7 +128,7 @@ export class QuizService {
     const allLeagues = [...new Set(allLogos.map(logo => logo.league).filter(Boolean))];
     const otherLeagues = allLeagues.filter(league => league !== correctLogo.league);
     const shuffledOthers = this.shuffleArray(otherLeagues);
-    
+
     // Add 3 random leagues
     for (let i = 0; i < 3 && i < shuffledOthers.length; i++) {
       const league = shuffledOthers[i];
@@ -143,7 +136,7 @@ export class QuizService {
         options.push(league);
       }
     }
-    
+
     return options;
   }
 
@@ -161,17 +154,17 @@ export class QuizService {
 
   private filterLogosByDifficulty(logos: TeamLogo[], difficulty: string): TeamLogo[] {
     if (difficulty === 'mixed') return logos;
-    
+
     if (difficulty === 'easy') {
       // Easy: Only SUPERLEAGUE and SUPERLEAGUE 2
-      return logos.filter(logo => 
+      return logos.filter(logo =>
         logo.league === 'SUPERLEAGUE' || logo.league === 'SUPERLEAGUE 2'
       );
     } else if (difficulty === 'medium') {
       // Medium: SUPERLEAGUE, SUPERLEAGUE 2, and Γ ΕΘΝΙΚΗ
-      return logos.filter(logo => 
-        logo.league === 'SUPERLEAGUE' || 
-        logo.league === 'SUPERLEAGUE 2' || 
+      return logos.filter(logo =>
+        logo.league === 'SUPERLEAGUE' ||
+        logo.league === 'SUPERLEAGUE 2' ||
         logo.league === 'Γ ΕΘΝΙΚΗ'
       );
     } else {
@@ -198,7 +191,7 @@ export class QuizService {
 
     const isCorrect = selectedAnswer === question.correctAnswer;
     const points = isCorrect ? question.points : 0;
-    
+
     const answer: QuizAnswer = {
       questionId,
       selectedAnswer,
@@ -222,7 +215,7 @@ export class QuizService {
     if (!currentGame) return;
 
     console.log('Moving to next question. Current index:', currentGame.currentQuestionIndex);
-    
+
     const updatedGame: QuizGame = {
       ...currentGame,
       currentQuestionIndex: currentGame.currentQuestionIndex + 1
@@ -248,9 +241,9 @@ export class QuizService {
 
   private updateStats(game: QuizGame): void {
     const currentStats = this.quizStats$.value;
-    const gameDuration = game.timeEnded ? 
+    const gameDuration = game.timeEnded ?
       (game.timeEnded.getTime() - game.timeStarted.getTime()) / 1000 : 0;
-    
+
     const newStats: QuizStats = {
       totalGames: currentStats.totalGames + 1,
       totalQuestions: currentStats.totalQuestions + game.totalQuestions,
@@ -274,7 +267,7 @@ export class QuizService {
   private calculateAverageTime(games: QuizGame[]): number {
     const completedGames = games.filter(game => game.timeEnded);
     if (completedGames.length === 0) return 0;
-    
+
     const totalTime = completedGames.reduce((sum, game) => {
       try {
         if (!game.timeEnded || !game.timeStarted) return sum;
@@ -286,7 +279,7 @@ export class QuizService {
         return sum;
       }
     }, 0);
-    
+
     return Math.round(totalTime / completedGames.length);
   }
 
@@ -296,9 +289,9 @@ export class QuizService {
       return counts;
     }, {} as Record<QuizMode, number>);
 
-    return Object.entries(modeCounts).reduce((favorite, [mode, count]) => 
+    return Object.entries(modeCounts).reduce((favorite, [mode, count]) =>
       count > (modeCounts[favorite] || 0) ? mode as QuizMode : favorite
-    , 'guess-team' as QuizMode);
+      , 'guess-team' as QuizMode);
   }
 
   private getDefaultStats(): QuizStats {
