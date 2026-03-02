@@ -1,0 +1,434 @@
+{
+  "teams": {
+    "panathinaikos": {
+      "id": "panathinaikos",
+      "name": "ΑΟ ΠΑΝΑΘΗΝΑΙΚΟΣ",
+      "fullName": "Αθλητικός Όμιλος Παναθηναϊκός",
+      "founded": 1908,
+      "stadium": {
+        "name": "Απόστολος Νικολαΐδης",
+        "capacity": 16003,
+        "location": "Athens",
+        "image": "assets/images/stadiums/leoforos.jpg"
+      },
+      "colors": {
+        "primary": "#006633",
+        "secondary": "#FFFFFF"
+      },
+      "history": "Ο Παναθηναϊκός ιδρύθηκε το 1908 από τον Γιώργο Καλαφάτη. Είναι ένας από τους πιο ιστορικούς συλλόγους της Ελλάδας με πλούσια ιστορία στο ποδόσφαιρο και άλλα αθλήματα. Η ομάδα έχει κατακτήσει πολλούς τίτλους και έχει φτάσει στον τελικό του Κυπέλλου Πρωταθλητριών το 1971.",
+      "achievements": {
+        "leagueTitles": 20,
+        "cupTitles": 19,
+        "otherTitles": {
+          "doubleWins": 8,
+          "europeanFinals": 1
+        }
+      },
+      "website": "https://www.pao.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/fcpanathinaikos",
+        "twitter": "https://twitter.com/paofc_",
+        "instagram": "https://www.instagram.com/fcpanathinaikos"
+      }
+    },
+    "aek": {
+      "id": "aek",
+      "name": "ΑΕΚ",
+      "fullName": "Αθλητική Ένωσις Κωνσταντινουπόλεως",
+      "founded": 1924,
+      "stadium": {
+        "name": "OPAP Arena - Αγιά Σοφιά",
+        "capacity": 31800,
+        "location": "Athens",
+        "image": "assets/images/stadiums/agia-sofia.jpg"
+      },
+      "colors": {
+        "primary": "#F1C40F",
+        "secondary": "#000000"
+      },
+      "history": "Η ΑΕΚ ιδρύθηκε το 1924 από πρόσφυγες της Κωνσταντινούπολης. Ο δικέφαλος αετός, σύμβολο του Βυζαντίου, έγινε το έμβλημα της ομάδας. Η ομάδα έχει μακρά ιστορία επιτυχιών και είναι γνωστή για την προσήλωσή της στις προσφυγικές ρίζες της.",
+      "achievements": {
+        "leagueTitles": 13,
+        "cupTitles": 15,
+        "otherTitles": {
+          "doubleWins": 2,
+          "superCups": 2
+        }
+      },
+      "website": "https://www.aekfc.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/AEK.FC.OFFICIAL",
+        "twitter": "https://twitter.com/AEK_FC_OFFICIAL",
+        "instagram": "https://www.instagram.com/aek_fc_official"
+      }
+    },
+    "olympiakos": {
+      "id": "olympiakos",
+      "name": "ΣΦΠ ΟΛΥΜΠΙΑΚΟΣ",
+      "fullName": "Σύλλογος Φιλάθλων Πειραιώς Ολυμπιακός",
+      "founded": 1925,
+      "stadium": {
+        "name": "Γεώργιος Καραϊσκάκης",
+        "capacity": 32115,
+        "location": "Piraeus",
+        "image": "assets/images/stadiums/karaiskakis.jpg"
+      },
+      "colors": {
+        "primary": "#CC0000",
+        "secondary": "#FFFFFF"
+      },
+      "history": "Ο Ολυμπιακός ιδρύθηκε το 1925 στον Πειραιά και είναι ο πολυνίκης του ελληνικού ποδοσφαίρου. Η ομάδα έχει κατακτήσει τους περισσότερους τίτλους στην Ελλάδα και έχει σημαντική παρουσία στις ευρωπαϊκές διοργανώσεις.",
+      "achievements": {
+        "leagueTitles": 47,
+        "cupTitles": 28,
+        "otherTitles": {
+          "doubleWins": 18,
+          "superCups": 4
+        }
+      },
+      "website": "https://www.olympiacos.org",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/OlympiacosFC",
+        "twitter": "https://twitter.com/olympiacosfc",
+        "instagram": "https://www.instagram.com/olympiacosfc"
+      }
+    },
+    "paok": {
+      "id": "paok",
+      "name": "ΠΑΟΚ",
+      "fullName": "Πανθεσσαλονίκειος Αθλητικός Όμιλος Κωνσταντινουπολιτών",
+      "founded": 1926,
+      "stadium": {
+        "name": "Τούμπα",
+        "capacity": 28703,
+        "location": "Thessaloniki",
+        "image": "assets/images/stadiums/toumba.jpg"
+      },
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#FFFFFF"
+      },
+      "history": "Ο ΠΑΟΚ ιδρύθηκε το 1926 από Κωνσταντινουπολίτες πρόσφυγες στη Θεσσαλονίκη. Ο Δικέφαλος του Βορρά έχει μια πλούσια ιστορία και είναι γνωστός για τους παθιασμένους οπαδούς του και την ισχυρή του παρουσία στο ελληνικό ποδόσφαιρο.",
+      "achievements": {
+        "leagueTitles": 3,
+        "cupTitles": 8,
+        "otherTitles": {
+          "doubleWins": 2,
+          "superCups": 1
+        }
+      },
+      "website": "https://www.paokfc.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/PAOKFC",
+        "twitter": "https://twitter.com/PAOK_FC",
+        "instagram": "https://www.instagram.com/paok_fc"
+      }
+    },
+    "aris": {
+      "id": "aris",
+      "name": "ΑΣ ΑΡΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ",
+      "fullName": "Αθλητικός Σύλλογος Άρης Θεσσαλονίκης",
+      "founded": 1914,
+      "stadium": {
+        "name": "Κλεάνθης Βικελίδης",
+        "capacity": 22800,
+        "location": "Thessaloniki",
+        "image": "assets/images/stadiums/vikelidis.jpg"
+      },
+      "colors": {
+        "primary": "#F1C40F",
+        "secondary": "#000000"
+      },
+      "history": "Ο Άρης ιδρύθηκε το 1914 στη Θεσσαλονίκη και είναι από τους ιστορικότερους συλλόγους της πόλης. Η ομάδα έχει σημαντική παρουσία στο ελληνικό ποδόσφαιρο και είναι γνωστή για την ιστορική της έδρα, το γήπεδο Χαριλάου.",
+      "achievements": {
+        "leagueTitles": 3,
+        "cupTitles": 1,
+        "otherTitles": {
+          "doubleWins": 0,
+          "balkanCup": 1
+        }
+      },
+      "website": "https://www.arisfc.com.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/ARISFC.OFFICIAL",
+        "twitter": "https://twitter.com/ARIS__FC",
+        "instagram": "https://www.instagram.com/aris.fc.official"
+      }
+    },
+    "ofi": {
+      "id": "ofi",
+      "name": "ΟΦΗ",
+      "fullName": "Όμιλος Φιλάθλων Ηρακλείου",
+      "founded": 1925,
+      "stadium": {
+        "name": "Θεόδωρος Βαρδινογιάννης",
+        "capacity": 8500,
+        "location": "Heraklion",
+        "image": "assets/images/stadiums/vardiniogiannis.jpg"
+      },
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#FFFFFF"
+      },
+      "history": "Ο ΟΦΗ ιδρύθηκε το 1925 στο Ηράκλειο της Κρήτης. Είναι η μεγαλύτερη ομάδα της Κρήτης και έχει σημαντική παρουσία στην πρώτη κατηγορία του ελληνικού ποδοσφαίρου. Η ομάδα είναι γνωστή για το επιθετικό της στυλ παιχνιδιού.",
+      "achievements": {
+        "leagueTitles": 0,
+        "cupTitles": 1,
+        "otherTitles": {
+          "balkanCup": 1
+        }
+      },
+      "website": "https://www.ofi.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/oficrete",
+        "twitter": "https://twitter.com/ofi_crete",
+        "instagram": "https://www.instagram.com/ofi_crete"
+      }
+    },
+    "atromitos": {
+      "id": "atromitos",
+      "name": "ΑΠΣ ΑΤΡΟΜΗΤΟΣ ΑΘΗΝΩΝ",
+      "fullName": "Αθλητικός Ποδοσφαιρικός Σύλλογος Ατρόμητος Αθηνών",
+      "founded": 1923,
+      "stadium": {
+        "name": "Δημοτικό Στάδιο Περιστερίου",
+        "capacity": 8939,
+        "location": "Peristeri, Athens",
+        "image": "assets/images/stadiums/peristeri.jpg"
+      },
+      "colors": {
+        "primary": "#0066CC",
+        "secondary": "#FFFFFF"
+      },
+      "history": "Ο Ατρόμητος ιδρύθηκε το 1923 στο Περιστέρι της Αθήνας. Τα τελευταία χρόνια έχει σταθερή παρουσία στην πρώτη κατηγορία και έχει πετύχει αξιοσημείωτες ευρωπαϊκές εμφανίσεις.",
+      "achievements": {
+        "leagueTitles": 0,
+        "cupTitles": 0,
+        "otherTitles": {
+          "betaCupWins": 1
+        }
+      },
+      "website": "https://www.atromitosfc.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/AtromitosFC",
+        "twitter": "https://twitter.com/atromitosfc",
+        "instagram": "https://www.instagram.com/atromitos_fc"
+      }
+    },
+    "asteras-tripolis": {
+      "id": "asteras-tripolis",
+      "name": "ΑΓΣ ΑΣΤΕΡΑΣ ΤΡΙΠΟΛΗΣ",
+      "fullName": "Αθλητικός Γυμναστικός Σύλλογος Αστέρας Τρίπολης",
+      "founded": 1931,
+      "stadium": {
+        "name": "Θεόδωρος Κολοκοτρώνης",
+        "capacity": 7442,
+        "location": "Tripoli",
+        "image": "assets/images/stadiums/kolokotronis.jpg"
+      },
+      "colors": {
+        "primary": "#FDB913",
+        "secondary": "#0066CC"
+      },
+      "history": "Ο Αστέρας Τρίπολης ιδρύθηκε το 1931 και έχει εξελιχθεί σε μια από τις πιο σταθερές ομάδες της Super League. Η ομάδα έχει πετύχει σημαντικές ευρωπαϊκές εμφανίσεις και είναι γνωστή για την καλή οργάνωσή της.",
+      "achievements": {
+        "leagueTitles": 0,
+        "cupTitles": 0,
+        "otherTitles": {
+          "europeanQualifications": 4
+        }
+      },
+      "website": "https://www.asterastripolis.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/asterastripolis",
+        "twitter": "https://twitter.com/AsterasTripolis",
+        "instagram": "https://www.instagram.com/asterastripolis"
+      }
+    },
+    "volos": {
+      "id": "volos",
+      "name": "ΝΠΣ ΒΟΛΟΣ",
+      "fullName": "Νέος Ποδοσφαιρικός Σύλλογος Βόλος",
+      "founded": 2017,
+      "stadium": {
+        "name": "Πανθεσσαλικό Στάδιο",
+        "capacity": 22700,
+        "location": "Volos",
+        "image": "assets/images/stadiums/panthessaliko.jpg"
+      },
+      "colors": {
+        "primary": "#CC0000",
+        "secondary": "#000000"
+      },
+      "history": "Ο ΝΠΣ Βόλος ιδρύθηκε το 2017 και αποτελεί τη συνέχεια της ποδοσφαιρικής παράδοσης της πόλης του Βόλου. Η ομάδα κατάφερε να ανέβει γρήγορα στην Super League και να εδραιωθεί στην κατηγορία.",
+      "achievements": {
+        "leagueTitles": 0,
+        "cupTitles": 0,
+        "otherTitles": {
+          "promotions": 3
+        }
+      },
+      "website": "https://www.volossportclub.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/VolosNFC",
+        "twitter": "https://twitter.com/volosnfc",
+        "instagram": "https://www.instagram.com/volosnfc"
+      }
+    },
+    "levadiakos": {
+      "id": "levadiakos",
+      "name": "ΑΠΟ ΛΕΒΑΔΕΙΑΚΟΣ",
+      "fullName": "Αθλητικός Ποδοσφαιρικός Όμιλος Λεβαδειακός",
+      "founded": 1961,
+      "stadium": {
+        "name": "Δημοτικό Στάδιο Λιβαδειάς",
+        "capacity": 5915,
+        "location": "Livadeia",
+        "image": "assets/images/stadiums/livadeia.jpg"
+      },
+      "colors": {
+        "primary": "#006633",
+        "secondary": "#FFFFFF"
+      },
+      "history": "Ο Λεβαδειακός ιδρύθηκε το 1961 στη Λιβαδειά. Η ομάδα έχει σημαντική παρουσία στις εθνικές κατηγορίες και έχει καταφέρει να εδραιωθεί στη Super League τα τελευταία χρόνια, αποτελώντας μια από τις πιο σταθερές επαρχιακές ομάδες.",
+      "achievements": {
+        "leagueTitles": 0,
+        "cupTitles": 0,
+        "otherTitles": {
+          "betaEthniki": 2,
+          "gammaEthniki": 1
+        }
+      },
+      "website": "https://www.levadiakosfc.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/LevadiakosFC",
+        "twitter": "https://twitter.com/levadiakosfc",
+        "instagram": "https://www.instagram.com/levadiakosfc"
+      }
+    },
+    "kallithea": {
+      "id": "kallithea",
+      "name": "ΓΣ ΚΑΛΛΙΘΕΑ",
+      "fullName": "Γυμναστικός Σύλλογος Καλλιθέας",
+      "founded": 1966,
+      "stadium": {
+        "name": "Γρηγόρης Λαμπράκης",
+        "capacity": 4250,
+        "location": "Kallithea, Athens",
+        "image": "assets/images/stadiums/kallithea.jpg"
+      },
+      "colors": {
+        "primary": "#FF0000",
+        "secondary": "#FFFFFF"
+      },
+      "history": "Η Καλλιθέα ιδρύθηκε το 1966 στην ομώνυμη περιοχή της Αθήνας. Η ομάδα έχει αξιοσημείωτη πορεία στις εθνικές κατηγορίες και έχει καταφέρει να αναδειχθεί σε μια από τις πιο ιστορικές ομάδες της Αττικής.",
+      "achievements": {
+        "leagueTitles": 0,
+        "cupTitles": 0,
+        "otherTitles": {
+          "betaEthniki": 1,
+          "gammaEthniki": 2
+        }
+      },
+      "website": "https://www.gskallithea.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/GSKallithea",
+        "instagram": "https://www.instagram.com/gskallithea"
+      }
+    },
+    "panetolikos": {
+      "id": "panetolikos",
+      "name": "ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ",
+      "fullName": "Γυμναστικός Φιλεκπαιδευτικός Σύλλογος Παναιτωλικός",
+      "founded": 1926,
+      "stadium": {
+        "name": "Παναιτωλικού",
+        "capacity": 7500,
+        "location": "Agrinio",
+        "image": "assets/images/stadiums/panetolikos.jpg"
+      },
+      "colors": {
+        "primary": "#FDB913",
+        "secondary": "#006633"
+      },
+      "history": "Ο Παναιτωλικός ιδρύθηκε το 1926 στο Αγρίνιο. Είναι η μεγαλύτερη ομάδα της Αιτωλοακαρνανίας και έχει καταφέρει να εδραιωθεί στη Super League, αποτελώντας μια από τις πιο σταθερές επαρχιακές ομάδες.",
+      "achievements": {
+        "leagueTitles": 0,
+        "cupTitles": 0,
+        "otherTitles": {
+          "betaEthniki": 2,
+          "gammaEthniki": 1
+        }
+      },
+      "website": "https://www.panetolikos.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/PAEPanetolikos",
+        "twitter": "https://twitter.com/FCPanetolikos",
+        "instagram": "https://www.instagram.com/fcpanetolikos"
+      }
+    },
+    "panserraikos": {
+      "id": "panserraikos",
+      "name": "ΜΓΣ ΠΑΝΣΕΡΡΑΪΚΟΣ",
+      "fullName": "Μορφωτικός Γυμναστικός Σύλλογος Πανσερραϊκός",
+      "founded": 1964,
+      "stadium": {
+        "name": "Δημοτικό Στάδιο Σερρών",
+        "capacity": 9500,
+        "location": "Serres",
+        "image": "assets/images/stadiums/serres.jpg"
+      },
+      "colors": {
+        "primary": "#CC0000",
+        "secondary": "#FFFFFF"
+      },
+      "history": "Ο Πανσερραϊκός ιδρύθηκε το 1964 στις Σέρρες και αποτελεί τη μεγαλύτερη ομάδα της πόλης. Έχει σημαντική παρουσία στις εθνικές κατηγορίες και έχει καταφέρει να ανέβει αρκετές φορές στην πρώτη κατηγορία.",
+      "achievements": {
+        "leagueTitles": 0,
+        "cupTitles": 0,
+        "otherTitles": {
+          "betaEthniki": 3,
+          "gammaEthniki": 2
+        }
+      },
+      "website": "https://www.panserraikos.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/panserraikos",
+        "twitter": "https://twitter.com/panserraikos_fc",
+        "instagram": "https://www.instagram.com/panserraikos_fc"
+      }
+    },
+    "lamia": {
+      "id": "lamia",
+      "name": "ΠΑΣ ΛΑΜΙΑ",
+      "fullName": "Ποδοσφαιρικός Αθλητικός Σύλλογος Λαμία",
+      "founded": 1964,
+      "stadium": {
+        "name": "Δημοτικό Αθλητικό Κέντρο Λαμίας",
+        "capacity": 5500,
+        "location": "Lamia",
+        "image": "assets/images/stadiums/lamia.jpg"
+      },
+      "colors": {
+        "primary": "#0066CC",
+        "secondary": "#FFFFFF"
+      },
+      "history": "Η ΠΑΣ Λαμία ιδρύθηκε το 1964 στη Λαμία. Τα τελευταία χρόνια έχει καταφέρει να εδραιωθεί στη Super League και να πραγματοποιήσει αξιοσημείωτες εμφανίσεις, συμπεριλαμβανομένης της συμμετοχής της στον τελικό του Κυπέλλου Ελλάδας.",
+      "achievements": {
+        "leagueTitles": 0,
+        "cupTitles": 0,
+        "otherTitles": {
+          "betaEthniki": 1,
+          "gammaEthniki": 2,
+          "cupFinals": 1
+        }
+      },
+      "website": "https://www.paslamia.gr",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/PASLAMIA1964",
+        "twitter": "https://twitter.com/paslamia",
+        "instagram": "https://www.instagram.com/paslamia1964"
+      }
+    }
+  }
+} 

@@ -1,0 +1,133 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import emailjs from '@emailjs/browser';
+import { Observable, from, firstValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LogoSuggestionService {
+  private readonly EMAILJS_PUBLIC_KEY = 'oEEoYpx8eQ5qKzpms';
+  private readonly EMAILJS_SERVICE_ID = 'service_a29x388';
+  private readonly ADMIN_TEMPLATE_ID = 'template_suggestion';
+  private readonly THANK_YOU_TEMPLATE_ID = 'template_autoreply';
+  private readonly ADMIN_EMAIL = 'stavroskiig@gmail.com';
+  private apiUrl = `${environment.apiUrl}/suggestions`;
+
+  constructor(private http: HttpClient) {
+    emailjs.init(this.EMAILJS_PUBLIC_KEY);
+  }
+
+  submitSuggestion(formData: FormData): Observable<any> {
+    return from(this.sendEmailsAndSave(formData));
+  }
+
+  private async sendEmailsAndSave(formData: FormData): Promise<any> {
+    try {
+      const submitterEmail = formData.get('senderEmail') as string;
+      const teamName = formData.get('teamName') as string;
+      const eps = formData.get('eps') as string;
+      const url = formData.get('url') as string;
+
+      console.log('Processing submission:', { submitterEmail, teamName, eps, url });
+
+      // Save suggestion to backend
+      const suggestionPayload = {
+        teamName,
+        eps,
+        senderEmail: submitterEmail,
+        url,
+        status: 'PENDING'
+      };
+
+      try {
+        await firstValueFrom(this.http.post(this.apiUrl, suggestionPayload));
+        console.log('Suggestion successfully saved to backend database.');
+      } catch (dbError) {
+        console.error('Failed to save suggestion to backend database:', dbError);
+      }
+
+      // 1. Send notification to admin with all details
+      const adminResponse = await this.sendAdminNotification(
+        submitterEmail,
+        teamName,
+        eps,
+        url
+      );
+      console.log('Admin notification sent:', adminResponse);
+
+      try {
+        // 2. Send thank you email to submitter
+        const thankYouResponse = await this.sendThankYouEmail(submitterEmail, teamName, eps);
+        console.log('Thank you email sent:', thankYouResponse);
+      } catch (thankYouError) {
+        // If thank you email fails, log it but don't fail the whole submission
+        console.error('Failed to send thank you email:', thankYouError);
+      }
+
+      return { success: true, adminEmailSent: true, savedToDb: true };
+    } catch (error) {
+      console.error('Error in sendEmailsAndSave:', error);
+      throw error;
+    }
+  }
+
+  private async sendAdminNotification(
+    submitterEmail: string,
+    teamName: string,
+    eps: string,
+    url: string
+  ): Promise<any> {
+    const params: any = {
+      to_email: this.ADMIN_EMAIL,
+      from_name: 'Logo Submission System',
+      submitter_email: submitterEmail,
+      team_name: teamName,
+      eps: eps,
+      url: url
+      // Removed reply_to to fix mail delivery issues
+    };
+
+    console.log('Sending admin notification with params:', params);
+
+    try {
+      const result = await emailjs.send(
+        this.EMAILJS_SERVICE_ID,
+        this.ADMIN_TEMPLATE_ID,
+        params
+      );
+      console.log('EmailJS send result:', result);
+      return result;
+    } catch (error) {
+      console.error('EmailJS send error:', error);
+      throw error;
+    }
+  }
+
+  private async sendThankYouEmail(submitterEmail: string, teamName: string, eps: string): Promise<any> {
+    const params = {
+      to_email: submitterEmail,
+      to_name: submitterEmail, // Use email as name if no name provided
+      from_name: 'Greek Football Logos',
+      team_name: teamName,
+      eps: eps
+      // Removed reply_to to fix mail delivery issues
+    };
+
+    console.log('Sending thank you email with:', params);
+
+    try {
+      const result = await emailjs.send(
+        this.EMAILJS_SERVICE_ID,
+        this.THANK_YOU_TEMPLATE_ID,
+        params
+      );
+      console.log('Thank you email result:', result);
+      return result;
+    } catch (error) {
+      console.error('Thank you email error:', error);
+      throw error;
+    }
+  }
+} 

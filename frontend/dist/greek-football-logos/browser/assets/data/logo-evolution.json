@@ -1,0 +1,220 @@
+{
+  "logoEvolution": {
+    "panathinaikos": {
+      "teamId": "panathinaikos",
+      "teamName": "ΑΟ ΠΑΝΑΘΗΝΑΙΚΟΣ",
+      "evolution": [
+        {
+          "year": "1908-1920",
+          "description": "Original club emblem featuring the shamrock (τριφύλλι)",
+          "imagePath": "assets/logos/evolution/panathinaikos/1908-1920.png",
+          "notes": "First official emblem with green shamrock on white background"
+        },
+        {
+          "year": "1920-1940",
+          "description": "Classic shamrock design with club name",
+          "imagePath": "assets/logos/evolution/panathinaikos/1920-1940.png",
+          "notes": "Refined shamrock design with ΑΟΠ text"
+        },
+        {
+          "year": "1940-1960",
+          "description": "Modernized emblem with improved typography",
+          "imagePath": "assets/logos/evolution/panathinaikos/1940-1960.png",
+          "notes": "Enhanced design with better proportions"
+        },
+        {
+          "year": "1960-1980",
+          "description": "Contemporary design with bold shamrock",
+          "imagePath": "assets/logos/evolution/panathinaikos/1960-1980.png",
+          "notes": "Bolder shamrock design with modern styling"
+        },
+        {
+          "year": "1980-2000",
+          "description": "Refined modern emblem",
+          "imagePath": "assets/logos/evolution/panathinaikos/1980-2000.png",
+          "notes": "Clean, professional design"
+        },
+        {
+          "year": "2000-Present",
+          "description": "Current official logo",
+          "imagePath": "assets/logos/SUPERLEAGUE/ΑΟ ΠΑΝΑΘΗΝΑΙΚΟΣ.png",
+          "notes": "Modern, clean design maintaining tradition"
+        }
+      ]
+    },
+    "olympiakos": {
+      "teamId": "olympiakos",
+      "teamName": "ΣΦΠ ΟΛΥΜΠΙΑΚΟΣ",
+      "evolution": [
+        {
+          "year": "1925-1930",
+          "description": "Original club emblem with anchor symbol",
+          "imagePath": "assets/logos/evolution/olympiakos/1925-1930.png",
+          "notes": "First emblem featuring maritime symbols"
+        },
+        {
+          "year": "1930-1950",
+          "description": "Classic anchor and laurel design",
+          "imagePath": "assets/logos/evolution/olympiakos/1930-1950.png",
+          "notes": "Traditional maritime theme with laurel wreath"
+        },
+        {
+          "year": "1950-1970",
+          "description": "Modernized anchor emblem",
+          "imagePath": "assets/logos/evolution/olympiakos/1950-1970.png",
+          "notes": "Refined anchor design with better proportions"
+        },
+        {
+          "year": "1970-1990",
+          "description": "Contemporary design with bold anchor",
+          "imagePath": "assets/logos/evolution/olympiakos/1970-1990.png",
+          "notes": "Bolder anchor design with modern styling"
+        },
+        {
+          "year": "1990-2010",
+          "description": "Refined modern emblem",
+          "imagePath": "assets/logos/evolution/olympiakos/1990-2010.png",
+          "notes": "Clean, professional design"
+        },
+        {
+          "year": "2010-Present",
+          "description": "Current official logo",
+          "imagePath": "assets/logos/SUPERLEAGUE/ΣΦΠ ΟΛΥΜΠΙΑΚΟΣ.png",
+          "notes": "Modern design maintaining maritime tradition"
+        }
+      ]
+    },
+    "aek": {
+      "teamId": "aek",
+      "teamName": "ΑΕΚ",
+      "evolution": [
+        {
+          "year": "1924-1930",
+          "description": "Original double-headed eagle emblem",
+          "imagePath": "assets/logos/evolution/aek/1924-1930.png",
+          "notes": "First emblem featuring Byzantine double-headed eagle"
+        },
+        {
+          "year": "1977-1982",
+          "description": "Classic eagle design with club name",
+          "imagePath": "assets/logos/evolution/aek/1977-1982.png",
+          "notes": "Traditional Byzantine eagle with ΑΕΚ text"
+        },
+        {
+          "year": "1982-1989",
+          "description": "Modernized eagle emblem",
+          "imagePath": "assets/logos/evolution/aek/1982-1989.png",
+          "notes": "Refined eagle design with better proportions"
+        },
+        {
+          "year": "1989-1993",
+          "description": "Contemporary design with bold eagle",
+          "imagePath": "assets/logos/evolution/aek/1989-1993.png",
+          "notes": "Bolder eagle design with modern styling"
+        },
+        {
+          "year": "1993-2014",
+          "description": "Refined modern emblem",
+          "imagePath": "assets/logos/evolution/aek/1993-2014.png",
+          "notes": "Clean, professional design"
+        },
+        {
+          "year": "2014-Present",
+          "description": "Current official logo",
+          "imagePath": "assets/logos/SUPERLEAGUE/ΑΕΚ.png",
+          "notes": "Modern design maintaining Byzantine tradition"
+        },
+        {
+            "year": "2024-2024",
+            "description": "Anniversary logo for 100 years of AEK",
+            "imagePath": "assets/logos/evolution/aek/2014-2014.png",
+            "notes": "Modern design maintaining Byzantine tradition"
+          }
+      ]
+    },
+    "paok": {
+      "teamId": "paok",
+      "teamName": "ΠΑΟΚ",
+      "evolution": [
+        {
+          "year": "1926-1930",
+          "description": "Original double-headed eagle emblem",
+          "imagePath": "assets/logos/evolution/paok/1926-1930.png",
+          "notes": "First emblem featuring Byzantine double-headed eagle"
+        },
+        {
+          "year": "1930-1950",
+          "description": "Classic eagle design with club name",
+          "imagePath": "assets/logos/evolution/paok/1930-1950.png",
+          "notes": "Traditional Byzantine eagle with ΠΑΟΚ text"
+        },
+        {
+          "year": "1950-1970",
+          "description": "Modernized eagle emblem",
+          "imagePath": "assets/logos/evolution/paok/1950-1970.png",
+          "notes": "Refined eagle design with better proportions"
+        },
+        {
+          "year": "1970-1990",
+          "description": "Contemporary design with bold eagle",
+          "imagePath": "assets/logos/evolution/paok/1970-1990.png",
+          "notes": "Bolder eagle design with modern styling"
+        },
+        {
+          "year": "1990-2010",
+          "description": "Refined modern emblem",
+          "imagePath": "assets/logos/evolution/paok/1990-2010.png",
+          "notes": "Clean, professional design"
+        },
+        {
+          "year": "2010-Present",
+          "description": "Current official logo",
+          "imagePath": "assets/logos/SUPERLEAGUE/ΠΑΟΚ.png",
+          "notes": "Modern design maintaining Byzantine tradition"
+        }
+      ]
+    },
+    "aek-athens": {
+      "teamId": "aek-athens",
+      "teamName": "ΑΕΚ ΑΘΗΝΩΝ",
+      "evolution": [
+        {
+          "year": "1924-1930",
+          "description": "Original double-headed eagle emblem",
+          "imagePath": "assets/logos/evolution/aek-athens/1924-1930.png",
+          "notes": "First emblem featuring Byzantine double-headed eagle"
+        },
+        {
+          "year": "1930-1950",
+          "description": "Classic eagle design with club name",
+          "imagePath": "assets/logos/evolution/aek-athens/1930-1950.png",
+          "notes": "Traditional Byzantine eagle with ΑΕΚ text"
+        },
+        {
+          "year": "1950-1970",
+          "description": "Modernized eagle emblem",
+          "imagePath": "assets/logos/evolution/aek-athens/1950-1970.png",
+          "notes": "Refined eagle design with better proportions"
+        },
+        {
+          "year": "1970-1990",
+          "description": "Contemporary design with bold eagle",
+          "imagePath": "assets/logos/evolution/aek-athens/1970-1990.png",
+          "notes": "Bolder eagle design with modern styling"
+        },
+        {
+          "year": "1990-2010",
+          "description": "Refined modern emblem",
+          "imagePath": "assets/logos/evolution/aek-athens/1990-2010.png",
+          "notes": "Clean, professional design"
+        },
+        {
+          "year": "2010-Present",
+          "description": "Current official logo",
+          "imagePath": "assets/logos/SUPERLEAGUE/ΑΕΚ.png",
+          "notes": "Modern design maintaining Byzantine tradition"
+        }
+      ]
+    }
+  }
+} 
