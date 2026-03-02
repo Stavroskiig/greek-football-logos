@@ -50,7 +50,8 @@
       "description": "Football clubs from Thessaloniki and northern Greece. The second largest city in Greece has a rich football tradition with teams like PAOK and Aris Thessaloniki.",
       "logoIds": [
         "paok",
-        "aris"
+        "aris",
+        "γς-ηρακλης-θεσσαλονικης"
       ],
       "tags": [
         "thessaloniki",
@@ -60,7 +61,7 @@
       "isPublic": true,
       "featured": false,
       "createdAt": "2024-01-01T00:00:00.000Z",
-      "updatedAt": "2025-08-07T11:22:40.550Z"
+      "updatedAt": "2025-08-07T11:30:26.391Z"
     },
     {
       "id": "superleague-classic",
