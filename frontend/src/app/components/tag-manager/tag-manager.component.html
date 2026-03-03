@@ -1,13 +1,11 @@
 <div class="max-w-6xl mx-auto my-8 px-4">
   <div class="text-center mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Tag Manager</h1>
-    <p class="text-gray-600">Admin interface for managing team tags and categories</p>
-    
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Tag Manager</h1>
+    <p class="text-gray-600 dark:text-gray-400">Admin interface for managing team tags and categories</p>
+
     <!-- Saved Message -->
-    <div 
-      *ngIf="showSavedMessage"
-      class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-fade-in"
-    >
+    <div *ngIf="showSavedMessage"
+      class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-fade-in">
       Changes saved successfully!
     </div>
   </div>
@@ -16,156 +14,119 @@
     <!-- Left Column: Admin Actions + Teams -->
     <div class="lg:col-span-1">
       <!-- Admin Actions -->
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Admin Actions</h2>
+      <div
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6 transition-colors duration-200">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Admin Actions</h2>
         <div class="flex flex-col gap-4">
-          <button
-            (click)="logout()"
-            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
-          >
+          <button (click)="logout()"
+            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200">
             Logout
           </button>
         </div>
       </div>
 
       <!-- Teams List -->
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Teams</h2>
-        
+      <div
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Teams</h2>
+
         <!-- Search and Filter Teams -->
         <div class="mb-4 space-y-3">
           <!-- Search Teams -->
-          <input
-            type="text"
-            [(ngModel)]="searchTerm"
-            (input)="filterTeams()"
-            placeholder="Search teams..."
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-          
+          <input type="text" [(ngModel)]="searchTerm" (input)="filterTeams()" placeholder="Search teams..."
+            class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+
           <!-- League Filter -->
           <div class="relative">
             <!-- Selected League Display -->
-            <button
-              type="button"
-              (click)="toggleLeagueDropdown()"
-              class="w-full px-3 py-2 text-sm text-left bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent flex items-center justify-between"
-            >
+            <button type="button" (click)="toggleLeagueDropdown()"
+              class="w-full px-3 py-2 text-sm text-left bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <img 
-                  *ngIf="selectedLeague"
-                  [src]="getLeagueLogoPath(selectedLeague)" 
-                  [alt]="selectedLeague + ' logo'"
-                  class="w-4 h-4 object-contain"
-                  (error)="onImageError($event)"
-                />
+                <img *ngIf="selectedLeague" [src]="getLeagueLogoPath(selectedLeague)" [alt]="selectedLeague + ' logo'"
+                  class="w-4 h-4 object-contain" (error)="onImageError($event)" />
                 <span>{{ getLeagueDisplayName(selectedLeague) }}</span>
               </div>
-              <svg class="h-4 w-4 text-gray-400 transition-transform duration-200" 
-                   [class.rotate-180]="isLeagueDropdownOpen"
-                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-4 w-4 text-gray-400 transition-transform duration-200"
+                [class.rotate-180]="isLeagueDropdownOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
 
             <!-- Dropdown Menu -->
-            <div 
-              *ngIf="isLeagueDropdownOpen"
-              class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
-            >
+            <div *ngIf="isLeagueDropdownOpen"
+              class="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
               <!-- All Leagues Option -->
-              <button
-                type="button"
-                (click)="onLeagueSelect('')"
-                class="w-full px-3 py-2 text-sm text-left hover:bg-gray-50 flex items-center gap-2"
-              >
+              <button type="button" (click)="onLeagueSelect('')"
+                class="w-full px-3 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
                 <span>🌍</span>
                 <span>All Leagues</span>
               </button>
 
               <!-- League Options -->
-              <button
-                *ngFor="let league of leagues"
-                type="button"
-                (click)="onLeagueSelect(league)"
-                class="w-full px-3 py-2 text-sm text-left hover:bg-gray-50 flex items-center gap-2"
-                [class.bg-blue-50]="selectedLeague === league"
-              >
-                <img 
-                  [src]="getLeagueLogoPath(league)" 
-                  [alt]="league + ' logo'"
-                  class="w-4 h-4 object-contain"
-                  (error)="onImageError($event)"
-                />
+              <button *ngFor="let league of leagues" type="button" (click)="onLeagueSelect(league)"
+                class="w-full px-3 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
+                [class.bg-blue-50]="selectedLeague === league" [class.dark:bg-blue-900]="selectedLeague === league">
+                <img [src]="getLeagueLogoPath(league)" [alt]="league + ' logo'" class="w-4 h-4 object-contain"
+                  (error)="onImageError($event)" />
                 <span>{{ league }}</span>
               </button>
             </div>
 
             <!-- Backdrop to close dropdown -->
-            <div 
-              *ngIf="isLeagueDropdownOpen"
-              class="fixed inset-0 z-40"
-              (click)="closeLeagueDropdown()"
-            ></div>
+            <div *ngIf="isLeagueDropdownOpen" class="fixed inset-0 z-40" (click)="closeLeagueDropdown()"></div>
           </div>
-          
+
           <!-- Clear Filters Button -->
-          <button
-            (click)="clearFilters()"
-            class="w-full px-3 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-200"
-          >
+          <button (click)="clearFilters()"
+            class="w-full px-3 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
             Clear Filters
           </button>
         </div>
 
         <div class="space-y-2 max-h-96 overflow-y-auto">
-          <div 
-            *ngFor="let team of filteredTeams; trackBy: trackByTeamId"
-            (click)="selectTeam(team)"
-            class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-gray-50"
-            [class.bg-blue-50]="selectedTeam?.id === team.id"
-            [attr.data-selected]="selectedTeam?.id === team.id ? 'true' : 'false'"
-          >
-           <img [src]="team.path" [alt]="team.name" class="w-8 h-8 object-contain">
-           <div class="flex-1 min-w-0">
-             <div class="font-medium text-gray-900 truncate">{{ team.name }}</div>
-             <div class="text-sm text-gray-500">{{ team.league }}</div>
-           </div>
-           <div class="text-xs text-gray-400">
-             {{ getTeamTags(team.id).length }} tags
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
+          <div *ngFor="let team of filteredTeams; trackBy: trackByTeamId" (click)="selectTeam(team)"
+            class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50"
+            [class.bg-blue-50]="selectedTeam?.id === team.id" [class.dark:bg-blue-900]="selectedTeam?.id === team.id"
+            [attr.data-selected]="selectedTeam?.id === team.id ? 'true' : 'false'">
+            <img [src]="team.path" [alt]="team.name" class="w-8 h-8 object-contain">
+            <div class="flex-1 min-w-0">
+              <div class="font-medium text-gray-900 dark:text-gray-100 truncate">{{ team.name }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">{{ team.league }}</div>
+            </div>
+            <div class="text-xs text-gray-400 dark:text-gray-500">
+              {{ getTeamTags(team.id).length }} tags
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-   <!-- Right Column: Tag Management -->
-   <div class="lg:col-span-2">
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+    <!-- Right Column: Tag Management -->
+    <div class="lg:col-span-2">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
         <div *ngIf="selectedTeam; else noTeamSelected">
           <div class="flex items-center gap-4 mb-6">
             <img [src]="selectedTeam.path" [alt]="selectedTeam.name" class="w-12 h-12 object-contain">
             <div>
-              <h2 class="text-xl font-semibold text-gray-800">{{ selectedTeam.name }}</h2>
-              <p class="text-gray-500">{{ selectedTeam.league }}</p>
+              <h2 class="text-xl font-semibold text-gray-800 dark:text-white">{{ selectedTeam.name }}</h2>
+              <p class="text-gray-500 dark:text-gray-400">{{ selectedTeam.league }}</p>
             </div>
           </div>
 
           <!-- Current Tags -->
           <div class="mb-6">
-            <h3 class="text-lg font-medium text-gray-700 mb-3">Current Tags</h3>
+            <h3 class="text-lg font-medium text-gray-700 dark:text-gray-200 mb-3">Current Tags</h3>
             <div class="flex flex-wrap gap-2">
-              <div 
-                *ngFor="let tag of getTeamTags(selectedTeam.id)"
-                class="flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-lg"
-              >
+              <div *ngFor="let tag of getTeamTags(selectedTeam.id)"
+                class="flex items-center gap-2 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-lg">
                 <span>{{ tag }}</span>
-                <button
-                  (click)="removeTagFromTeam(selectedTeam.id, tag)"
-                  class="hover:bg-blue-200 rounded-full p-0.5 transition-colors duration-200"
-                >
+                <button (click)="removeTagFromTeam(selectedTeam.id, tag)"
+                  class="hover:bg-blue-200 rounded-full p-0.5 transition-colors duration-200">
                   <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd" />
                   </svg>
                 </button>
               </div>
@@ -175,33 +136,33 @@
             </div>
           </div>
 
-                     <!-- Add Tags -->
-           <div class="mb-6">
-             <h3 class="text-lg font-medium text-gray-700 mb-3">Add Tags to {{ selectedTeam.name }}</h3>
-             <p class="text-sm text-gray-500 mb-3">✅ Click tags below to add them to this team only</p>
-             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-               <button
-                 *ngFor="let tag of availableTags"
-                 (click)="addTagToTeam(selectedTeam.id, tag)"
-                 [disabled]="isTagAssignedToTeam(selectedTeam.id, tag)"
-                 class="text-left p-2 rounded-lg border transition-colors duration-200"
-                 [class]="isTagAssignedToTeam(selectedTeam.id, tag) 
-                   ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' 
-                   : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:border-blue-300 cursor-pointer'"
-               >
-                 {{ tag }}
-               </button>
-             </div>
-           </div>
+          <!-- Add Tags -->
+          <div class="mb-6">
+            <h3 class="text-lg font-medium text-gray-700 dark:text-gray-200 mb-3">Add Tags to {{ selectedTeam.name }}
+            </h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">✅ Click tags below to add them to this team only
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+              <button *ngFor="let tag of availableTags" (click)="addTagToTeam(selectedTeam.id, tag)"
+                [disabled]="isTagAssignedToTeam(selectedTeam.id, tag)"
+                class="text-left p-2 rounded-lg border transition-colors duration-200"
+                [class]="isTagAssignedToTeam(selectedTeam.id, tag) 
+                   ? 'bg-gray-100 dark:bg-gray-700/50 text-gray-400 dark:text-gray-500 border-gray-200 dark:border-gray-700 cursor-not-allowed' 
+                   : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/40 dark:hover:border-blue-800 cursor-pointer'">
+                {{ tag }}
+              </button>
+            </div>
+          </div>
         </div>
 
         <ng-template #noTeamSelected>
           <div class="text-center py-12">
             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
             </svg>
-            <h3 class="mt-4 text-lg font-medium text-gray-900">Select a Team</h3>
-            <p class="mt-2 text-gray-500">Choose a team from the list to manage its tags.</p>
+            <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">Select a Team</h3>
+            <p class="mt-2 text-gray-500 dark:text-gray-400">Choose a team from the list to manage its tags.</p>
           </div>
         </ng-template>
       </div>
@@ -210,26 +171,25 @@
 
   <!-- Available Tags (Global Management) -->
   <div class="mt-8">
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-      <h2 class="text-xl font-semibold text-gray-800 mb-4">Available Tags (Global Management)</h2>
-      <p class="text-sm text-gray-500 mb-4">⚠️ Removing a tag here will remove it from ALL teams</p>
-      
+    <div
+      class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Available Tags (Global Management)</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">⚠️ Removing a tag here will remove it from ALL teams</p>
+
       <!-- Current Available Tags -->
       <div class="mb-6">
-        <h3 class="text-lg font-medium text-gray-700 mb-3">Current Available Tags</h3>
+        <h3 class="text-lg font-medium text-gray-700 dark:text-gray-200 mb-3">Current Available Tags</h3>
         <div class="flex flex-wrap gap-2">
-          <div 
-            *ngFor="let tag of availableTags"
-            class="flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-1 rounded-lg"
-          >
+          <div *ngFor="let tag of availableTags"
+            class="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1 rounded-lg">
             <span>{{ tag }}</span>
-            <button
-              (click)="removeTag(tag)"
+            <button (click)="removeTag(tag)"
               class="hover:bg-gray-200 rounded-full p-0.5 transition-colors duration-200 text-red-600"
-              title="Remove tag from all teams"
-            >
+              title="Remove tag from all teams">
               <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                <path fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd" />
               </svg>
             </button>
           </div>
@@ -241,20 +201,12 @@
 
       <!-- Add New Tag -->
       <div>
-        <h3 class="text-lg font-medium text-gray-700 mb-3">Add New Tag</h3>
+        <h3 class="text-lg font-medium text-gray-700 dark:text-gray-200 mb-3">Add New Tag</h3>
         <div class="flex gap-2">
-          <input
-            type="text"
-            [(ngModel)]="newTag"
-            (keyup.enter)="addNewTag()"
-            placeholder="Enter new tag name"
-            class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-          <button
-            (click)="addNewTag()"
-            [disabled]="!newTag.trim()"
-            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-          >
+          <input type="text" [(ngModel)]="newTag" (keyup.enter)="addNewTag()" placeholder="Enter new tag name"
+            class="flex-1 px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <button (click)="addNewTag()" [disabled]="!newTag.trim()"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
             Add
           </button>
         </div>
@@ -266,4 +218,4 @@
   <div class="mt-8">
     <app-file-manager></app-file-manager>
   </div>
-</div> 
+</div>

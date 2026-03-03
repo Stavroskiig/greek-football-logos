@@ -1,5 +1,5 @@
 .header {
-  background: white;
+  background: var(--bg-primary);
   border: 1px solid var(--border-color);
   border-radius: 0 0 1rem 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -93,12 +93,12 @@
 
 .nav-link:hover {
   background: rgba(59, 130, 246, 0.1);
-  color: rgb(29, 78, 216);
+  color: var(--primary-color);
 }
 
 .nav-link.active {
-  background: rgb(219, 234, 254);
-  color: rgb(29, 78, 216);
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--primary-color);
 }
 
 .nav-link:focus {
