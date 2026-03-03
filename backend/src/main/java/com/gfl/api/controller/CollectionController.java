@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/collections")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class CollectionController {
 

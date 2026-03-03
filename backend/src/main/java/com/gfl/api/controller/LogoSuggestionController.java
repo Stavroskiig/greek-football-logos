@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/suggestions")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class LogoSuggestionController {
 
