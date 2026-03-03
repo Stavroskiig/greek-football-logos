@@ -2,7 +2,7 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, of } from 'rxjs';
-import { catchError, map, shareReplay, tap } from 'rxjs/operators';
+import { catchError, map, shareReplay, tap, retry } from 'rxjs/operators';
 import { TeamLogo } from '../models/team-logo';
 import { TagService } from './tag.service';
 
@@ -16,12 +16,14 @@ export class LogoService {
   private allLogos$: Observable<TeamLogo[]>;
 
   constructor(
-
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object,
     private tagService: TagService
   ) {
     this.allLogos$ = this.http.get<TeamLogo[]>(this.apiUrl).pipe(
+      // Vercel hobby tiers drop connections after 10s. Render takes 50s to wake up.
+      // Retry 5 times, waiting 10s between retries to keep asking until Render is awake.
+      retry({ count: 5, delay: 10000 }),
       tap(logos => console.log('Raw logos loaded from API:', logos.length)),
       map(logos => logos.map(logo => {
         return {
@@ -31,7 +33,7 @@ export class LogoService {
       })),
       tap(logos => console.log('Processed logos:', logos.length)),
       catchError((error) => {
-        console.error('Error loading logos from API:', error);
+        console.error('Error loading logos from API after 5 retries:', error);
         return of([]);
       }),
       shareReplay(1)

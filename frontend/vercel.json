@@ -5,13 +5,5 @@
       "source": "/(.*)",
       "destination": "/dist/greek-football-logos/browser/index.html"
     }
-  ],
-  "functions": {
-    "api/**": {
-      "maxDuration": 60
-    },
-    "*": {
-      "maxDuration": 60
-    }
-  }
+  ]
 }
