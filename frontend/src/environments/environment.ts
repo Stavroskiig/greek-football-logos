@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://greek-football-logos-backend.onrender.com/api' // Placeholder Render URL
+    apiUrl: '/api' // Uses Vercel rewrites to proxy to Render without triggering mobile CORS/Tracker blockers
 };
