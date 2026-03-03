@@ -31,8 +31,8 @@ public class DataSeeder {
                     File manifestFile = new File("../frontend/src/assets/logos-manifest.json");
                     if (manifestFile.exists()) {
                         ObjectMapper mapper = new ObjectMapper();
-                        List<Map<String, Object>> rawLogos = mapper.readValue(manifestFile,
-                                new TypeReference<List<Map<String, Object>>>() {
+                        List<com.gfl.api.dto.LogoSyncDTO> rawLogos = mapper.readValue(manifestFile,
+                                new TypeReference<List<com.gfl.api.dto.LogoSyncDTO>>() {
                                 });
                         teamLogoService.syncLogosFromManifest(rawLogos);
                     } else {

@@ -36,13 +36,13 @@ public class TeamLogoService {
         teamLogoRepository.deleteById(id);
     }
 
-    public int syncLogosFromManifest(List<Map<String, Object>> rawLogos) {
+    public int syncLogosFromManifest(List<com.gfl.api.dto.LogoSyncDTO> rawLogos) {
         int addedCount = 0;
         try {
-            for (Map<String, Object> rawLogo : rawLogos) {
-                String name = (String) rawLogo.get("name");
-                String path = (String) rawLogo.get("path");
-                String league = (String) rawLogo.get("league");
+            for (com.gfl.api.dto.LogoSyncDTO rawLogo : rawLogos) {
+                String name = rawLogo.getName();
+                String path = rawLogo.getPath();
+                String league = rawLogo.getLeague();
 
                 String id = generateId(name);
                 if (!teamLogoRepository.existsById(id)) {

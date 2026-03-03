@@ -52,7 +52,7 @@ public class TeamLogoController {
     }
 
     @PostMapping("/sync")
-    public ResponseEntity<?> syncLogos(@RequestBody java.util.List<java.util.Map<String, Object>> manifestData) {
+    public ResponseEntity<?> syncLogos(@RequestBody java.util.List<com.gfl.api.dto.LogoSyncDTO> manifestData) {
         try {
             int addedCount = teamLogoService.syncLogosFromManifest(manifestData);
             return ResponseEntity.ok(java.util.Map.of("message", "Sync successful", "addedCount", addedCount));
