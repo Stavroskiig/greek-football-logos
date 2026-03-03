@@ -20,15 +20,24 @@ public class TeamLogoController {
             @RequestParam(required = false) String league,
             @RequestParam(required = false) String search) {
 
+        org.springframework.http.CacheControl cacheControl = org.springframework.http.CacheControl
+                .maxAge(java.time.Duration.ofHours(1));
+
         if (league != null && !league.isEmpty()) {
-            return ResponseEntity.ok(teamLogoService.getLogosByLeague(league));
+            return ResponseEntity.ok()
+                    .cacheControl(cacheControl)
+                    .body(teamLogoService.getLogosByLeague(league));
         }
 
         if (search != null && !search.isEmpty()) {
-            return ResponseEntity.ok(teamLogoService.searchLogosByName(search));
+            return ResponseEntity.ok()
+                    .cacheControl(cacheControl)
+                    .body(teamLogoService.searchLogosByName(search));
         }
 
-        return ResponseEntity.ok(teamLogoService.getAllLogos());
+        return ResponseEntity.ok()
+                .cacheControl(cacheControl)
+                .body(teamLogoService.getAllLogos());
     }
 
     @PostMapping
