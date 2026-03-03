@@ -8,12 +8,28 @@
     <!-- Navigation - Centered -->
     <nav class="navigation">
       <div class="nav-links">
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Home</a>
-        <a routerLink="/misc" routerLinkActive="active" class="nav-link">Misc</a>
-        <a routerLink="/suggest" routerLinkActive="active" class="nav-link">Suggest</a>
-        <a routerLink="/games" routerLinkActive="active" class="nav-link">Games</a>
-        <a routerLink="/collections" routerLinkActive="active" class="nav-link">Collections</a>
-        <a routerLink="/admin" routerLinkActive="active" class="nav-link">Admin</a>
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">{{
+          'nav.home' | translate }}</a>
+        <a routerLink="/misc" routerLinkActive="active" class="nav-link">{{ 'nav.misc' | translate }}</a>
+        <a routerLink="/suggest" routerLinkActive="active" class="nav-link">{{ 'nav.suggest' | translate }}</a>
+        <a routerLink="/games" routerLinkActive="active" class="nav-link">{{ 'nav.games' | translate }}</a>
+        <a routerLink="/collections" routerLinkActive="active" class="nav-link">{{ 'nav.collections' | translate }}</a>
+        <a routerLink="/admin" routerLinkActive="active" class="nav-link">{{ 'nav.admin' | translate }}</a>
+
+        <button (click)="toggleLanguage()"
+          class="flex items-center justify-center gap-2 px-3 py-1.5 ml-1 border border-blue-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full font-medium text-gray-800 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm cursor-pointer"
+          aria-label="Toggle language" title="Toggle Language">
+          <!-- Greek Flag -->
+          <img *ngIf="currentLang === 'el'" src="https://flagcdn.com/w20/gr.png"
+            srcset="https://flagcdn.com/w40/gr.png 2x" width="22" alt="Greek" class="rounded-[2px]" />
+          <span *ngIf="currentLang === 'el'" class="text-sm">GR</span>
+
+          <!-- UK Flag -->
+          <img *ngIf="currentLang === 'en'" src="https://flagcdn.com/w20/gb.png"
+            srcset="https://flagcdn.com/w40/gb.png 2x" width="22" alt="English" class="rounded-[2px]" />
+          <span *ngIf="currentLang === 'en'" class="text-sm">EN</span>
+        </button>
+
         <button (click)="toggleTheme()"
           class="nav-link flex items-center justify-center p-2 rounded-full cursor-pointer transition-colors duration-200"
           aria-label="Toggle dark mode" title="Toggle Theme">

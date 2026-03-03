@@ -1,0 +1,67 @@
+{
+    "nav": {
+        "home": "Home",
+        "misc": "Misc",
+        "suggest": "Suggest",
+        "games": "Games",
+        "collections": "Collections",
+        "admin": "Admin"
+    },
+    "search": {
+        "placeholder": "Search teams...",
+        "no_teams": "No teams found",
+        "try_adjusting": "Try adjusting your search or filter criteria."
+    },
+    "filters": {
+        "logo": "logo",
+        "logos": "logos",
+        "filter_by_tags": "Filter by Tags",
+        "clear_all": "Clear all"
+    },
+    "misc": {
+        "select_tags_or_search": "Select tags or search to see teams",
+        "teams_found": "team(s) found",
+        "tags_selected": "tag(s) selected",
+        "select_tags_to_filter": "Select tags to filter teams",
+        "choose_tags_or_search": "Choose tags from the dropdown or search for teams to see results.",
+        "try_adjusting_tags": "Try adjusting your search or tag filters."
+    },
+    "admin": {
+        "panel": "Admin Panel",
+        "description": "Manage collections and tags for the Greek Football Logos application",
+        "logout": "Logout",
+        "collections": "Collection Management",
+        "tags": "Tag Management"
+    },
+    "suggest": {
+        "title": "Suggest a New Logo",
+        "subtitle": "Help us expand our collection by suggesting a new team logo",
+        "team_name": "Team Name",
+        "team_name_required": "Team name is required",
+        "eps": "EPS",
+        "eps_required": "EPS is required",
+        "logo_url": "Logo URL",
+        "logo_url_hint": "Direct link to the logo image",
+        "logo_url_invalid": "Please provide a valid URL to the logo image (ending in .png, .jpg, etc.)",
+        "logo_url_subhint": "Provide a direct link to the logo image (e.g., ending in .png, .jpg, etc.)",
+        "email": "Your Email",
+        "email_invalid": "Please enter a valid email",
+        "submit": "Submit Suggestion",
+        "submitting": "Submitting..."
+    },
+    "logo": {
+        "download": "Download"
+    },
+    "details": {
+        "founded_in": "Founded in",
+        "stadium": "Stadium",
+        "capacity": "Capacity",
+        "location": "Location",
+        "history": "History",
+        "achievements": "Achievements",
+        "league_titles": "League Titles",
+        "cup_titles": "Cup Titles",
+        "official_links": "Official Links",
+        "official_website": "Official Website"
+    }
+}

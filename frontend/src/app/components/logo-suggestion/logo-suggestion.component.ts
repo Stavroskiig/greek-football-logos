@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LogoSuggestionService } from '../../services/logo-suggestion.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-logo-suggestion',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './logo-suggestion.component.html'
 })
 export class LogoSuggestionComponent implements OnInit {
@@ -27,7 +28,7 @@ export class LogoSuggestionComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   get teamName() { return this.suggestionForm.get('teamName')!; }
   get eps() { return this.suggestionForm.get('eps')!; }
@@ -42,16 +43,16 @@ export class LogoSuggestionComponent implements OnInit {
 
   // URL validator
   urlValidator() {
-    return (control: any): {[key: string]: any} | null => {
+    return (control: any): { [key: string]: any } | null => {
       const url = control.value;
       if (!url) {
         return { 'required': true };
       }
-      
+
       if (!this.isValidUrl(url)) {
         return { 'invalidUrl': true };
       }
-      
+
       return null;
     };
   }
@@ -72,7 +73,7 @@ export class LogoSuggestionComponent implements OnInit {
       });
       return;
     }
-    
+
     this.isSubmitting = true;
     this.submitError = null;
     this.submitSuccess = null;
@@ -85,23 +86,23 @@ export class LogoSuggestionComponent implements OnInit {
       formData.append('url', this.url.value.trim());
       formData.append('hasUrl', 'true');
       formData.append('hasFile', 'false');
-      
+
       console.log('Submitting with URL:', this.url.value.trim());
-      
+
       const response = await this.suggestionService.submitSuggestion(formData).toPromise();
       console.log('Submission response:', response);
-      
+
       // Reset form after successful submission
       this.suggestionForm.reset();
       this.submitSuccess = 'Logo suggestion submitted successfully! We will review it and get back to you soon.';
       console.log('Success message set:', this.submitSuccess);
-      
+
       // Clear success message after 5 seconds
       setTimeout(() => {
         this.submitSuccess = null;
         console.log('Success message cleared');
       }, 5000);
-      
+
     } catch (error) {
       console.error('Error in form submission:', error);
       if (error instanceof Error) {

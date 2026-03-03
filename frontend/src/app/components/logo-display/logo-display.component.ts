@@ -7,11 +7,12 @@ import { Observable, map } from 'rxjs';
 import { LogoItemComponent } from '../logo-item/logo-item.component';
 import { LeagueSelectorComponent } from '../league-selector/league-selector.component';
 import { Logo } from '../../models/logo';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-logo-display',
   standalone: true,
-  imports: [CommonModule, FormsModule, LogoItemComponent, LeagueSelectorComponent],
+  imports: [CommonModule, FormsModule, LogoItemComponent, LeagueSelectorComponent, TranslatePipe],
   templateUrl: './logo-display.component.html'
 })
 export class LogoDisplayComponent implements OnInit {

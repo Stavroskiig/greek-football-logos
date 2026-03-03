@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalService } from '../../services/modal.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-team-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './team-details.component.html'
 })
 export class TeamDetailsComponent {
-  constructor(public modalService: ModalService) {}
+  constructor(public modalService: ModalService) { }
 
   closeModal() {
     this.modalService.closeModal();

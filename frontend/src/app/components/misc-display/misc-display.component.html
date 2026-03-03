@@ -15,8 +15,8 @@
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
-            <input type="text" [(ngModel)]="searchTerm" (input)="applyFilters()" placeholder="Search teams..."
-              aria-label="Search teams"
+            <input type="text" [(ngModel)]="searchTerm" (input)="applyFilters()"
+              [placeholder]="'search.placeholder' | translate" [attr.aria-label]="'search.placeholder' | translate"
               class="block w-full pl-12 pr-10 py-3 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200" />
             <button type="button" *ngIf="searchTerm" (click)="clearSearch()" aria-label="Clear search"
               class="absolute inset-y-0 right-0 pr-4 flex items-center hover:bg-gray-100 dark:hover:bg-gray-600 rounded-full p-1 transition">
@@ -31,7 +31,8 @@
 
         <!-- Tag Selector -->
         <div class="w-full lg:w-80 shrink-0">
-          <label class="block mb-2 text-gray-700 dark:text-gray-200 font-medium">Filter by Tags</label>
+          <label class="block mb-2 text-gray-700 dark:text-gray-200 font-medium">{{ 'filters.filter_by_tags' | translate
+            }}</label>
           <app-tag-selector (tagsChange)="onTagsChange($event)"></app-tag-selector>
         </div>
       </div>
@@ -48,8 +49,8 @@
             </svg>
             <span class="text-sm font-medium">
               {{ selectedTags.length === 0 && !searchTerm.trim()
-              ? 'Select tags or search to see teams'
-              : (logos.length + ' ' + (logos.length === 1 ? 'team' : 'teams') + ' found') }}
+              ? ('misc.select_tags_or_search' | translate)
+              : (logos.length + ' ' + ('misc.teams_found' | translate)) }}
             </span>
           </div>
 
@@ -60,8 +61,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
             </svg>
-            <span class="text-sm font-medium">{{ selectedTags.length }} tag{{ selectedTags.length === 1 ? '' : 's' }}
-              selected</span>
+            <span class="text-sm font-medium">{{ selectedTags.length }} {{ 'misc.tags_selected' | translate }}</span>
           </div>
 
           <!-- Clear All Button -->
@@ -70,7 +70,7 @@
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
-            <span class="text-sm">Clear all</span>
+            <span class="text-sm">{{ 'filters.clear_all' | translate }}</span>
           </button>
         </div>
       </div>
@@ -91,12 +91,13 @@
             d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
         </svg>
         <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">
-          {{ selectedTags.length === 0 && !searchTerm.trim() ? 'Select tags to filter teams' : 'No teams found' }}
+          {{ selectedTags.length === 0 && !searchTerm.trim() ? ('misc.select_tags_to_filter' | translate) :
+          ('search.no_teams' | translate) }}
         </h3>
         <p class="mt-2 text-gray-500 dark:text-gray-400">
           {{ selectedTags.length === 0 && !searchTerm.trim()
-          ? 'Choose tags from the dropdown or search for teams to see results.'
-          : 'Try adjusting your search or tag filters.' }}
+          ? ('misc.choose_tags_or_search' | translate)
+          : ('misc.try_adjusting_tags' | translate) }}
         </p>
       </div>
     </section>

@@ -2,18 +2,19 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TeamLogo } from '../../models/team-logo';
 import { ModalService } from '../../services/modal.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-logo-item',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './logo-item.component.html'
 })
 export class LogoItemComponent {
   @Input() logo!: TeamLogo;
   imageLoaded = false;
 
-  constructor(private modalService: ModalService) {}
+  constructor(private modalService: ModalService) { }
 
   onImageLoad() {
     this.imageLoaded = true;

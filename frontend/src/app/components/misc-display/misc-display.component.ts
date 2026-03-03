@@ -1,24 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LogoService } from '../../services/logo.service';
 import { TagService } from '../../services/tag.service';
 import { StructuredDataService } from '../../services/structured-data.service';
-import { Observable, map, of } from 'rxjs';
+import { Observable, Subscription, map, of } from 'rxjs';
 import { LogoItemComponent } from '../logo-item/logo-item.component';
 import { TagSelectorComponent } from '../tag-selector/tag-selector.component';
+import { Logo } from '../../models/logo';
 import { TeamLogo } from '../../models/team-logo';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-misc-display',
   standalone: true,
-  imports: [CommonModule, FormsModule, LogoItemComponent, TagSelectorComponent],
+  imports: [CommonModule, FormsModule, LogoItemComponent, TagSelectorComponent, TranslatePipe],
   templateUrl: './misc-display.component.html'
 })
 export class MiscDisplayComponent implements OnInit {
   searchTerm: string = '';
   selectedTags: string[] = [];
-  logos$: Observable<TeamLogo[]>;
+  logos$!: Observable<TeamLogo[]>;
   allLogos: TeamLogo[] = [];
 
   constructor(
