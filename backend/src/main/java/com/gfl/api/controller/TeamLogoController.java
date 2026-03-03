@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/logos")
-@CrossOrigin(origins = "*") // Allow frontend to call this API
 @RequiredArgsConstructor
 public class TeamLogoController {
 
