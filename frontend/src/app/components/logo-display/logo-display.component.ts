@@ -51,11 +51,8 @@ export class LogoDisplayComponent implements OnInit {
   }
 
   applyFilters() {
-    this.logos$ = combineLatest([
-      this.logoService.getLogos(),
-      this.logoService.getLeagues()
-    ]).pipe(
-      map(([logos]) => {
+    this.logos$ = this.logoService.getLogos().pipe(
+      map(logos => {
         return logos.filter(logo => {
           const matchesSearch = !this.searchTerm ||
             this.normalizeString(logo.name).includes(this.normalizeString(this.searchTerm));
