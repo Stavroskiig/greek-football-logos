@@ -12,6 +12,7 @@ import { CollectionDetailComponent } from './components/collection-detail/collec
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminCollectionManagerComponent } from './components/admin-collection-manager/admin-collection-manager.component';
 import { AdminGuard } from './guards/admin.guard';
+import { InteractiveMapComponent } from './components/interactive-map/interactive-map.component';
 
 export const routes: Routes = [
   { path: '', component: LogoDisplayComponent },
@@ -22,10 +23,11 @@ export const routes: Routes = [
   { path: 'games', component: GamesComponent },
   { path: 'quiz', component: QuizMenuComponent },
   { path: 'quiz/game', component: QuizGameComponent },
+  { path: 'map', component: InteractiveMapComponent },
   { path: 'collections', component: CollectionsComponent },
   { path: 'collections/:id', component: CollectionDetailComponent },
-  { 
-    path: 'admin', 
+  {
+    path: 'admin',
     component: AdminComponent,
     canActivate: [AdminGuard],
     children: [
