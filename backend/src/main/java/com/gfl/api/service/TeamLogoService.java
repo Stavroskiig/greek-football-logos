@@ -4,6 +4,8 @@ import com.gfl.api.model.TeamLogo;
 import com.gfl.api.repository.TeamLogoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,16 +18,16 @@ public class TeamLogoService {
 
     private final TeamLogoRepository teamLogoRepository;
 
-    public List<TeamLogo> getAllLogos() {
-        return teamLogoRepository.findAll();
+    public Page<TeamLogo> getAllLogos(Pageable pageable) {
+        return teamLogoRepository.findAll(pageable);
     }
 
-    public List<TeamLogo> getLogosByLeague(String league) {
-        return teamLogoRepository.findByLeague(league);
+    public Page<TeamLogo> getLogosByLeague(String league, Pageable pageable) {
+        return teamLogoRepository.findByLeague(league, pageable);
     }
 
-    public List<TeamLogo> searchLogosByName(String name) {
-        return teamLogoRepository.findByNameContainingIgnoreCase(name);
+    public Page<TeamLogo> searchLogosByName(String name, Pageable pageable) {
+        return teamLogoRepository.findByNameContainingIgnoreCase(name, pageable);
     }
 
     public TeamLogo saveTeamLogo(TeamLogo teamLogo) {

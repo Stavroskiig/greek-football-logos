@@ -69,7 +69,7 @@ export class AdminCollectionManagerComponent implements OnInit {
     });
 
     // Load all logos
-    this.logoService.getAllLogos().subscribe(logos => {
+    this.logoService.getLogosManifest().subscribe(logos => {
       this.allLogos = logos;
       this.populateAvailableLeagues();
       this.filterLogos();

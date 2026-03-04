@@ -37,14 +37,14 @@
       </div>
 
       <!-- Results Count -->
-      <div *ngIf="logos$ | async as logos" class="pt-4 border-t border-gray-100 dark:border-gray-700">
+      <div *ngIf="logos" class="pt-4 border-t border-gray-100 dark:border-gray-700">
         <div class="flex flex-wrap items-center gap-3">
           <!-- Results Badge -->
           <div
             class="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-3 py-1.5 rounded-lg border border-blue-200 dark:border-blue-800 transition-colors duration-200">
             <img src="assets/counter/team-counter.png" alt="Results" class="h-5 w-auto" />
             <span class="text-sm font-medium">
-              {{ logos.length }} {{ (logos.length === 1 ? 'filters.logo' : 'filters.logos') | translate }}
+              {{ totalElements }} {{ (totalElements === 1 ? 'filters.logo' : 'filters.logos') | translate }}
             </span>
           </div>
 
@@ -61,11 +61,17 @@
     <!-- Logo Grid -->
     <section
       class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
-      <app-logo-item *ngFor="let logo of logos$ | async" [logo]="logo"></app-logo-item>
+      <app-logo-item *ngFor="let logo of logos" [logo]="logo"></app-logo-item>
+    </section>
+
+    <!-- Loading Indicator -->
+    <section *ngIf="isLoading" class="text-center py-8 transition-colors duration-200">
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Loading logos...</p>
     </section>
 
     <!-- No Results -->
-    <section *ngIf="(logos$ | async)?.length === 0" class="text-center py-16 transition-colors duration-200">
+    <section *ngIf="logos.length === 0 && !isLoading" class="text-center py-16 transition-colors duration-200">
       <div class="max-w-md mx-auto">
         <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor"
           viewBox="0 0 24 24">

@@ -8,35 +8,66 @@ import { TagService } from './tag.service';
 
 import { environment } from '../../environments/environment';
 
+export interface Page<T> {
+  content: T[];
+  pageable: any;
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  sort: any;
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class LogoService {
   private apiUrl = `${environment.apiUrl}/logos`;
-  private allLogos$: Observable<TeamLogo[]>;
 
   constructor(
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object,
     private tagService: TagService
   ) {
-    this.allLogos$ = this.http.get<TeamLogo[]>(this.apiUrl).pipe(
-      // Vercel hobby tiers drop connections after 10s. Render takes 50s to wake up.
-      // Retry 5 times, waiting 10s between retries to keep asking until Render is awake.
-      retry({ count: 5, delay: 10000 }),
-      tap(logos => console.log('Raw logos loaded from API:', logos.length)),
-      map(logos => logos.map(logo => {
-        return {
+    // Determine leagues once initially (optional optimization: can move to backend)
+  }
+
+  getLogos(league?: string, searchTerm?: string, page: number = 0, size: number = 50): Observable<Page<TeamLogo>> {
+    let url = `${this.apiUrl}?page=${page}&size=${size}`;
+    if (league) url += `&league=${encodeURIComponent(league)}`;
+    if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
+
+    return this.http.get<Page<TeamLogo>>(url).pipe(
+      retry({ count: 3, delay: 2000 }),
+      map((pageData: any) => {
+        // Handle local cache poisoning during transition (if browser cached the old backend's flat array)
+        if (Array.isArray(pageData)) {
+          pageData = {
+            content: pageData,
+            totalElements: pageData.length,
+            totalPages: 1,
+            last: true,
+            size: pageData.length,
+            number: 0
+          } as Page<TeamLogo>;
+        }
+
+        // Hydrate tags
+        pageData.content = pageData.content.map((logo: TeamLogo) => ({
           ...logo,
           tags: this.tagService.getTeamTags(logo.id)
-        };
-      })),
-      tap(logos => console.log('Processed logos:', logos.length)),
-      catchError((error) => {
-        console.error('Error loading logos from API after 5 retries:', error);
-        return of([]);
+        }));
+        return pageData as Page<TeamLogo>;
       }),
-      shareReplay(1)
+      catchError((error) => {
+        console.error('Error loading paginated logos:', error);
+        // Return empty page structure on error
+        return of({ content: [], last: true, empty: true, totalElements: 0, totalPages: 0, size: size, number: page } as any as Page<TeamLogo>);
+      })
     );
   }
 
@@ -48,73 +79,21 @@ export class LogoService {
     return this.http.post<{ message: string; addedCount: number }>(`${this.apiUrl}/sync`, manifestData);
   }
 
-  getLogosManifest(): Observable<TeamLogo[]> {
-    return this.allLogos$;
-  }
-
-  getLogos(league?: string, searchTerm?: string): Observable<TeamLogo[]> {
-    return this.allLogos$.pipe(
-      map((logos) => {
-        let result = [...logos];
-
-        // Only filter by league if one is selected
-        if (league) {
-          result = result.filter((logo) =>
-            (logo.league || '').toUpperCase() === league.toUpperCase()
-          );
-        }
-
-        if (searchTerm) {
-          const term = searchTerm
-            .toUpperCase()
-            .normalize('NFKC'); // Use NFKC normalization for better Greek character handling
-
-          result = result.filter((logo) => {
-            const name = logo.name
-              .toUpperCase()
-              .normalize('NFKC'); // Use NFKC normalization for better Greek character handling
-            return name.includes(term);
-          });
-        }
-
-        return result;
-      })
-    );
-  }
-
   getLeagues(): Observable<string[]> {
-    return this.allLogos$.pipe(
-      map((logos) => {
-        const leagues = [...new Set(logos.map((logo) => logo.league || 'Uncategorized'))];
-
-        // Custom sorting: SUPERLEAGUE, SUPERLEAGUE 2, Γ ΕΘΝΙΚΗ first, then alphabetical
-        return leagues.sort((a, b) => {
-          // Define priority order
-          const priorityOrder = ['SUPERLEAGUE', 'SUPERLEAGUE 2', 'Γ ΕΘΝΙΚΗ'];
-
-          const aIndex = priorityOrder.indexOf(a);
-          const bIndex = priorityOrder.indexOf(b);
-
-          // If both are in priority list, sort by their position
-          if (aIndex !== -1 && bIndex !== -1) {
-            return aIndex - bIndex;
-          }
-
-          // If only a is in priority list, a comes first
-          if (aIndex !== -1) {
-            return -1;
-          }
-
-          // If only b is in priority list, b comes first
-          if (bIndex !== -1) {
-            return 1;
-          }
-
-          // If neither is in priority list, sort alphabetically
-          return a.localeCompare(b);
-        });
-      })
-    );
+    // For now, returning standard list or fetch from distinct API. Hardcoded priority for speed.
+    const priorityOrder = ['SUPERLEAGUE', 'SUPERLEAGUE 2', 'Γ ΕΘΝΙΚΗ'];
+    const epsLeagues = [
+      'ΕΠΣ ΑΘΗΝΩΝ', 'ΕΠΣ ΑΙΤΩΛΟΑΚΑΡΝΑΝΙΑΣ', 'ΕΠΣ ΑΝΑΤΟΛΙΚΗΣ ΑΤΤΙΚΗΣ', 'ΕΠΣ ΑΡΓΟΛΙΔΑΣ', 'ΕΠΣ ΑΡΚΑΔΙΑΣ',
+      'ΕΠΣ ΑΡΤΑΣ', 'ΕΠΣ ΑΧΑΪΑΣ', 'ΕΠΣ ΒΟΙΩΤΙΑΣ', 'ΕΠΣ ΓΡΕΒΕΝΩΝ', 'ΕΠΣ ΔΡΑΜΑΣ', 'ΕΠΣ ΔΥΤΙΚΗΣ ΑΤΤΙΚΗΣ',
+      'ΕΠΣ ΔΩΔΕΚΑΝΗΣΟΥ', 'ΕΠΣ ΕΒΡΟΥ', 'ΕΠΣ ΕΥΒΟΙΑΣ', 'ΕΠΣ ΕΥΡΥΤΑΝΙΑΣ', 'ΕΠΣ ΕΥΡΩΠΑ', 'ΕΠΣ ΗΛΕΙΑΣ',
+      'ΕΠΣ ΗΜΑΘΙΑΣ', 'ΕΠΣ ΗΠΕΙΡΟΥ', 'ΕΠΣ ΗΡΑΚΛΕΙΟΥ', 'ΕΠΣ ΘΕΣΠΡΩΤΙΑΣ', 'ΕΠΣ ΘΕΣΣΑΛΙΑΣ', 'ΕΠΣ ΘΡΑΚΗΣ',
+      'ΕΠΣ ΚΑΒΑΛΑΣ', 'ΕΠΣ ΚΑΡΔΙΤΣΑΣ', 'ΕΠΣ ΚΑΣΤΟΡΙΑΣ', 'ΕΠΣ ΚΕΡΚΥΡΑΣ', 'ΕΠΣ ΚΕΦΑΛΛΗΝΙΑΣ-ΙΘΑΚΗΣ',
+      'ΕΠΣ ΚΙΛΚΙΣ', 'ΕΠΣ ΚΟΖΑΝΗΣ', 'ΕΠΣ ΚΟΡΙΝΘΙΑΣ', 'ΕΠΣ ΚΥΚΛΑΔΩΝ', 'ΕΠΣ ΛΑΚΩΝΙΑΣ', 'ΕΠΣ ΛΑΡΙΣΑΣ',
+      'ΕΠΣ ΛΑΣΙΘΙΟΥ', 'ΕΠΣ ΛΕΣΒΟΥ-ΛΗΜΝΟΥ', 'ΕΠΣ ΜΑΚΕΔΟΝΙΑΣ', 'ΕΠΣ ΜΕΣΣΗΝΙΑΣ', 'ΕΠΣ ΞΑΝΘΗΣ', 'ΕΠΣ ΠΕΙΡΑΙΑ',
+      'ΕΠΣ ΠΕΛΛΑΣ', 'ΕΠΣ ΠΙΕΡΙΑΣ', 'ΕΠΣ ΠΡΕΒΕΖΑΣ-ΛΕΥΚΑΔΑΣ', 'ΕΠΣ ΡΕΘΥΜΝΟΥ', 'ΕΠΣ ΣΑΜΟΥ', 'ΕΠΣ ΣΕΡΡΩΝ',
+      'ΕΠΣ ΤΡΙΚΑΛΩΝ', 'ΕΠΣ ΦΘΙΩΤΙΔΑΣ', 'ΕΠΣ ΦΛΩΡΙΝΑΣ', 'ΕΠΣ ΦΩΚΙΔΑΣ', 'ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ', 'ΕΠΣ ΧΑΝΙΩΝ', 'ΕΠΣ ΧΙΟΥ'
+    ];
+    return of([...priorityOrder, ...epsLeagues]);
   }
 
   getLeagueLogoPath(leagueName: string): string {
@@ -188,7 +167,11 @@ export class LogoService {
     return '/assets/league-logos/default-league.png';
   }
 
-  getAllLogos(): Observable<TeamLogo[]> {
-    return this.allLogos$;
+  getAllLogos(page: number = 0, size: number = 1000): Observable<Page<TeamLogo>> {
+    return this.getLogos(undefined, undefined, page, size);
+  }
+
+  getLogosManifest(): Observable<TeamLogo[]> {
+    return this.getAllLogos(0, 2000).pipe(map(page => page.content));
   }
 }

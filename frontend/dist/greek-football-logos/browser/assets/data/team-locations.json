@@ -1,0 +1,1082 @@
+[
+  {
+    "id": "ΑΕΚ",
+    "name": "ΑΕΚ",
+    "lat": 38.0371,
+    "lng": 23.7397,
+    "region": "Attica",
+    "league": "SUPERLEAGUE",
+    "founded": 1924,
+    "historyKey": "history.aek"
+  },
+  {
+    "id": "ΑΟ ΠΑΝΑΘΗΝΑΙΚΟΣ",
+    "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ",
+    "lat": 37.9877,
+    "lng": 23.7538,
+    "region": "Attica",
+    "league": "SUPERLEAGUE",
+    "founded": 1908,
+    "historyKey": "history.panathinaikos"
+  },
+  {
+    "id": "ΣΦΠ ΟΛΥΜΠΙΑΚΟΣ",
+    "name": "ΟΛΥΜΠΙΑΚΟΣ",
+    "lat": 37.9463,
+    "lng": 23.6644,
+    "region": "Attica",
+    "league": "SUPERLEAGUE",
+    "founded": 1925,
+    "historyKey": "history.olympiacos"
+  },
+  {
+    "id": "ΠΑΟΚ",
+    "name": "ΠΑΟΚ",
+    "lat": 40.6137,
+    "lng": 22.9723,
+    "region": "Central Macedonia",
+    "league": "SUPERLEAGUE",
+    "founded": 1926,
+    "historyKey": "history.paok"
+  },
+  {
+    "id": "ΑΣ ΑΡΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ",
+    "name": "ΑΡΗΣ",
+    "lat": 40.6009,
+    "lng": 22.9698,
+    "region": "Central Macedonia",
+    "league": "SUPERLEAGUE",
+    "founded": 1914,
+    "historyKey": "history.aris"
+  },
+  {
+    "id": "ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ",
+    "name": "ΠΑΝΑΙΤΩΛΙΚΟΣ",
+    "lat": 38.631,
+    "lng": 21.4089,
+    "region": "Western Greece",
+    "league": "SUPERLEAGUE",
+    "founded": 1930,
+    "historyKey": "history.panetolikos"
+  },
+  {
+    "id": "ΑΓΣ ΑΣΤΕΡΑΣ ΤΡΙΠΟΛΗΣ",
+    "name": "ΑΣΤΕΡΑΣ ΤΡΙΠΟΛΗΣ",
+    "lat": 37.5147,
+    "lng": 22.3855,
+    "region": "Peloponnese",
+    "league": "SUPERLEAGUE",
+    "founded": 1931,
+    "historyKey": "history.asteras_tripolis"
+  },
+  {
+    "id": "ΑΠΣ ΑΤΡΟΜΗΤΟΣ ΑΘΗΝΩΝ",
+    "name": "ΑΤΡΟΜΗΤΟΣ",
+    "lat": 38.0163,
+    "lng": 23.6896,
+    "region": "Attica",
+    "league": "SUPERLEAGUE",
+    "founded": 1923,
+    "historyKey": "history.atromitos"
+  },
+  {
+    "id": "ΝΠΣ ΒΟΛΟΣ",
+    "name": "ΒΟΛΟΣ",
+    "lat": 39.3879,
+    "lng": 22.9304,
+    "region": "Thessaly",
+    "league": "SUPERLEAGUE",
+    "founded": 2017,
+    "historyKey": "history.volos"
+  },
+  {
+    "id": "ΟΦΗ",
+    "name": "ΟΦΗ",
+    "lat": 35.337,
+    "lng": 25.1205,
+    "region": "Crete",
+    "league": "SUPERLEAGUE",
+    "founded": 1925,
+    "historyKey": "history.ofi"
+  },
+  {
+    "id": "ΜΓΣ ΠΑΝΣΕΡΡΑΪΚΟΣ",
+    "name": "ΠΑΝΣΕΡΡΑΪΚΟΣ",
+    "lat": 41.0833,
+    "lng": 23.5416,
+    "region": "Central Macedonia",
+    "league": "SUPERLEAGUE",
+    "founded": 1964,
+    "historyKey": "history.panserraikos"
+  },
+  {
+    "id": "ΑΕ ΛΑΡΙΣΑΣ",
+    "name": "ΑΕΛ",
+    "lat": 39.6053,
+    "lng": 22.4042,
+    "region": "Thessaly",
+    "league": "SUPERLEAGUE",
+    "founded": 1964,
+    "historyKey": "history.ael"
+  },
+  {
+    "id": "ΑΠΟ ΛΕΒΑΔΕΙΑΚΟΣ",
+    "name": "ΛΕΒΑΔΕΙΑΚΟΣ",
+    "lat": 38.4336,
+    "lng": 22.8718,
+    "region": "Central Greece",
+    "league": "SUPERLEAGUE",
+    "founded": 1961,
+    "historyKey": "history.levadiakos"
+  },
+  {
+    "id": "ΑΕ ΚΗΦΙΣΙΑ",
+    "name": "ΚΗΦΙΣΙΑ",
+    "lat": 38.0776,
+    "lng": 23.8166,
+    "region": "Attica",
+    "league": "SUPERLEAGUE",
+    "founded": 2012,
+    "historyKey": "history.kifisia"
+  },
+  {
+    "id": "ΑΟ ΚΑΒΑΛΑ",
+    "name": "ΚΑΒΑΛΑ",
+    "lat": 40.9396,
+    "lng": 24.4069,
+    "region": "Eastern Macedonia and Thrace",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1965,
+    "historyKey": "history.kavala"
+  },
+  {
+    "id": "ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ",
+    "name": "ΗΡΑΚΛΗΣ",
+    "lat": 40.63,
+    "lng": 22.9554,
+    "region": "Central Macedonia",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1908,
+    "historyKey": "history.iraklis"
+  },
+  {
+    "id": "ΓΣΣ ΠΑΝΙΩΝΙΟΣ",
+    "name": "ΠΑΝΙΩΝΙΟΣ",
+    "lat": 37.9405,
+    "lng": 23.7142,
+    "region": "Attica",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1890,
+    "historyKey": "history.panionios"
+  },
+  {
+    "id": "ΠΑΣ ΓΙΑΝΝΙΝΑ",
+    "name": "ΠΑΣ ΓΙΑΝΝΙΝΑ",
+    "lat": 39.6644,
+    "lng": 20.8523,
+    "region": "Epirus",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1966,
+    "historyKey": "history.pas_giannina"
+  },
+  {
+    "id": "ΠΣ ΚΑΛΑΜΑΤΑ",
+    "name": "ΚΑΛΑΜΑΤΑ",
+    "lat": 37.039,
+    "lng": 22.1121,
+    "region": "Peloponnese",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1967,
+    "historyKey": "history.kalamata"
+  },
+  {
+    "id": "ΠΑΕ ΝΙΚΗ ΒΟΛΟΥ 1924",
+    "name": "ΝΙΚΗ ΒΟΛΟΥ",
+    "lat": 39.3802,
+    "lng": 22.9463,
+    "region": "Thessaly",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1924,
+    "historyKey": "history.niki_volou"
+  },
+  {
+    "id": "ΠΑΕ ΧΑΝΙΑ",
+    "name": "ΧΑΝΙΑ",
+    "lat": 35.5138,
+    "lng": 24.018,
+    "region": "Crete",
+    "league": "SUPERLEAGUE 2",
+    "founded": 2017,
+    "historyKey": "history.chania"
+  },
+  {
+    "id": "ΠΑΕ ΑΙΓΑΛΕΩ",
+    "name": "ΑΙΓΑΛΕΩ",
+    "lat": 37.9943,
+    "lng": 23.6828,
+    "region": "Attica",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1946,
+    "historyKey": "history.egaleo"
+  },
+  {
+    "id": "ΑΣ ΑΝΑΓΕΝΝΗΣΗ ΚΑΡΔΙΤΣΑΣ 1904",
+    "name": "ΑΝΑΓΕΝΝΗΣΗ ΚΑΡΔΙΤΣΑΣ",
+    "lat": 39.3664,
+    "lng": 21.9214,
+    "region": "Thessaly",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1904,
+    "historyKey": "history.anagennisi_karditsas"
+  },
+  {
+    "id": "ΑΣ ΜΑΚΕΔΟΝΙΚΟΣ ΝΕΑΠΟΛΗΣ",
+    "name": "ΜΑΚΕΔΟΝΙΚΟΣ",
+    "lat": 40.6698,
+    "lng": 22.9493,
+    "region": "Central Macedonia",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1928,
+    "historyKey": "history.makedonikos"
+  },
+  {
+    "id": "ΓΣ ΚΑΛΛΙΘΕΑ",
+    "name": "ΚΑΛΛΙΘΕΑ (ATHENS KALLITHEA)",
+    "lat": 37.9547,
+    "lng": 23.7027,
+    "region": "Attica",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1966,
+    "historyKey": "history.kallithea"
+  },
+  {
+    "id": "ΜΦΑΟΦ ΚΑΜΠΑΝΙΑΚΟΣ ΧΑΛΑΣΤΡΑΣ",
+    "name": "ΚΑΜΠΑΝΙΑΚΟΣ",
+    "lat": 40.6275,
+    "lng": 22.7303,
+    "region": "Central Macedonia",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1947,
+    "historyKey": "history.kampaniakos"
+  },
+  {
+    "id": "ΓΣ ΗΛΙΟΥΠΟΛΗΣ",
+    "name": "ΗΛΙΟΥΠΟΛΗ",
+    "lat": 37.9317,
+    "lng": 23.7533,
+    "region": "Attica",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1953,
+    "historyKey": "history.ilioupoli"
+  },
+  {
+    "id": "ΑΠΟ ΠΑΝΑΡΓΕΙΑΚΟΣ ΑΡΓΟΣ",
+    "name": "ΠΑΝΑΡΓΕΙΑΚΟΣ",
+    "lat": 37.6333,
+    "lng": 22.7333,
+    "region": "Peloponnese",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1926,
+    "historyKey": "history.panargiakos"
+  },
+  {
+    "id": "ΑΠΟ ΕΛΛΑΣ ΣΥΡΟΥ",
+    "name": "ΕΛΛΑΣ ΣΥΡΟΥ",
+    "lat": 37.443,
+    "lng": 24.9452,
+    "region": "South Aegean",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1929,
+    "historyKey": "history.ellas_syrou"
+  },
+  {
+    "id": "ΑΣ ΝΕΣΤΟΣ ΧΡΥΣΟΥΠΟΛΗΣ",
+    "name": "ΝΕΣΤΟΣ ΧΡΥΣΟΥΠΟΛΗΣ",
+    "lat": 40.9859,
+    "lng": 24.7072,
+    "region": "Eastern Macedonia and Thrace",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1930,
+    "historyKey": "history.nestos"
+  },
+  {
+    "id": "ΓΣ ΜΑΡΚΟ",
+    "name": "ΜΑΡΚΟ",
+    "lat": 37.8833,
+    "lng": 23.9333,
+    "region": "Attica",
+    "league": "SUPERLEAGUE 2",
+    "founded": 1927,
+    "historyKey": "history.marko"
+  },
+  {
+    "id": "ΠΑΟΚ Β",
+    "name": "ΠΑΟΚ Β",
+    "lat": 40.6637,
+    "lng": 22.9223,
+    "region": "Central Macedonia",
+    "league": "SUPERLEAGUE 2",
+    "founded": 2021,
+    "historyKey": "history.paok_b"
+  },
+  {
+    "id": "ΣΦΠ ΟΛΥΜΠΙΑΚΟΣ Β",
+    "name": "ΟΛΥΜΠΙΑΚΟΣ Β",
+    "lat": 37.9763,
+    "lng": 23.6344,
+    "region": "Attica",
+    "league": "SUPERLEAGUE 2",
+    "founded": 2021,
+    "historyKey": "history.olympiacos_b"
+  },
+  {
+    "id": "ΑΣΤΕΡΑΣ ΑΚΤΩΡ Β",
+    "name": "ΑΣΤΕΡΑΣ Β",
+    "lat": 37.5347,
+    "lng": 22.3555,
+    "region": "Peloponnese",
+    "league": "SUPERLEAGUE 2",
+    "founded": 2024,
+    "historyKey": "history.asteras_b"
+  },
+  {
+    "id": "ΑΕ ΑΛΕΞΑΝΔΡΕΙΑΣ",
+    "name": "ΑΕ ΑΛΕΞΑΝΔΡΕΙΑΣ",
+    "lat": 40.626,
+    "lng": 22.445,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_0"
+  },
+  {
+    "id": "ΑΕ ΑΝΑΓΕΝΝΗΣΗ ΣΧΗΜΑΤΑΡΙΟΥ",
+    "name": "ΑΕ ΑΝΑΓΕΝΝΗΣΗ ΣΧΗΜΑΤΑΡΙΟΥ",
+    "lat": 38.344,
+    "lng": 23.581,
+    "region": "Central Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_1"
+  },
+  {
+    "id": "ΑΕ ΕΥΟΣΜΟΥ",
+    "name": "ΑΕ ΕΥΟΣΜΟΥ",
+    "lat": 40.665,
+    "lng": 22.909,
+    "region": "Central Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_2"
+  },
+  {
+    "id": "ΑΕ ΛΕΥΚΙΜΜΗΣ",
+    "name": "ΑΕ ΛΕΥΚΙΜΜΗΣ",
+    "lat": 39.421,
+    "lng": 20.071,
+    "region": "Ionian Islands",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_3"
+  },
+  {
+    "id": "ΑΕ ΜΥΚΟΝΟΥ",
+    "name": "ΑΕ ΜΥΚΟΝΟΥ",
+    "lat": 37.441,
+    "lng": 25.329,
+    "region": "South Aegean",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_4"
+  },
+  {
+    "id": "ΑΕ ΝΕΑΣ ΣΕΛΕΥΚΕΙΑΣ",
+    "name": "ΑΕ ΝΕΑΣ ΣΕΛΕΥΚΕΙΑΣ",
+    "lat": 39.516,
+    "lng": 20.26,
+    "region": "Epirus",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_5"
+  },
+  {
+    "id": "ΑΕ ΡΟΔΙΩΝ ΑΦΑΝΤΟΥ",
+    "name": "ΑΕ ΡΟΔΙΩΝ ΑΦΑΝΤΟΥ",
+    "lat": 36.294,
+    "lng": 28.163,
+    "region": "South Aegean",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_6"
+  },
+  {
+    "id": "ΑΟ ΑΜΑΡΥΝΘΙΑΚΟΣ",
+    "name": "ΑΟ ΑΜΑΡΥΝΘΙΑΚΟΣ",
+    "lat": 38.391,
+    "lng": 23.882,
+    "region": "Central Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_7"
+  },
+  {
+    "id": "ΑΟ ΑΝΘΟΥΠΟΛΗΣ",
+    "name": "ΑΟ ΑΝΘΟΥΠΟΛΗΣ",
+    "lat": 39.646,
+    "lng": 22.404,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_8"
+  },
+  {
+    "id": "ΑΟ ΑΣΤΕΡΑΣ ΚΑΡΔΙΤΣΑΣ",
+    "name": "ΑΟ ΑΣΤΕΡΑΣ ΚΑΡΔΙΤΣΑΣ",
+    "lat": 39.366,
+    "lng": 21.921,
+    "region": "Thessaly",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_9"
+  },
+  {
+    "id": "ΑΟ ΓΙΟΥΧΤΑΣ ΑΡΧΑΡΝΩΝ",
+    "name": "ΑΟ ΓΙΟΥΧΤΑΣ ΑΡΧΑΡΝΩΝ",
+    "lat": 35.238,
+    "lng": 25.161,
+    "region": "Crete",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_10"
+  },
+  {
+    "id": "ΑΟ ΕΡΜΗΣ ΜΕΛΙΓΟΥΣ",
+    "name": "ΑΟ ΕΡΜΗΣ ΜΕΛΙΓΟΥΣ",
+    "lat": 37.382,
+    "lng": 22.723,
+    "region": "Peloponnese",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_11"
+  },
+  {
+    "id": "ΑΟ ΗΛΥΣΙΑΚΟΣ",
+    "name": "ΑΟ ΗΛΥΣΙΑΚΟΣ",
+    "lat": 37.971,
+    "lng": 23.766,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_12"
+  },
+  {
+    "id": "ΑΟ ΙΩΝΙΚΟΣ ΝΙΚΑΙΑΣ",
+    "name": "ΑΟ ΙΩΝΙΚΟΣ ΝΙΚΑΙΑΣ",
+    "lat": 37.97,
+    "lng": 23.64,
+    "region": "Attica",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_13"
+  },
+  {
+    "id": "ΑΟ ΚΑΡΥΣΤΟΥ",
+    "name": "ΑΟ ΚΑΡΥΣΤΟΥ",
+    "lat": 38.016,
+    "lng": 24.413,
+    "region": "Central Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_14"
+  },
+  {
+    "id": "ΑΟ ΚΙΛΚΙΣΙΑΚΟΣ",
+    "name": "ΑΟ ΚΙΛΚΙΣΙΑΚΟΣ",
+    "lat": 40.993,
+    "lng": 22.874,
+    "region": "Central & Western Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_15"
+  },
+  {
+    "id": "ΑΟ ΚΥΑΝΟΥΣ ΑΣΤΗΡ ΒΑΡΗΣ",
+    "name": "ΑΟ ΚΥΑΝΟΥΣ ΑΣΤΗΡ ΒΑΡΗΣ",
+    "lat": 37.828,
+    "lng": 23.805,
+    "region": "Central Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_16"
+  },
+  {
+    "id": "ΑΟ ΛΟΥΤΡΑΚΙΟΥ",
+    "name": "ΑΟ ΛΟΥΤΡΑΚΙΟΥ",
+    "lat": 37.977,
+    "lng": 22.981,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_17"
+  },
+  {
+    "id": "ΑΟ ΜΙΛΤΙΑΔΗΣ ΠΥΡΓΟΥ ΤΡΙΦΥΛΛΙΑΣ",
+    "name": "ΑΟ ΜΙΛΤΙΑΔΗΣ ΠΥΡΓΟΥ ΤΡΙΦΥΛΛΙΑΣ",
+    "lat": 37.054,
+    "lng": 21.631,
+    "region": "Western Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_18"
+  },
+  {
+    "id": "ΑΟ ΝΕΑΣ ΑΡΤΑΚΗΣ",
+    "name": "ΑΟ ΝΕΑΣ ΑΡΤΑΚΗΣ",
+    "lat": 38.525,
+    "lng": 23.626,
+    "region": "Epirus",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_19"
+  },
+  {
+    "id": "ΑΟ ΝΕΑΣ ΙΩΝΙΑΣ",
+    "name": "ΑΟ ΝΕΑΣ ΙΩΝΙΑΣ",
+    "lat": 38.037,
+    "lng": 23.754,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_20"
+  },
+  {
+    "id": "ΑΟ ΞΑΝΘΗΣ",
+    "name": "ΑΟ ΞΑΝΘΗΣ",
+    "lat": 41.134,
+    "lng": 24.885,
+    "region": "Eastern Macedonia and Thrace",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_21"
+  },
+  {
+    "id": "ΑΟ ΣΑΡΩΝΙΚΟΣ ΑΝΑΒΥΣΣΟΥ",
+    "name": "ΑΟ ΣΑΡΩΝΙΚΟΣ ΑΝΑΒΥΣΣΟΥ",
+    "lat": 37.729,
+    "lng": 23.942,
+    "region": "Attica",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_22"
+  },
+  {
+    "id": "ΑΟ ΤΗΛΥΚΡΑΤΗΣ ΛΕΥΚΑΔΑΣ",
+    "name": "ΑΟ ΤΗΛΥΚΡΑΤΗΣ ΛΕΥΚΑΔΑΣ",
+    "lat": 38.828,
+    "lng": 20.702,
+    "region": "Ionian Islands",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_23"
+  },
+  {
+    "id": "ΑΟ ΤΡΙΚΑΛΑ",
+    "name": "ΑΟ ΤΡΙΚΑΛΑ",
+    "lat": 39.554,
+    "lng": 21.767,
+    "region": "Thessaly",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_24"
+  },
+  {
+    "id": "ΑΟ ΧΑΪΔΑΡΙΟΥ",
+    "name": "ΑΟ ΧΑΪΔΑΡΙΟΥ",
+    "lat": 38.014,
+    "lng": 23.655,
+    "region": "Attica",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_25"
+  },
+  {
+    "id": "ΑΟΜ ΑΣΤΕΡΑΣ ΚΑΙΣΑΡΙΑΝΗΣ",
+    "name": "ΑΟΜ ΑΣΤΕΡΑΣ ΚΑΙΣΑΡΙΑΝΗΣ",
+    "lat": 37.964,
+    "lng": 23.756,
+    "region": "Attica",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_26"
+  },
+  {
+    "id": "ΑΠΟ ΘΕΡΜΑΪΚΟΣ ΘΕΡΜΗΣ",
+    "name": "ΑΠΟ ΘΕΡΜΑΪΚΟΣ ΘΕΡΜΗΣ",
+    "lat": 40.548,
+    "lng": 23.018,
+    "region": "Central Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_27"
+  },
+  {
+    "id": "ΑΠΟ ΘΥΕΛΛΑ ΡΑΦΗΝΑΣ",
+    "name": "ΑΠΟ ΘΥΕΛΛΑ ΡΑΦΗΝΑΣ",
+    "lat": 38.021,
+    "lng": 24.004,
+    "region": "Attica",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_28"
+  },
+  {
+    "id": "ΑΠΣ ΓΡΑΝΙΤΗΣ ΑΓ. ΜΑΡΙΝΑΣ",
+    "name": "ΑΠΣ ΓΡΑΝΙΤΗΣ ΑΓ. ΜΑΡΙΝΑΣ",
+    "lat": 35.517,
+    "lng": 23.927,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_29"
+  },
+  {
+    "id": "ΑΠΣ ΖΑΚΥΝΘΟΣ",
+    "name": "ΑΠΣ ΖΑΚΥΝΘΟΣ",
+    "lat": 37.784,
+    "lng": 20.902,
+    "region": "Ionian Islands",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_30"
+  },
+  {
+    "id": "ΑΠΣ ΘΥΕΛΛΑ ΠΑΤΡΩΝ",
+    "name": "ΑΠΣ ΘΥΕΛΛΑ ΠΑΤΡΩΝ",
+    "lat": 38.225,
+    "lng": 21.758,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_31"
+  },
+  {
+    "id": "ΑΠΣ ΠΑΝΘΡΑΚΙΚΟΣ",
+    "name": "ΑΠΣ ΠΑΝΘΡΑΚΙΚΟΣ",
+    "lat": 41.113,
+    "lng": 25.405,
+    "region": "Eastern Macedonia and Thrace",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_32"
+  },
+  {
+    "id": "ΑΣ ΑΕΤΟΣ ΟΦΡΥΝΙΟΥ",
+    "name": "ΑΣ ΑΕΤΟΣ ΟΦΡΥΝΙΟΥ",
+    "lat": 40.762,
+    "lng": 23.896,
+    "region": "Eastern Macedonia and Thrace",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_33"
+  },
+  {
+    "id": "ΑΣ ΑΙΑΣ ΣΑΛΑΜΙΝΑΣ",
+    "name": "ΑΣ ΑΙΑΣ ΣΑΛΑΜΙΝΑΣ",
+    "lat": 37.963,
+    "lng": 23.498,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_34"
+  },
+  {
+    "id": "ΑΣ ΑΠΟΛΛΩΝ ΚΑΛΥΘΙΩΝ",
+    "name": "ΑΣ ΑΠΟΛΛΩΝ ΚΑΛΥΘΙΩΝ",
+    "lat": 36.331,
+    "lng": 28.163,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_35"
+  },
+  {
+    "id": "ΑΣ ΑΠΟΛΛΩΝ ΚΡΥΑΣ ΒΡΥΣΗΣ",
+    "name": "ΑΣ ΑΠΟΛΛΩΝ ΚΡΥΑΣ ΒΡΥΣΗΣ",
+    "lat": 40.686,
+    "lng": 22.305,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_36"
+  },
+  {
+    "id": "ΑΣ ΑΡΗΣ ΠΕΤΡΟΥΠΟΛΗΣ",
+    "name": "ΑΣ ΑΡΗΣ ΠΕΤΡΟΥΠΟΛΗΣ",
+    "lat": 38.038,
+    "lng": 23.682,
+    "region": "Attica",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_37"
+  },
+  {
+    "id": "ΑΣ ΑΡΗΣ ΦΙΛΙΑΤΩΝ",
+    "name": "ΑΣ ΑΡΗΣ ΦΙΛΙΑΤΩΝ",
+    "lat": 39.598,
+    "lng": 20.313,
+    "region": "Central Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_38"
+  },
+  {
+    "id": "ΑΣ ΑΣΤΕΡΑΣ ΣΤΑΥΡΟΥ",
+    "name": "ΑΣ ΑΣΤΕΡΑΣ ΣΤΑΥΡΟΥ",
+    "lat": 38.898,
+    "lng": 22.316,
+    "region": "Central Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_39"
+  },
+  {
+    "id": "ΑΣ ΘΕΣΠΡΩΤΟΣ ΗΓΟΥΜΕΝΙΤΣΑΣ",
+    "name": "ΑΣ ΘΕΣΠΡΩΤΟΣ ΗΓΟΥΜΕΝΙΤΣΑΣ",
+    "lat": 39.501,
+    "lng": 20.263,
+    "region": "Epirus",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_40"
+  },
+  {
+    "id": "ΑΣ ΠΑΝΘΟΥΡΙΑΚΟΣ",
+    "name": "ΑΣ ΠΑΝΘΟΥΡΙΑΚΟΣ",
+    "lat": 37.086,
+    "lng": 22.054,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_41"
+  },
+  {
+    "id": "ΑΣ ΠΟΣΕΙΔΩΝΑΣ ΝΕΑΣ ΜΗΧΑΝΙΩΝΑΣ",
+    "name": "ΑΣ ΠΟΣΕΙΔΩΝΑΣ ΝΕΑΣ ΜΗΧΑΝΙΩΝΑΣ",
+    "lat": 40.465,
+    "lng": 22.86,
+    "region": "Central Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_42"
+  },
+  {
+    "id": "ΑΣ ΡΟΔΟΣ",
+    "name": "ΑΣ ΡΟΔΟΣ",
+    "lat": 36.438,
+    "lng": 28.223,
+    "region": "South Aegean",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_43"
+  },
+  {
+    "id": "ΑΣ ΣΑΡΑΚΗΝΟΣ",
+    "name": "ΑΣ ΣΑΡΑΚΗΝΟΣ",
+    "lat": 39.379,
+    "lng": 22.951,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_44"
+  },
+  {
+    "id": "ΓΑΜΣ ΕΡΜΗΣ ΕΞΟΧΗΣ",
+    "name": "ΓΑΜΣ ΕΡΜΗΣ ΕΞΟΧΗΣ",
+    "lat": 40.358,
+    "lng": 22.3,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_45"
+  },
+  {
+    "id": "ΓΑΣ ΑΝΑΓΕΝΝΗΣΗ ΑΡΤΑΣ",
+    "name": "ΓΑΣ ΑΝΑΓΕΝΝΗΣΗ ΑΡΤΑΣ",
+    "lat": 39.155,
+    "lng": 20.984,
+    "region": "Epirus",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_46"
+  },
+  {
+    "id": "ΓΕ ΠΑΝΑΧΑΙΚΗ",
+    "name": "ΓΕ ΠΑΝΑΧΑΙΚΗ",
+    "lat": 38.261,
+    "lng": 21.744,
+    "region": "Western Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_47"
+  },
+  {
+    "id": "ΓΠΣ ΠΕΛΟΠΑΣ ΚΙΑΤΟΥ",
+    "name": "ΓΠΣ ΠΕΛΟΠΑΣ ΚΙΑΤΟΥ",
+    "lat": 38.012,
+    "lng": 22.75,
+    "region": "Western Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_48"
+  },
+  {
+    "id": "ΓΣ ΔΙΑΓΟΡΑΣ ΡΟΔΟΥ",
+    "name": "ΓΣ ΔΙΑΓΟΡΑΣ ΡΟΔΟΥ",
+    "lat": 36.438,
+    "lng": 28.221,
+    "region": "South Aegean",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_49"
+  },
+  {
+    "id": "ΓΣ ΔΟΞΑ ΔΡΑΜΑΣ",
+    "name": "ΓΣ ΔΟΞΑ ΔΡΑΜΑΣ",
+    "lat": 41.144,
+    "lng": 24.148,
+    "region": "Central & Western Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_50"
+  },
+  {
+    "id": "ΓΣ ΠΑΝΑΙΓΙΑΛΕΙΟΣ",
+    "name": "ΓΣ ΠΑΝΑΙΓΙΑΛΕΙΟΣ",
+    "lat": 38.253,
+    "lng": 22.083,
+    "region": "Western Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_51"
+  },
+  {
+    "id": "ΓΣ ΠΑΝΓΥΘΕΑΤΙΚΟΣ",
+    "name": "ΓΣ ΠΑΝΓΥΘΕΑΤΙΚΟΣ",
+    "lat": 36.762,
+    "lng": 22.563,
+    "region": "Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_52"
+  },
+  {
+    "id": "ΕΘΝΙΚΟΣ ΑΣΤΕΡΑΣ 1927",
+    "name": "ΕΘΝΙΚΟΣ ΑΣΤΕΡΑΣ 1927",
+    "lat": 37.965,
+    "lng": 23.758,
+    "region": "Attica",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_53"
+  },
+  {
+    "id": "ΗΡΑΚΛΗΣ ΘΕΡΜΑΪΚΟΥ",
+    "name": "ΗΡΑΚΛΗΣ ΘΕΡΜΑΪΚΟΥ",
+    "lat": 40.485,
+    "lng": 22.915,
+    "region": "Central Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_54"
+  },
+  {
+    "id": "ΜΓΣ ΑΠΟΛΛΩΝ ΚΑΛΑΜΑΡΙΑΣ",
+    "name": "ΜΓΣ ΑΠΟΛΛΩΝ ΚΑΛΑΜΑΡΙΑΣ",
+    "lat": 40.584,
+    "lng": 22.946,
+    "region": "Central Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_55"
+  },
+  {
+    "id": "ΜΓΣ ΟΡΕΣΤΗΣ ΟΡΕΣΤΙΑΔΑΣ",
+    "name": "ΜΓΣ ΟΡΕΣΤΗΣ ΟΡΕΣΤΙΑΔΑΣ",
+    "lat": 41.503,
+    "lng": 26.529,
+    "region": "Eastern Macedonia and Thrace",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_56"
+  },
+  {
+    "id": "ΝΠΣ ΒΕΡΟΙΑ 1960",
+    "name": "ΝΠΣ ΒΕΡΟΙΑ 1960",
+    "lat": 40.529,
+    "lng": 22.204,
+    "region": "Central & Western Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_57"
+  },
+  {
+    "id": "ΟΦΠΦ ΕΘΝΙΚΟΣ",
+    "name": "ΟΦΠΦ ΕΘΝΙΚΟΣ",
+    "lat": 37.94,
+    "lng": 23.65,
+    "region": "Attica",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_58"
+  },
+  {
+    "id": "ΠΑΕ ΑΚΡΙΤΕΣ ΣΥΚΕΩΝ",
+    "name": "ΠΑΕ ΑΚΡΙΤΕΣ ΣΥΚΕΩΝ",
+    "lat": 40.648,
+    "lng": 22.951,
+    "region": "Central Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_59"
+  },
+  {
+    "id": "ΠΑΟ ΔΟΞΑ ΒΥΡΩΝΟΣ",
+    "name": "ΠΑΟ ΔΟΞΑ ΒΥΡΩΝΟΣ",
+    "lat": 37.954,
+    "lng": 23.754,
+    "region": "Attica",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_60"
+  },
+  {
+    "id": "ΠΑΟ ΚΕΝΤΑΥΡΟΣ ΒΡΙΛΗΣΣΙΩΝ",
+    "name": "ΠΑΟ ΚΕΝΤΑΥΡΟΣ ΒΡΙΛΗΣΣΙΩΝ",
+    "lat": 38.031,
+    "lng": 23.829,
+    "region": "Attica",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_61"
+  },
+  {
+    "id": "ΠΑΟΚ ΔΥΤΙΚΟΥ",
+    "name": "ΠΑΟΚ ΔΥΤΙΚΟΥ",
+    "lat": 40.892,
+    "lng": 22.545,
+    "region": "Central Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_62"
+  },
+  {
+    "id": "ΠΑΟΚ ΚΡΗΣΤΩΝΗΣ",
+    "name": "ΠΑΟΚ ΚΡΗΣΤΩΝΗΣ",
+    "lat": 40.97,
+    "lng": 22.853,
+    "region": "Central Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_63"
+  },
+  {
+    "id": "ΠΑΣ ΚΟΡΙΝΘΟΣ",
+    "name": "ΠΑΣ ΚΟΡΙΝΘΟΣ",
+    "lat": 37.939,
+    "lng": 22.929,
+    "region": "Western Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_64"
+  },
+  {
+    "id": "ΠΑΣ ΛΑΜΙΑ",
+    "name": "ΠΑΣ ΛΑΜΙΑ",
+    "lat": 38.903,
+    "lng": 22.428,
+    "region": "Central Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_65"
+  },
+  {
+    "id": "ΠΑΣ ΠΥΡΓΟΣ 1968",
+    "name": "ΠΑΣ ΠΥΡΓΟΣ 1968",
+    "lat": 37.674,
+    "lng": 21.439,
+    "region": "Western Greece",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_66"
+  },
+  {
+    "id": "ΠΟ ΑΤΣΑΛΕΝΙΟΥ",
+    "name": "ΠΟ ΑΤΣΑΛΕΝΙΟΥ",
+    "lat": 35.321,
+    "lng": 25.137,
+    "region": "Crete",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_67"
+  },
+  {
+    "id": "ΠΟ ΕΛΑΣΣΟΝΑΣ",
+    "name": "ΠΟ ΕΛΑΣΣΟΝΑΣ",
+    "lat": 39.896,
+    "lng": 22.186,
+    "region": "Thessaly",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_68"
+  },
+  {
+    "id": "ΠΡΟΟΔΟΣ ΡΩΓΩΝ 1966",
+    "name": "ΠΡΟΟΔΟΣ ΡΩΓΩΝ 1966",
+    "lat": 39.186,
+    "lng": 20.852,
+    "region": "Epirus",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_69"
+  },
+  {
+    "id": "ΠΣ ΕΘΝΙΚΟΣ ΝΕΟΥ ΚΕΡΑΜΙΔΙΟΥ",
+    "name": "ΠΣ ΕΘΝΙΚΟΣ ΝΕΟΥ ΚΕΡΑΜΙΔΙΟΥ",
+    "lat": 40.286,
+    "lng": 22.463,
+    "region": "Attica",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_70"
+  },
+  {
+    "id": "ΣΦΚ ΠΙΕΡΙΚΟΣ",
+    "name": "ΣΦΚ ΠΙΕΡΙΚΟΣ",
+    "lat": 40.264,
+    "lng": 22.508,
+    "region": "Central & Western Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_71"
+  },
+  {
+    "id": "ΦΣ ΕΟΡΔΑΪΚΟΣ ΠΤΟΛΕΜΑΪΔΑΣ",
+    "name": "ΦΣ ΕΟΡΔΑΪΚΟΣ ΠΤΟΛΕΜΑΪΔΑΣ",
+    "lat": 40.511,
+    "lng": 21.681,
+    "region": "Central & Western Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_72"
+  },
+  {
+    "id": "ΦΣ ΚΟΖΑΝΗ",
+    "name": "ΦΣ ΚΟΖΑΝΗ",
+    "lat": 40.298,
+    "lng": 21.787,
+    "region": "Central & Western Macedonia",
+    "league": "Γ ΕΘΝΙΚΗ",
+    "founded": 1950,
+    "historyKey": "history.gamma_73"
+  }
+]

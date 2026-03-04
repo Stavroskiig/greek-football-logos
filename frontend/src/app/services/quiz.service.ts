@@ -33,7 +33,7 @@ export class QuizService {
 
   createNewGame(settings: QuizSettings): Observable<QuizGame> {
     console.log('Creating new game with settings:', settings);
-    return this.logoService.getAllLogos().pipe(
+    return this.logoService.getLogosManifest().pipe(
       map(logos => {
         console.log('Loaded logos:', logos.length);
         const questions = this.generateQuestions(logos, settings);

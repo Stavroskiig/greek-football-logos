@@ -3,10 +3,12 @@ package com.gfl.api.controller;
 import com.gfl.api.model.TeamLogo;
 import com.gfl.api.service.TeamLogoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/logos")
@@ -16,28 +18,36 @@ public class TeamLogoController {
     private final TeamLogoService teamLogoService;
 
     @GetMapping
-    public ResponseEntity<List<TeamLogo>> getAllLogos(
+    public ResponseEntity<Page<TeamLogo>> getAllLogos(
             @RequestParam(required = false) String league,
-            @RequestParam(required = false) String search) {
+            @RequestParam(required = false) String search,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir) {
 
         org.springframework.http.CacheControl cacheControl = org.springframework.http.CacheControl
                 .maxAge(java.time.Duration.ofHours(1));
 
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
         if (league != null && !league.isEmpty()) {
             return ResponseEntity.ok()
                     .cacheControl(cacheControl)
-                    .body(teamLogoService.getLogosByLeague(league));
+                    .body(teamLogoService.getLogosByLeague(league, pageable));
         }
 
         if (search != null && !search.isEmpty()) {
             return ResponseEntity.ok()
                     .cacheControl(cacheControl)
-                    .body(teamLogoService.searchLogosByName(search));
+                    .body(teamLogoService.searchLogosByName(search, pageable));
         }
 
         return ResponseEntity.ok()
                 .cacheControl(cacheControl)
-                .body(teamLogoService.getAllLogos());
+                .body(teamLogoService.getAllLogos(pageable));
     }
 
     @PostMapping

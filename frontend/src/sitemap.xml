@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://greek-football-logos.site/</loc>
-    <lastmod>2026-03-03</lastmod>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -3071,7 +3071,7 @@
       <image:title>ΑΝΑΓΕΝΝΗΣΗ ΜΕΓΑΛΟΥ ΠΙΣΤΟΥ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%98%CE%A1%CE%91%CE%9A%CE%97%CE%A3/%CE%91%CE%9F%20%CE%9C%CE%A5%CE%A3%CE%A4%CE%91%CE%9A%CE%91%CE%A3.jpg</image:loc>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%98%CE%A1%CE%91%CE%9A%CE%97%CE%A3/%CE%91%CE%9F%20%CE%9C%CE%A5%CE%A3%CE%A4%CE%91%CE%9A%CE%91%CE%A3.png</image:loc>
       <image:title>ΑΟ ΜΥΣΤΑΚΑΣ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
@@ -6715,6 +6715,10 @@
       <image:title>ΠΑΣ ΟΙΑΝΘΗ ΓΑΛΑΞΕΙΔΙΟΥ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%A7%CE%91%CE%9B%CE%9A%CE%99%CE%94%CE%99%CE%9A%CE%97%CE%A3/%CE%91%CE%95%20%CE%9A%CE%91%CE%A3%CE%A3%CE%91%CE%9D%CE%94%CE%A1%CE%91.png</image:loc>
+      <image:title>ΑΕ ΚΑΣΣΑΝΔΡΑ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%A7%CE%91%CE%9B%CE%9A%CE%99%CE%94%CE%99%CE%9A%CE%97%CE%A3/%CE%91%CE%95%20%CE%A0%CE%9F%CE%9D%CE%A4%CE%99%CE%A9%CE%9D%20%CE%A0%CE%95%CE%A4%CE%A1%CE%91%CE%9B%CE%A9%CE%9D%CE%A9%CE%9D.png</image:loc>
       <image:title>ΑΕ ΠΟΝΤΙΩΝ ΠΕΤΡΑΛΩΝΩΝ Logo / Λογότυπο</image:title>
     </image:image>
@@ -7149,19 +7153,19 @@
   </url>
   <url>
     <loc>https://greek-football-logos.site/misc</loc>
-    <lastmod>2026-03-03</lastmod>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://greek-football-logos.site/tag-manager</loc>
-    <lastmod>2026-03-03</lastmod>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://greek-football-logos.site/collections</loc>
-    <lastmod>2026-03-03</lastmod>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

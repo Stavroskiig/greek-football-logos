@@ -98,7 +98,7 @@ export class CollectionService {
   getCollectionWithLogos(id: string): Observable<{ collection: Collection; logos: TeamLogo[] } | undefined> {
     return combineLatest([
       this.getCollectionById(id),
-      this.logoService.getAllLogos()
+      this.logoService.getLogosManifest()
     ]).pipe(
       map(([collection, allLogos]) => {
         if (!collection) return undefined;
@@ -185,6 +185,18 @@ export class CollectionService {
         collection.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         collection.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
       ))
+    );
+  }
+
+  getCollectionLogos(collectionId: string): Observable<TeamLogo[]> {
+    return combineLatest([
+      this.getCollectionById(collectionId),
+      this.logoService.getLogosManifest()
+    ]).pipe(
+      map(([collection, allLogos]) => {
+        if (!collection) return [];
+        return allLogos.filter(logo => collection.logoIds.includes(logo.id));
+      })
     );
   }
 
