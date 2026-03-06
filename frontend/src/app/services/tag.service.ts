@@ -57,4 +57,13 @@ export class TagService {
       return tags.some(tag => teamTags.includes(tag));
     });
   }
+
+  getTeamIdsByMultipleTags(tags: string[]): string[] {
+    if (tags.length === 0) return [];
+    const allTags = this.getAllTeamTags();
+    return Object.keys(allTags).filter(teamId => {
+      const teamTags = this.getTeamTags(teamId);
+      return tags.some(tag => teamTags.includes(tag));
+    });
+  }
 } 

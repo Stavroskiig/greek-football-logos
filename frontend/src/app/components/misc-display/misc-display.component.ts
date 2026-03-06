@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { LogoService } from '../../services/logo.service';
 import { TagService } from '../../services/tag.service';
 import { StructuredDataService } from '../../services/structured-data.service';
-import { Observable, Subscription, map, of } from 'rxjs';
+import { Observable, Subscription, map, of, shareReplay } from 'rxjs';
 import { LogoItemComponent } from '../logo-item/logo-item.component';
 import { TagSelectorComponent } from '../tag-selector/tag-selector.component';
 import { Logo } from '../../models/logo';
@@ -21,7 +21,6 @@ export class MiscDisplayComponent implements OnInit {
   searchTerm: string = '';
   selectedTags: string[] = [];
   logos$!: Observable<TeamLogo[]>;
-  allLogos: TeamLogo[] = [];
 
   constructor(
     private logoService: LogoService,
@@ -33,11 +32,7 @@ export class MiscDisplayComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.logoService.getLogosManifest().subscribe(logos => {
-      this.allLogos = logos;
-      this.applyFilters();
-      this.injectStructuredData(logos);
-    });
+    this.applyFilters();
   }
 
   private injectStructuredData(logos: TeamLogo[]): void {
@@ -55,25 +50,32 @@ export class MiscDisplayComponent implements OnInit {
       return;
     }
 
-    this.logos$ = this.logoService.getLogosManifest().pipe(
-      map(logos => {
-        let filteredLogos = [...logos];
+    if (this.selectedTags.length > 0) {
+      // Find matching team IDs locally first
+      const teamIds = this.tagService.getTeamIdsByMultipleTags(this.selectedTags);
 
-        // Filter by search term
-        if (this.searchTerm.trim()) {
-          filteredLogos = filteredLogos.filter(logo =>
-            this.normalizeString(logo.name).includes(this.normalizeString(this.searchTerm))
-          );
-        }
+      if (teamIds.length === 0) {
+        this.logos$ = of([]);
+        return;
+      }
 
-        // Filter by selected tags
-        if (this.selectedTags.length > 0) {
-          filteredLogos = this.tagService.getTeamsByMultipleTags(this.selectedTags, filteredLogos);
-        }
-
-        return filteredLogos;
-      })
-    );
+      this.logos$ = this.logoService.getLogosByIds(teamIds, this.searchTerm.trim(), 0, 100).pipe(
+        map(page => {
+          this.injectStructuredData(page.content);
+          return page.content;
+        }),
+        shareReplay(1)
+      );
+    } else {
+      // Only search term
+      this.logos$ = this.logoService.getLogos(undefined, this.searchTerm.trim(), 0, 100).pipe(
+        map(page => {
+          this.injectStructuredData(page.content);
+          return page.content;
+        }),
+        shareReplay(1)
+      );
+    }
   }
 
   onTagsChange(tags: string[]) {

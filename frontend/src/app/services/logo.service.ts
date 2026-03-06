@@ -71,6 +71,27 @@ export class LogoService {
     );
   }
 
+  getLogosByIds(ids: string[], searchTerm?: string, page: number = 0, size: number = 50): Observable<Page<TeamLogo>> {
+    let url = `${this.apiUrl}/by-ids?page=${page}&size=${size}`;
+    if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
+
+    return this.http.post<Page<TeamLogo>>(url, ids).pipe(
+      retry({ count: 3, delay: 2000 }),
+      map((pageData: any) => {
+        // Hydrate tags
+        pageData.content = pageData.content.map((logo: TeamLogo) => ({
+          ...logo,
+          tags: this.tagService.getTeamTags(logo.id)
+        }));
+        return pageData as Page<TeamLogo>;
+      }),
+      catchError((error) => {
+        console.error('Error loading paginated logos by ids:', error);
+        return of({ content: [], last: true, empty: true, totalElements: 0, totalPages: 0, size: size, number: page } as any as Page<TeamLogo>);
+      })
+    );
+  }
+
   deleteLogo(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }

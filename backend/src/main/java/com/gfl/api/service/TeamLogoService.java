@@ -34,6 +34,14 @@ public class TeamLogoService {
         return teamLogoRepository.findByLeagueAndNameContainingIgnoreCase(league, name, pageable);
     }
 
+    public Page<TeamLogo> getLogosByIds(List<String> ids, Pageable pageable) {
+        return teamLogoRepository.findByIdIn(ids, pageable);
+    }
+
+    public Page<TeamLogo> searchLogosByIdsAndName(List<String> ids, String name, Pageable pageable) {
+        return teamLogoRepository.findByIdInAndNameContainingIgnoreCase(ids, name, pageable);
+    }
+
     public TeamLogo saveTeamLogo(TeamLogo teamLogo) {
         return teamLogoRepository.save(teamLogo);
     }

@@ -13,4 +13,8 @@ public interface TeamLogoRepository extends JpaRepository<TeamLogo, String> {
     Page<TeamLogo> findByLeagueAndNameContainingIgnoreCase(String league, String name, Pageable pageable);
 
     Page<TeamLogo> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    Page<TeamLogo> findByIdIn(java.util.List<String> ids, Pageable pageable);
+
+    Page<TeamLogo> findByIdInAndNameContainingIgnoreCase(java.util.List<String> ids, String name, Pageable pageable);
 }

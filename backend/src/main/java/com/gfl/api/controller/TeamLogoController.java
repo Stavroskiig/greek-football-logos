@@ -56,6 +56,33 @@ public class TeamLogoController {
                 .body(teamLogoService.getAllLogos(pageable));
     }
 
+    @PostMapping("/by-ids")
+    public ResponseEntity<Page<TeamLogo>> getLogosByIds(
+            @RequestBody java.util.List<String> ids,
+            @RequestParam(required = false) String search,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir) {
+
+        org.springframework.http.CacheControl cacheControl = org.springframework.http.CacheControl
+                .maxAge(java.time.Duration.ofHours(1));
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        if (search != null && !search.isEmpty()) {
+            return ResponseEntity.ok()
+                    .cacheControl(cacheControl)
+                    .body(teamLogoService.searchLogosByIdsAndName(ids, search, pageable));
+        }
+
+        return ResponseEntity.ok()
+                .cacheControl(cacheControl)
+                .body(teamLogoService.getLogosByIds(ids, pageable));
+    }
+
     @PostMapping
     public ResponseEntity<TeamLogo> createLogo(@RequestBody TeamLogo teamLogo) {
         return ResponseEntity.ok(teamLogoService.saveTeamLogo(teamLogo));
