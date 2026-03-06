@@ -17,41 +17,43 @@
         <a routerLink="/collections" routerLinkActive="active" class="nav-link">{{ 'nav.collections' | translate }}</a>
         <a routerLink="/admin" routerLinkActive="active" class="nav-link">{{ 'nav.admin' | translate }}</a>
 
-        <button (click)="toggleLanguage()"
-          class="flex items-center justify-center gap-2 px-3 py-1.5 ml-1 border border-blue-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full font-medium text-gray-800 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm cursor-pointer"
-          aria-label="Toggle language" title="Toggle Language">
-          <!-- Greek Flag (Show when current is English, letting them switch to Greek) -->
-          <ng-container *ngIf="currentLang === 'en'">
-            <img src="https://flagcdn.com/w20/gr.png" srcset="https://flagcdn.com/w40/gr.png 2x" width="22" alt="Greek"
-              class="rounded-[2px]" />
-            <span class="text-sm">GR</span>
-          </ng-container>
+        <div class="flex items-center gap-1.5 sm:gap-2 ml-1 sm:ml-auto shrink-0 pr-1 sm:pr-0">
+          <button (click)="toggleLanguage()"
+            class="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 border border-blue-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full font-medium text-gray-800 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm cursor-pointer shrink-0"
+            aria-label="Toggle language" title="Toggle Language">
+            <!-- Greek Flag (Show when current is English, letting them switch to Greek) -->
+            <ng-container *ngIf="currentLang === 'en'">
+              <img src="https://flagcdn.com/w20/gr.png" srcset="https://flagcdn.com/w40/gr.png 2x" width="20"
+                alt="Greek" class="rounded-[2px]" />
+              <span class="text-xs sm:text-sm">GR</span>
+            </ng-container>
 
-          <!-- UK Flag (Show when current is Greek, letting them switch to English) -->
-          <ng-container *ngIf="currentLang === 'el'">
-            <img src="https://flagcdn.com/w20/gb.png" srcset="https://flagcdn.com/w40/gb.png 2x" width="22"
-              alt="English" class="rounded-[2px]" />
-            <span class="text-sm">EN</span>
-          </ng-container>
-        </button>
+            <!-- UK Flag (Show when current is Greek, letting them switch to English) -->
+            <ng-container *ngIf="currentLang === 'el'">
+              <img src="https://flagcdn.com/w20/gb.png" srcset="https://flagcdn.com/w40/gb.png 2x" width="20"
+                alt="English" class="rounded-[2px]" />
+              <span class="text-xs sm:text-sm">EN</span>
+            </ng-container>
+          </button>
 
-        <button (click)="toggleTheme()"
-          class="nav-link flex items-center justify-center p-2 rounded-full cursor-pointer transition-colors duration-200"
-          aria-label="Toggle dark mode" title="Toggle Theme">
-          <!-- Sun Icon (shows when dark mode is active) -->
-          <svg *ngIf="isDarkMode()" class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor"
-            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
-            </path>
-          </svg>
-          <!-- Moon Icon (shows when light mode is active) -->
-          <svg *ngIf="!isDarkMode()" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-          </svg>
-        </button>
+          <button (click)="toggleTheme()"
+            class="flex items-center justify-center p-1.5 sm:p-2 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full cursor-pointer transition-colors duration-200 shrink-0"
+            aria-label="Toggle dark mode" title="Toggle Theme">
+            <!-- Sun Icon (shows when dark mode is active) -->
+            <svg *ngIf="isDarkMode()" class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+              </path>
+            </svg>
+            <!-- Moon Icon (shows when light mode is active) -->
+            <svg *ngIf="!isDarkMode()" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </nav>
   </div>
