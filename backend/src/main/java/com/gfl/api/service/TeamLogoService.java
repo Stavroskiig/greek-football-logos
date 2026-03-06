@@ -30,6 +30,10 @@ public class TeamLogoService {
         return teamLogoRepository.findByNameContainingIgnoreCase(name, pageable);
     }
 
+    public Page<TeamLogo> searchLogosByLeagueAndName(String league, String name, Pageable pageable) {
+        return teamLogoRepository.findByLeagueAndNameContainingIgnoreCase(league, name, pageable);
+    }
+
     public TeamLogo saveTeamLogo(TeamLogo teamLogo) {
         return teamLogoRepository.save(teamLogo);
     }

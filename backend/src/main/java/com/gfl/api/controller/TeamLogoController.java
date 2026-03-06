@@ -33,6 +33,12 @@ public class TeamLogoController {
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
 
+        if (league != null && !league.isEmpty() && search != null && !search.isEmpty()) {
+            return ResponseEntity.ok()
+                    .cacheControl(cacheControl)
+                    .body(teamLogoService.searchLogosByLeagueAndName(league, search, pageable));
+        }
+
         if (league != null && !league.isEmpty()) {
             return ResponseEntity.ok()
                     .cacheControl(cacheControl)

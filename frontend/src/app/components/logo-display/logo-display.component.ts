@@ -3,8 +3,8 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LogoService } from '../../services/logo.service';
 import { StructuredDataService } from '../../services/structured-data.service';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { LogoItemComponent } from '../logo-item/logo-item.component';
 import { LeagueSelectorComponent } from '../league-selector/league-selector.component';
 import { TeamLogo } from '../../models/team-logo';
@@ -31,6 +31,8 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
   totalElements: number = 0;
 
   private destroy$ = new Subject<void>();
+  private searchSubject = new Subject<string>();
+  private logoSubscription?: Subscription;
 
   private readonly STORAGE_KEY = 'gfl_selected_league';
 
@@ -50,6 +52,14 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.loadLogos(true);
+    });
+
     this.loadLogos(true);
     this.injectStructuredData();
   }
@@ -68,13 +78,16 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
   }
 
   applyFilters() {
-    this.loadLogos(true);
+    this.searchSubject.next(this.searchTerm + '|' + this.selectedLeague);
   }
 
   loadLogos(reset: boolean = false) {
-    if (this.isLoading) return;
+    if (this.isLoading && !reset) return;
 
     if (reset) {
+      if (this.logoSubscription) {
+        this.logoSubscription.unsubscribe();
+      }
       this.currentPage = 0;
       this.logos = [];
       this.hasMore = true;
@@ -84,7 +97,7 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
 
-    this.logoService.getLogos(
+    this.logoSubscription = this.logoService.getLogos(
       this.selectedLeague,
       this.searchTerm,
       this.currentPage,
@@ -139,7 +152,7 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(this.STORAGE_KEY);
     }
-    this.applyFilters();
+    this.loadLogos(true);
   }
 
   onLeagueChange(league: string) {
@@ -147,7 +160,7 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.STORAGE_KEY, league);
     }
-    this.applyFilters();
+    this.loadLogos(true);
   }
 
   getLeagueLogoPath(leagueName: string): string {

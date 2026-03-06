@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface TeamLogoRepository extends JpaRepository<TeamLogo, String> {
     Page<TeamLogo> findByLeague(String league, Pageable pageable);
 
+    Page<TeamLogo> findByLeagueAndNameContainingIgnoreCase(String league, String name, Pageable pageable);
+
     Page<TeamLogo> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }
