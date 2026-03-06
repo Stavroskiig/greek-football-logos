@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <footer class="w-full mx-auto bg-white rounded-t-2xl shadow-sm border border-gray-200 p-6 mt-8 text-gray-500 text-sm text-center">
+    <footer class="w-full mx-auto bg-white dark:bg-gray-900 rounded-t-2xl shadow-sm border border-gray-200 dark:border-gray-800 p-6 mt-8 text-gray-500 dark:text-gray-400 text-sm text-center transition-colors duration-200">
       <p class="leading-relaxed">
         Disclaimer: The logos displayed on this website are the property of their respective football clubs and
         organizations. They are used here for informational and non-commercial purposes only. All rights belong
@@ -15,4 +15,4 @@ import { CommonModule } from '@angular/common';
     </footer>
   `,
 })
-export class FooterComponent {}
+export class FooterComponent { }

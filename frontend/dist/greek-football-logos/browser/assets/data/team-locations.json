@@ -152,9 +152,9 @@
   {
     "id": "ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ",
     "name": "ΗΡΑΚΛΗΣ",
-    "lat": 40.63,
-    "lng": 22.9554,
-    "region": "Central Macedonia",
+    "lat": 40.62557219259318,
+    "lng": 22.967245010386943,
+    "region": "Κεντρική Μακεδονία",
     "league": "SUPERLEAGUE 2",
     "founded": 1908,
     "historyKey": "history.iraklis"
@@ -906,7 +906,7 @@
     "lng": 26.529,
     "region": "Eastern Macedonia and Thrace",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1927,
     "historyKey": "history.gamma_56"
   },
   {
@@ -916,7 +916,7 @@
     "lng": 22.204,
     "region": "Central & Western Macedonia",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1960,
     "historyKey": "history.gamma_57"
   },
   {
@@ -926,7 +926,7 @@
     "lng": 23.65,
     "region": "Attica",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1923,
     "historyKey": "history.gamma_58"
   },
   {
@@ -936,7 +936,7 @@
     "lng": 22.951,
     "region": "Central Macedonia",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1939,
     "historyKey": "history.gamma_59"
   },
   {
@@ -946,7 +946,7 @@
     "lng": 23.754,
     "region": "Attica",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1945,
     "historyKey": "history.gamma_60"
   },
   {
@@ -956,7 +956,7 @@
     "lng": 23.829,
     "region": "Attica",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 2003,
     "historyKey": "history.gamma_61"
   },
   {
@@ -966,7 +966,7 @@
     "lng": 22.545,
     "region": "Central Macedonia",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": "",
     "historyKey": "history.gamma_62"
   },
   {
@@ -976,7 +976,7 @@
     "lng": 22.853,
     "region": "Central Macedonia",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1933,
     "historyKey": "history.gamma_63"
   },
   {
@@ -986,7 +986,7 @@
     "lng": 22.929,
     "region": "Western Greece",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1963,
     "historyKey": "history.gamma_64"
   },
   {
@@ -996,7 +996,7 @@
     "lng": 22.428,
     "region": "Central Greece",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1964,
     "historyKey": "history.gamma_65"
   },
   {
@@ -1006,7 +1006,7 @@
     "lng": 21.439,
     "region": "Western Greece",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 2025,
     "historyKey": "history.gamma_66"
   },
   {
@@ -1016,7 +1016,7 @@
     "lng": 25.137,
     "region": "Crete",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1951,
     "historyKey": "history.gamma_67"
   },
   {
@@ -1026,7 +1026,7 @@
     "lng": 22.186,
     "region": "Thessaly",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1957,
     "historyKey": "history.gamma_68"
   },
   {
@@ -1036,7 +1036,7 @@
     "lng": 20.852,
     "region": "Epirus",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 2023,
     "historyKey": "history.gamma_69"
   },
   {
@@ -1046,7 +1046,7 @@
     "lng": 22.463,
     "region": "Attica",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1951,
     "historyKey": "history.gamma_70"
   },
   {
@@ -1056,7 +1056,7 @@
     "lng": 22.508,
     "region": "Central & Western Macedonia",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1961,
     "historyKey": "history.gamma_71"
   },
   {
@@ -1066,7 +1066,7 @@
     "lng": 21.681,
     "region": "Central & Western Macedonia",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1978,
     "historyKey": "history.gamma_72"
   },
   {
@@ -1076,7 +1076,7 @@
     "lng": 21.787,
     "region": "Central & Western Macedonia",
     "league": "Γ ΕΘΝΙΚΗ",
-    "founded": 1950,
+    "founded": 1964,
     "historyKey": "history.gamma_73"
   }
 ]

@@ -1,13 +1,12 @@
 <div class="min-h-screen">
   <!-- Game Header -->
-  <div class="bg-white shadow-sm border-b border-gray-200">
-    <div class="max-w-4xl mx-auto px-6 py-4">
-      <div class="flex items-center justify-between">
+  <div class="max-w-4xl mx-auto px-6 pt-8 pb-0">
+    <div
+      class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 px-6 py-4 transition-colors duration-200">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
         <!-- Back Button -->
-        <button 
-          (click)="goToMenu()"
-          class="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
-        >
+        <button (click)="goToMenu()"
+          class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
@@ -17,31 +16,33 @@
         <!-- Game Info -->
         <div class="flex items-center gap-6">
           <!-- Timer -->
-          <div class="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-lg">
-            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <div class="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 px-3 py-2 rounded-lg transition-colors">
+            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span class="font-mono font-bold text-blue-700">{{ getTimeString() }}</span>
+            <span class="font-mono font-bold text-blue-700 dark:text-blue-300">{{ getTimeString() }}</span>
           </div>
 
           <!-- Score -->
-          <div class="flex items-center gap-2 bg-green-50 px-3 py-2 rounded-lg">
-            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+          <div class="flex items-center gap-2 bg-green-50 dark:bg-green-900/30 px-3 py-2 rounded-lg transition-colors">
+            <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>
-            <span class="font-bold text-green-700">{{ currentGame?.score || 0 }}</span>
+            <span class="font-bold text-green-700 dark:text-green-400">{{ currentGame?.score || 0 }}</span>
           </div>
 
           <!-- Progress -->
           <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-600">
+            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">
               {{ currentGame?.currentQuestionIndex || 0 }}/{{ currentGame?.totalQuestions || 0 }}
             </span>
-            <div class="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div 
-                class="h-full bg-blue-500 transition-all duration-300"
-                [style.width.%]="getProgressPercentage()"
-              ></div>
+            <div class="w-24 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden transition-colors">
+              <div class="h-full bg-blue-500 dark:bg-blue-400 rounded-full transition-all duration-300"
+                [style.width.%]="getProgressPercentage()">
+              </div>
             </div>
           </div>
         </div>
@@ -50,16 +51,18 @@
   </div>
 
   <!-- Game Finished Screen -->
-  <div *ngIf="isGameFinished && currentGame" class="max-w-2xl mx-auto px-6 py-12">
-    <div class="bg-white rounded-2xl shadow-lg p-8 text-center">
+  <div *ngIf="isGameFinished && currentGame" class="max-w-2xl mx-auto px-6 py-12 transition-colors duration-200">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center transition-colors">
       <div class="mb-6">
-        <div class="w-20 h-20 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div
+          class="w-20 h-20 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">Game Complete!</h1>
-        <p class="text-gray-600">Great job! Here's your final score:</p>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Game Complete!</h1>
+        <p class="text-gray-600 dark:text-gray-400">Great job! Here's your final score:</p>
       </div>
 
       <div class="grid grid-cols-2 gap-6 mb-8">
@@ -76,16 +79,12 @@
       </div>
 
       <div class="flex gap-4 justify-center">
-        <button 
-          (click)="restartGame()"
-          class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors"
-        >
+        <button (click)="restartGame()"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors">
           Play Again
         </button>
-        <button 
-          (click)="goToMenu()"
-          class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-medium transition-colors"
-        >
+        <button (click)="goToMenu()"
+          class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-3 rounded-xl font-medium transition-colors">
           Back to Menu
         </button>
       </div>
@@ -93,18 +92,16 @@
   </div>
 
   <!-- Active Game Screen -->
-  <div *ngIf="!isGameFinished && currentQuestion" class="max-w-4xl mx-auto px-6 py-8">
-    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+  <div *ngIf="!isGameFinished && currentQuestion" class="max-w-4xl mx-auto px-6 py-8 transition-colors duration-200">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-colors">
       <!-- Question Header -->
       <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
         <div class="flex items-center justify-between mb-4">
-                     <h1 class="text-2xl font-bold !text-white">Guess the Team</h1>
+          <h1 class="text-2xl font-bold !text-white">Guess the Team</h1>
           <div class="flex items-center gap-2">
             <span class="text-sm opacity-90">Difficulty:</span>
-            <span 
-              class="px-2 py-1 rounded text-xs font-medium"
-              [class]="getDifficultyColor(currentQuestion.difficulty)"
-            >
+            <span class="px-2 py-1 rounded text-xs font-medium"
+              [class]="getDifficultyColor(currentQuestion.difficulty)">
               {{ getDifficultyText(currentQuestion.difficulty) }}
             </span>
           </div>
@@ -116,57 +113,47 @@
       <div class="p-8">
         <div class="flex justify-center mb-8">
           <div class="relative">
-                         <img 
-               [src]="currentQuestion.logoPath" 
-               [alt]="'Team logo'"
-               class="w-48 h-48 object-contain bg-gray-50 rounded-xl shadow-sm border border-gray-200 cursor-pointer"
-               [ngClass]="isAnswerSubmitted ? 'logo-no-blur' : (settings.logoBlur ? getLogoBlurClass(currentQuestion.difficulty) : '')"
-               [title]="settings.logoBlur && !isAnswerSubmitted ? 'Team logo' : ''"
-               [style.filter]="settings.logoBlur && !isAnswerSubmitted ? getLogoBlurAmount(currentQuestion.difficulty) : 'none'"
-             />
+            <img [src]="currentQuestion.logoPath" [alt]="'Team logo'"
+              class="w-48 h-48 object-contain bg-gray-50 rounded-xl shadow-sm border border-gray-200 cursor-pointer"
+              [ngClass]="isAnswerSubmitted ? 'logo-no-blur' : (settings.logoBlur ? getLogoBlurClass(currentQuestion.difficulty) : '')"
+              [title]="settings.logoBlur && !isAnswerSubmitted ? 'Team logo' : ''"
+              [style.filter]="settings.logoBlur && !isAnswerSubmitted ? getLogoBlurAmount(currentQuestion.difficulty) : 'none'" />
           </div>
         </div>
 
-        
+
 
         <!-- Answer Options -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <button 
-            *ngFor="let option of currentQuestion.options"
-            (click)="selectedAnswer = option"
+          <button *ngFor="let option of currentQuestion.options" (click)="selectedAnswer = option"
             [disabled]="isAnswerSubmitted"
-            class="p-4 text-left rounded-xl border-2 transition-all duration-200 font-medium"
-            [class]="getAnswerClass(option)"
+            class="p-4 text-left rounded-xl border-2 transition-all duration-200 font-medium text-gray-900 dark:text-gray-100"
             [class.border-gray-200]="!isSelectedAnswer(option) && !isAnswerSubmitted"
+            [class.dark:border-gray-700]="!isSelectedAnswer(option) && !isAnswerSubmitted"
             [class.border-blue-500]="isSelectedAnswer(option) && !isAnswerSubmitted"
+            [class.dark:border-blue-400]="isSelectedAnswer(option) && !isAnswerSubmitted"
             [class.bg-blue-50]="isSelectedAnswer(option) && !isAnswerSubmitted"
+            [class.dark:bg-blue-900]="isSelectedAnswer(option) && !isAnswerSubmitted"
             [class.border-green-500]="isCorrectAnswer(option) && isAnswerSubmitted"
+            [class.dark:border-green-400]="isCorrectAnswer(option) && isAnswerSubmitted"
             [class.bg-green-50]="isCorrectAnswer(option) && isAnswerSubmitted"
+            [class.dark:bg-green-900]="isCorrectAnswer(option) && isAnswerSubmitted"
             [class.border-red-500]="isSelectedAnswer(option) && !isCorrectAnswer(option) && isAnswerSubmitted"
+            [class.dark:border-red-400]="isSelectedAnswer(option) && !isCorrectAnswer(option) && isAnswerSubmitted"
             [class.bg-red-50]="isSelectedAnswer(option) && !isCorrectAnswer(option) && isAnswerSubmitted"
-            [class.cursor-not-allowed]="isAnswerSubmitted"
-            [class.hover:border-blue-500]="!isAnswerSubmitted"
-            [class.hover:bg-blue-50]="!isAnswerSubmitted"
-          >
+            [class.dark:bg-red-900]="isSelectedAnswer(option) && !isCorrectAnswer(option) && isAnswerSubmitted"
+            [class.cursor-not-allowed]="isAnswerSubmitted" [class.hover:border-blue-500]="!isAnswerSubmitted"
+            [class.hover:bg-gray-50]="!isAnswerSubmitted && !isSelectedAnswer(option)"
+            [class.dark:hover:bg-gray-700]="!isAnswerSubmitted && !isSelectedAnswer(option)">
             <div class="flex items-center justify-between">
               <span>{{ option }}</span>
               <div *ngIf="isAnswerSubmitted" class="flex items-center gap-2">
-                <svg 
-                  *ngIf="isCorrectAnswer(option)"
-                  class="w-5 h-5 text-green-600" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
+                <svg *ngIf="isCorrectAnswer(option)" class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                <svg 
-                  *ngIf="isSelectedAnswer(option) && !isCorrectAnswer(option)"
-                  class="w-5 h-5 text-red-600" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
+                <svg *ngIf="isSelectedAnswer(option) && !isCorrectAnswer(option)" class="w-5 h-5 text-red-600"
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
@@ -176,25 +163,16 @@
 
         <!-- Action Buttons -->
         <div class="flex justify-center gap-4">
-          <button 
-            *ngIf="!isAnswerSubmitted"
-            (click)="submitAnswer()"
-            [disabled]="!selectedAnswer"
+          <button *ngIf="!isAnswerSubmitted" (click)="submitAnswer()" [disabled]="!selectedAnswer"
             class="px-8 py-3 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            [class.bg-blue-600]="selectedAnswer"
-            [class.text-white]="selectedAnswer"
-            [class.hover:bg-blue-700]="selectedAnswer"
-            [class.bg-gray-300]="!selectedAnswer"
-            [class.text-gray-500]="!selectedAnswer"
-          >
+            [class.bg-blue-600]="selectedAnswer" [class.text-white]="selectedAnswer"
+            [class.hover:bg-blue-700]="selectedAnswer" [class.bg-gray-300]="!selectedAnswer"
+            [class.text-gray-500]="!selectedAnswer">
             Submit Answer
           </button>
-          
-          <button 
-            *ngIf="isAnswerSubmitted"
-            (click)="nextQuestion()"
-            class="px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-medium transition-colors"
-          >
+
+          <button *ngIf="isAnswerSubmitted" (click)="nextQuestion()"
+            class="px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-medium transition-colors">
             {{ isLastQuestion() ? 'Finish Game' : 'Next Question' }}
           </button>
         </div>
@@ -203,10 +181,10 @@
   </div>
 
   <!-- Loading State -->
-  <div *ngIf="!currentQuestion && !isGameFinished" class="max-w-2xl mx-auto px-6 py-12">
-    <div class="bg-white rounded-2xl shadow-lg p-8 text-center">
+  <div *ngIf="!currentQuestion && !isGameFinished" class="max-w-2xl mx-auto px-6 py-12 transition-colors duration-200">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center transition-colors">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-      <p class="text-gray-600">Loading quiz...</p>
+      <p class="text-gray-600 dark:text-gray-400">Loading quiz...</p>
     </div>
   </div>
-</div> 
+</div>
