@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { LogoService } from './logo.service';
+import { environment } from '../../environments/environment';
 import {
   QuizQuestion,
   QuizGame,
@@ -18,8 +20,9 @@ import { TeamLogo } from '../models/team-logo';
 export class QuizService {
   private currentGame$ = new BehaviorSubject<QuizGame | null>(null);
   private quizStats$ = new BehaviorSubject<QuizStats>(this.getDefaultStats());
+  private apiUrl = `${environment.apiUrl}/quiz`;
 
-  constructor(private logoService: LogoService) {
+  constructor(private logoService: LogoService, private http: HttpClient) {
     this.loadStats();
   }
 
@@ -33,11 +36,12 @@ export class QuizService {
 
   createNewGame(settings: QuizSettings): Observable<QuizGame> {
     console.log('Creating new game with settings:', settings);
-    return this.logoService.getLogosManifest().pipe(
-      map(logos => {
-        console.log('Loaded logos:', logos.length);
-        const questions = this.generateQuestions(logos, settings);
-        console.log('Generated questions:', questions.length);
+
+    const url = `${this.apiUrl}/generate?mode=${settings.mode}&difficulty=${settings.difficulty}&count=${settings.questionCount}`;
+
+    return this.http.get<QuizQuestion[]>(url).pipe(
+      map(questions => {
+        console.log('Loaded questions from backend:', questions.length);
         const game: QuizGame = {
           id: this.generateGameId(),
           mode: settings.mode,
@@ -54,132 +58,6 @@ export class QuizService {
         return game;
       })
     );
-  }
-
-  private generateQuestions(logos: TeamLogo[], settings: QuizSettings): QuizQuestion[] {
-    const questions: QuizQuestion[] = [];
-    const shuffledLogos = this.shuffleArray([...logos]);
-
-    // Filter logos based on difficulty
-    let filteredLogos = this.filterLogosByDifficulty(shuffledLogos, settings.difficulty);
-
-    // Take required number of logos
-    const selectedLogos = filteredLogos.slice(0, settings.questionCount);
-
-    selectedLogos.forEach((logo, index) => {
-      const question = this.createQuestion(logo, logos, settings, index);
-      questions.push(question);
-    });
-
-    return this.shuffleArray(questions);
-  }
-
-  private createQuestion(
-    logo: TeamLogo,
-    allLogos: TeamLogo[],
-    settings: QuizSettings,
-    index: number
-  ): QuizQuestion {
-    const difficulty = this.getDifficulty(logo, settings.difficulty);
-    const points = this.getPointsForDifficulty(difficulty);
-
-    // Filter logos based on difficulty for options
-    const filteredLogos = this.filterLogosByDifficulty(allLogos, settings.difficulty);
-
-    let options: string[];
-    let correctAnswer: string;
-
-    const isTeamQuestion = settings.mode === 'guess-team' ||
-      (settings.mode === 'mixed' && Math.random() > 0.5);
-
-    if (isTeamQuestion) {
-      correctAnswer = logo.name;
-      options = this.generateTeamOptions(logo, filteredLogos);
-    } else {
-      correctAnswer = logo.league || 'Unknown';
-      options = this.generateLeagueOptions(logo, filteredLogos);
-    }
-
-    return {
-      id: `question-${index}`,
-      logoPath: logo.path,
-      correctAnswer,
-      options: this.shuffleArray(options),
-      difficulty,
-      points
-    };
-  }
-
-  private generateTeamOptions(correctLogo: TeamLogo, allLogos: TeamLogo[]): string[] {
-    const options = [correctLogo.name];
-    const otherLogos = allLogos.filter(logo => logo.id !== correctLogo.id);
-    const shuffledOthers = this.shuffleArray(otherLogos);
-
-    // Add 3 random team names
-    for (let i = 0; i < 3 && i < shuffledOthers.length; i++) {
-      options.push(shuffledOthers[i].name);
-    }
-
-    return options;
-  }
-
-  private generateLeagueOptions(correctLogo: TeamLogo, allLogos: TeamLogo[]): string[] {
-    const options = [correctLogo.league || 'Unknown'];
-    const allLeagues = [...new Set(allLogos.map(logo => logo.league).filter(Boolean))];
-    const otherLeagues = allLeagues.filter(league => league !== correctLogo.league);
-    const shuffledOthers = this.shuffleArray(otherLeagues);
-
-    // Add 3 random leagues
-    for (let i = 0; i < 3 && i < shuffledOthers.length; i++) {
-      const league = shuffledOthers[i];
-      if (league && typeof league === 'string') {
-        options.push(league);
-      }
-    }
-
-    return options;
-  }
-
-
-
-  private getDifficulty(logo: TeamLogo, difficultySetting: string): 'easy' | 'medium' | 'hard' {
-    if (difficultySetting === 'mixed') {
-      const rand = Math.random();
-      if (rand < 0.4) return 'easy';
-      if (rand < 0.8) return 'medium';
-      return 'hard';
-    }
-    return difficultySetting as 'easy' | 'medium' | 'hard';
-  }
-
-  private filterLogosByDifficulty(logos: TeamLogo[], difficulty: string): TeamLogo[] {
-    if (difficulty === 'mixed') return logos;
-
-    if (difficulty === 'easy') {
-      // Easy: Only SUPERLEAGUE and SUPERLEAGUE 2
-      return logos.filter(logo =>
-        logo.league === 'SUPERLEAGUE' || logo.league === 'SUPERLEAGUE 2'
-      );
-    } else if (difficulty === 'medium') {
-      // Medium: SUPERLEAGUE, SUPERLEAGUE 2, and Γ ΕΘΝΙΚΗ
-      return logos.filter(logo =>
-        logo.league === 'SUPERLEAGUE' ||
-        logo.league === 'SUPERLEAGUE 2' ||
-        logo.league === 'Γ ΕΘΝΙΚΗ'
-      );
-    } else {
-      // Hard: All teams from all leagues
-      return logos;
-    }
-  }
-
-  private getPointsForDifficulty(difficulty: 'easy' | 'medium' | 'hard'): number {
-    switch (difficulty) {
-      case 'easy': return 10;
-      case 'medium': return 20;
-      case 'hard': return 30;
-      default: return 15;
-    }
   }
 
   submitAnswer(questionId: string, selectedAnswer: string, timeSpent: number): void {
