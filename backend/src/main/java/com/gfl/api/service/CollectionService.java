@@ -5,7 +5,9 @@ import com.gfl.api.repository.CollectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.Optional;
 
 @Service
@@ -14,12 +16,23 @@ public class CollectionService {
 
     private final CollectionRepository collectionRepository;
 
-    public List<Collection> getAllCollections() {
-        return collectionRepository.findAll();
+    public Page<Collection> getAllCollections(Pageable pageable) {
+        return collectionRepository.findAll(pageable);
     }
 
-    public List<Collection> getPublicCollections() {
-        return collectionRepository.findByIsPublicTrue();
+    public Page<Collection> getPublicCollections(Pageable pageable) {
+        return collectionRepository.findByIsPublicTrue(pageable);
+    }
+
+    public Page<Collection> searchCollections(String searchTerm, boolean publicOnly, Pageable pageable) {
+        if (publicOnly) {
+            return collectionRepository
+                    .findByIsPublicTrueAndNameContainingIgnoreCaseOrIsPublicTrueAndDescriptionContainingIgnoreCase(
+                            searchTerm, searchTerm, pageable);
+        } else {
+            return collectionRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(searchTerm,
+                    searchTerm, pageable);
+        }
     }
 
     public Optional<Collection> getCollectionById(String id) {

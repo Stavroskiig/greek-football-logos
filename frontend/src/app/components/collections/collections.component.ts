@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Collection } from '../../models/collection';
 import { CollectionService } from '../../services/collection.service';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-collections',
@@ -12,41 +14,75 @@ import { CollectionService } from '../../services/collection.service';
   templateUrl: './collections.component.html',
   styleUrls: ['./collections.component.css']
 })
-export class CollectionsComponent implements OnInit {
+export class CollectionsComponent implements OnInit, OnDestroy {
   collections: Collection[] = [];
-  filteredCollections: Collection[] = [];
   searchTerm = '';
+
+  // Pagination state
+  currentPage = 0;
+  pageSize = 12;
+  totalElements = 0;
+  totalPages = 0;
+
+  private searchSubject = new Subject<string>();
+  private searchSubscription: Subscription | undefined;
 
   constructor(
     private collectionService: CollectionService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.loadCollections();
-  }
+    this.loadCollectionPage(this.currentPage);
 
-  private loadCollections(): void {
-    this.collectionService.getPublicCollections().subscribe(collections => {
-      this.collections = collections;
-      this.filterCollections();
+    // Setup search debounce
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(term => {
+      this.searchTerm = term;
+      this.currentPage = 0; // Reset to first page on search
+      this.loadCollectionPage(this.currentPage);
     });
   }
 
-  filterCollections(): void {
-    if (!this.searchTerm.trim()) {
-      this.filteredCollections = this.collections;
-    } else {
-      this.filteredCollections = this.collections.filter(collection =>
-        collection.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        collection.description.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        collection.tags.some(tag => tag.toLowerCase().includes(this.searchTerm.toLowerCase()))
-      );
+  ngOnDestroy(): void {
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
     }
   }
 
+  loadCollectionPage(pageIndex: number): void {
+    this.collectionService.getCollectionsPage(pageIndex, this.pageSize, this.searchTerm, true)
+      .subscribe({
+        next: (page) => {
+          this.collections = page.content;
+          this.currentPage = page.number;
+          this.totalPages = page.totalPages;
+          this.totalElements = page.totalElements;
+        },
+        error: (err) => console.error('Failed to load collections', err)
+      });
+  }
+
   onSearchChange(): void {
-    this.filterCollections();
+    this.searchSubject.next(this.searchTerm);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages - 1) {
+      this.loadCollectionPage(this.currentPage + 1);
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 0) {
+      this.loadCollectionPage(this.currentPage - 1);
+    }
+  }
+
+  get filteredCollections(): Collection[] {
+    return this.collections;
   }
 
   viewCollection(collectionId: string): void {

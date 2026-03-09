@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, combineLatest, firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Collection } from '../models/collection';
 import { TeamLogo } from '../models/team-logo';
-import { LogoService } from './logo.service';
+import { LogoService, Page } from './logo.service';
 import { CollectionFileService } from './collection-file.service';
 
 @Injectable({
@@ -24,11 +24,12 @@ export class CollectionService {
   }
 
   private loadCollections(): void {
-    this.http.get<Collection[]>(this.API_URL).subscribe({
-      next: (collections) => {
-        if (collections && collections.length > 0) {
-          this.collectionsSubject.next(collections);
-          console.log('Collections loaded from API:', collections.length);
+    // Only fetch first 10 for global state so standard UI won't fail
+    this.getCollectionsPage(0, 10, '', false).subscribe({
+      next: (page) => {
+        if (page && page.content && page.content.length > 0) {
+          this.collectionsSubject.next(page.content);
+          console.log('Collections basic cache loaded from API:', page.content.length);
         } else {
           console.log('No collections found in API. Initializing empty.');
           this.collectionsSubject.next([]);
@@ -36,6 +37,19 @@ export class CollectionService {
       },
       error: (err) => console.error('Error loading collections from API:', err)
     });
+  }
+
+  getCollectionsPage(page: number, size: number, searchTerm?: string, publicOnly: boolean = false): Observable<Page<Collection>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('publicOnly', publicOnly.toString());
+
+    if (searchTerm) {
+      params = params.set('search', searchTerm);
+    }
+
+    return this.http.get<Page<Collection>>(this.API_URL, { params });
   }
 
   // --- MIGRATION SCRIPT ---
@@ -179,12 +193,8 @@ export class CollectionService {
   }
 
   searchCollections(searchTerm: string): Observable<Collection[]> {
-    return this.collectionsSubject.pipe(
-      map(collections => collections.filter(collection =>
-        collection.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        collection.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        collection.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-      ))
+    return this.getCollectionsPage(0, 50, searchTerm).pipe(
+      map(page => page.content)
     );
   }
 

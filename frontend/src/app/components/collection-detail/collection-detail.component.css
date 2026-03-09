@@ -242,7 +242,8 @@
   max-width: 120px;
   max-height: 120px;
   object-fit: contain;
-  border-radius: 8px;
+  padding: 0.5rem;
+  /* Add padding to prevent trimming on edges */
 }
 
 .logo-info {
@@ -308,8 +309,13 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-container p {
@@ -322,37 +328,37 @@
   .collection-detail-container {
     padding: 1rem;
   }
-  
+
   .collection-info,
   .logos-section {
     padding: 1.5rem;
   }
-  
+
   .collection-title {
     font-size: 1.5rem;
   }
-  
+
   .collection-header {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .collection-meta {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .logos-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1rem;
   }
-  
+
   .logo-card {
     padding: 0.75rem;
   }
-  
+
   .logo-image img {
     max-width: 80px;
     max-height: 80px;
   }
-} 
+}

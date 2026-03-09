@@ -6,7 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @RestController
 @RequestMapping("/api/collections")
@@ -16,12 +19,26 @@ public class CollectionController {
     private final CollectionService collectionService;
 
     @GetMapping
-    public ResponseEntity<List<Collection>> getAllCollections(
-            @RequestParam(required = false, defaultValue = "false") boolean publicOnly) {
-        if (publicOnly) {
-            return ResponseEntity.ok(collectionService.getPublicCollections());
+    public ResponseEntity<Page<Collection>> getAllCollections(
+            @RequestParam(required = false, defaultValue = "false") boolean publicOnly,
+            @RequestParam(required = false) String search,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        if (search != null && !search.isEmpty()) {
+            return ResponseEntity.ok(collectionService.searchCollections(search, publicOnly, pageable));
         }
-        return ResponseEntity.ok(collectionService.getAllCollections());
+
+        if (publicOnly) {
+            return ResponseEntity.ok(collectionService.getPublicCollections(pageable));
+        }
+        return ResponseEntity.ok(collectionService.getAllCollections(pageable));
     }
 
     @GetMapping("/{id}")
