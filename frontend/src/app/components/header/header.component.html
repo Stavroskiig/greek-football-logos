@@ -5,55 +5,97 @@
       <img src="/assets/app-logo/app-logo.png" alt="Logo" class="logo" />
     </a>
 
-    <!-- Navigation - Centered -->
+    <!-- Navigation - Scrollable on mobile, Centered -->
     <nav class="navigation">
       <div class="nav-links">
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">{{
-          'nav.home' | translate }}</a>
-        <a routerLink="/map" routerLinkActive="active" class="nav-link">{{ 'nav.map' | translate }}</a>
-        <a routerLink="/misc" routerLinkActive="active" class="nav-link">{{ 'nav.misc' | translate }}</a>
-        <a routerLink="/suggest" routerLinkActive="active" class="nav-link">{{ 'nav.suggest' | translate }}</a>
-        <a routerLink="/games" routerLinkActive="active" class="nav-link">{{ 'nav.games' | translate }}</a>
-        <a routerLink="/collections" routerLinkActive="active" class="nav-link">{{ 'nav.collections' | translate }}</a>
-
-        <div class="flex items-center gap-1.5 sm:gap-2 ml-1 sm:ml-auto shrink-0 pr-1 sm:pr-0">
-          <button (click)="toggleLanguage()"
-            class="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 border border-blue-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full font-medium text-gray-800 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm cursor-pointer shrink-0"
-            aria-label="Toggle language" title="Toggle Language">
-            <!-- Greek Flag (Show when current is English, letting them switch to Greek) -->
-            <ng-container *ngIf="currentLang === 'en'">
-              <img src="https://flagcdn.com/w20/gr.png" srcset="https://flagcdn.com/w40/gr.png 2x" width="20"
-                alt="Greek" class="rounded-[2px]" />
-              <span class="text-xs sm:text-sm">GR</span>
-            </ng-container>
-
-            <!-- UK Flag (Show when current is Greek, letting them switch to English) -->
-            <ng-container *ngIf="currentLang === 'el'">
-              <img src="https://flagcdn.com/w20/gb.png" srcset="https://flagcdn.com/w40/gb.png 2x" width="20"
-                alt="English" class="rounded-[2px]" />
-              <span class="text-xs sm:text-sm">EN</span>
-            </ng-container>
-          </button>
-
-          <button (click)="toggleTheme()"
-            class="flex items-center justify-center p-1.5 sm:p-2 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full cursor-pointer transition-colors duration-200 shrink-0"
-            aria-label="Toggle dark mode" title="Toggle Theme">
-            <!-- Sun Icon (shows when dark mode is active) -->
-            <svg *ngIf="isDarkMode()" class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor"
-              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
-              </path>
-            </svg>
-            <!-- Moon Icon (shows when light mode is active) -->
-            <svg *ngIf="!isDarkMode()" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor"
-              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-            </svg>
-          </button>
-        </div>
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          class="nav-link flex items-center gap-1.5 whitespace-nowrap">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+            </path>
+          </svg>
+          <span class="hidden sm:inline-block">{{ 'nav.home' | translate }}</span>
+        </a>
+        <a routerLink="/map" routerLinkActive="active" class="nav-link flex items-center gap-1.5 whitespace-nowrap">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7">
+            </path>
+          </svg>
+          <span class="hidden sm:inline-block">{{ 'nav.map' | translate }}</span>
+        </a>
+        <a routerLink="/misc" routerLinkActive="active" class="nav-link flex items-center gap-1.5 whitespace-nowrap">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+            </path>
+          </svg>
+          <span class="hidden sm:inline-block">{{ 'nav.misc' | translate }}</span>
+        </a>
+        <a routerLink="/suggest" routerLinkActive="active" class="nav-link flex items-center gap-1.5 whitespace-nowrap">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          <span class="hidden sm:inline-block">{{ 'nav.suggest' | translate }}</span>
+        </a>
+        <a routerLink="/games" routerLinkActive="active" class="nav-link flex items-center gap-1.5 whitespace-nowrap">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+            </path>
+          </svg>
+          <span class="hidden sm:inline-block">{{ 'nav.games' | translate }}</span>
+        </a>
+        <a routerLink="/collections" routerLinkActive="active"
+          class="nav-link flex items-center gap-1.5 whitespace-nowrap">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+          </svg>
+          <span class="hidden sm:inline-block">{{ 'nav.collections' | translate }}</span>
+        </a>
       </div>
     </nav>
+
+    <!-- Toggles (Right) -->
+    <div class="flex items-center gap-1.5 shrink-0 ml-auto sm:ml-0">
+      <button (click)="toggleLanguage()"
+        class="flex items-center justify-center gap-1.5 px-2 py-1 sm:py-1.5 border border-blue-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full font-medium text-gray-800 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm cursor-pointer shrink-0"
+        aria-label="Toggle language" title="Toggle Language">
+        <ng-container *ngIf="currentLang === 'en'">
+          <img src="https://flagcdn.com/w20/gr.png" srcset="https://flagcdn.com/w40/gr.png 2x" width="16" alt="Greek"
+            class="rounded-[2px]" />
+          <span class="text-xs">GR</span>
+        </ng-container>
+        <ng-container *ngIf="currentLang === 'el'">
+          <img src="https://flagcdn.com/w20/gb.png" srcset="https://flagcdn.com/w40/gb.png 2x" width="16" alt="English"
+            class="rounded-[2px]" />
+          <span class="text-xs">EN</span>
+        </ng-container>
+      </button>
+
+      <button (click)="toggleTheme()"
+        class="flex items-center justify-center p-1.5 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full cursor-pointer transition-colors duration-200 shrink-0"
+        aria-label="Toggle dark mode" title="Toggle Theme">
+        <svg *ngIf="isDarkMode()" class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+          </path>
+        </svg>
+        <svg *ngIf="!isDarkMode()" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+      </button>
+    </div>
   </div>
 </header>
