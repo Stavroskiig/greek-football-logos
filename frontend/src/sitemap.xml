@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://greek-football-logos.site/</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-03-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -1751,8 +1751,16 @@
       <image:title>ΑΕ ΑΙΓΙΟΥ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%95%20%CE%91%CE%A1%CE%9F%CE%97%CE%A3.png</image:loc>
+      <image:title>ΑΕ ΑΡΟΗΣ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%95%20%CE%91%CE%A3%CE%A4%CE%95%CE%A1%CE%91%CE%A3%20%CE%A4%CE%A3%CE%9F%CE%A5%CE%9A%CE%91%CE%9B%CE%95%CE%AA%CE%9A%CE%A9%CE%9D.png</image:loc>
       <image:title>ΑΕ ΑΣΤΕΡΑΣ ΤΣΟΥΚΑΛΕΪΚΩΝ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%95%20%CE%91%CE%A7%CE%91%CE%AA%CE%9A%CE%97%20%CE%92.png</image:loc>
+      <image:title>ΑΕ ΑΧΑΪΚΗ Β Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%95%20%CE%91%CE%A7%CE%91%CE%AA%CE%9A%CE%97.png</image:loc>
@@ -1791,6 +1799,10 @@
       <image:title>ΑΕ ΦΟΙΝΙΚΑ ΖΗΡΙΑΣ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%95%CE%9A%20%CE%A0%CE%91%CE%A4%CE%A1%CE%A9%CE%9D.png</image:loc>
+      <image:title>ΑΕΚ ΠΑΤΡΩΝ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%91%CE%95%CE%A4%CE%9F%CE%A3%20%CE%A1%CE%99%CE%9F%CE%A5.png</image:loc>
       <image:title>ΑΟ ΑΕΤΟΣ ΡΙΟΥ Logo / Λογότυπο</image:title>
     </image:image>
@@ -1803,6 +1815,10 @@
       <image:title>ΑΟ ΑΙΓΙΟΥ 2019 Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%91%CE%99%CE%9F%CE%9B%CE%9F%CE%A3%20%CE%91%CE%93%CE%A5%CE%99%CE%91%CE%A3.png</image:loc>
+      <image:title>ΑΟ ΑΙΟΛΟΣ ΑΓΥΙΑΣ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%91%CE%9D%CE%91%CE%93%CE%95%CE%9D%CE%9D%CE%97%CE%A3%CE%97%20%CE%A0%CE%91%CE%A4%CE%A1%CE%A9%CE%9D.png</image:loc>
       <image:title>ΑΟ ΑΝΑΓΕΝΝΗΣΗ ΠΑΤΡΩΝ Logo / Λογότυπο</image:title>
     </image:image>
@@ -1811,8 +1827,8 @@
       <image:title>ΑΟ ΑΠΟΛΛΩΝ ΣΥΝΟΙΚΙΣΜΟΥ ΑΙΓΙΟΥ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%91%CE%A1%CE%93%CE%A5%CE%A1%CE%91%20%CE%A0%CE%91%CE%A4%CE%A1%CE%A9%CE%9D.png</image:loc>
-      <image:title>ΑΟ ΑΡΓΥΡΑ ΠΑΤΡΩΝ Logo / Λογότυπο</image:title>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%91%CE%A1%CE%93%CE%A5%CE%A1%CE%91%CE%A3%20%CE%A0%CE%91%CE%A4%CE%A1%CE%A9%CE%9D.png</image:loc>
+      <image:title>ΑΟ ΑΡΓΥΡΑΣ ΠΑΤΡΩΝ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%91%CE%A3%CE%A4%CE%95%CE%A1%CE%91%CE%A3%20%CE%A4%CE%95%CE%9C%CE%95%CE%9D%CE%97%CE%A3.png</image:loc>
@@ -1829,6 +1845,10 @@
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%94%CE%9F%CE%9E%CE%91%20%CE%9D%CE%99%CE%A6%CE%9F%CE%A1%CE%95%CE%AA%CE%9A%CE%A9%CE%9D.png</image:loc>
       <image:title>ΑΟ ΔΟΞΑ ΝΙΦΟΡΕΪΚΩΝ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%95%CE%98%CE%9D%CE%99%CE%9A%CE%9F%CE%A3%20%CE%A0%CE%9F%CE%9B%CE%A5%CE%A4%CE%95%CE%9A%CE%9D%CE%9F%CE%A3%20%CE%A0%CE%91%CE%A4%CE%A1%CE%A9%CE%9D%20%CE%92.png</image:loc>
+      <image:title>ΑΟ ΕΘΝΙΚΟΣ ΠΟΛΥΤΕΚΝΟΣ ΠΑΤΡΩΝ Β Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%95%CE%98%CE%9D%CE%99%CE%9A%CE%9F%CE%A3%20%CE%A0%CE%9F%CE%9B%CE%A5%CE%A4%CE%95%CE%9A%CE%9D%CE%9F%CE%A3%20%CE%A0%CE%91%CE%A4%CE%A1%CE%A9%CE%9D.png</image:loc>
@@ -1851,6 +1871,10 @@
       <image:title>ΑΟ ΠΕΙΡΟΣ ΙΣΩΜΑΤΟΣ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%A0%CE%95%CE%A4%CE%95%CE%99%CE%9D%CE%9F%CE%99.png</image:loc>
+      <image:title>ΑΟ ΠΕΤΕΙΝΟΙ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%A0%CE%97%CE%93%CE%91%CE%A3%CE%9F%CE%A3%20%CE%9C%CE%A0%CE%95%CE%93%CE%9F%CE%A5%CE%9B%CE%91%CE%9A%CE%99%CE%9F%CE%A5.png</image:loc>
       <image:title>ΑΟ ΠΗΓΑΣΟΣ ΜΠΕΓΟΥΛΑΚΙΟΥ Logo / Λογότυπο</image:title>
     </image:image>
@@ -1871,6 +1895,10 @@
       <image:title>ΑΟ ΦΛΟΓΑ ΡΟΔΙΑΣ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%9F%20%CE%A8%CE%97%CE%9B%CE%91%CE%9B%CE%A9%CE%9D%CE%99%CE%A9%CE%9D.png</image:loc>
+      <image:title>ΑΟ ΨΗΛΑΛΩΝΙΩΝ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A0%CE%9F%20%CE%91%CE%A1%CE%9F%CE%97%CE%A3.png</image:loc>
       <image:title>ΑΠΟ ΑΡΟΗΣ Logo / Λογότυπο</image:title>
     </image:image>
@@ -1881,6 +1909,10 @@
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A0%CE%A3%20%CE%91%CE%A1%CE%97%CE%A3%20%CE%A0%CE%91%CE%A4%CE%A1%CE%A9%CE%9D.png</image:loc>
       <image:title>ΑΠΣ ΑΡΗΣ ΠΑΤΡΩΝ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A0%CE%A3%20%CE%91%CE%A4%CE%A1%CE%9F%CE%9C%CE%97%CE%A4%CE%9F%CE%A3%20%CE%A0%CE%91%CE%A4%CE%A1%CE%A9%CE%9D%20%CE%92.png</image:loc>
+      <image:title>ΑΠΣ ΑΤΡΟΜΗΤΟΣ ΠΑΤΡΩΝ Β Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A0%CE%A3%20%CE%91%CE%A4%CE%A1%CE%9F%CE%9C%CE%97%CE%A4%CE%9F%CE%A3%20%CE%A0%CE%91%CE%A4%CE%A1%CE%A9%CE%9D.png</image:loc>
@@ -1903,8 +1935,20 @@
       <image:title>ΑΠΣ ΖΑΒΛΑΝΙΟΥ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A0%CE%A3%20%CE%9F%CE%9B%CE%A5%CE%9C%CE%A0%CE%99%CE%91%CE%9A%CE%9F%CE%A3%20%CE%A0%CE%91%CE%A4%CE%A1%CE%A9%CE%9D.png</image:loc>
+      <image:title>ΑΠΣ ΟΛΥΜΠΙΑΚΟΣ ΠΑΤΡΩΝ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A0%CE%A3%20%CE%A0%CE%91%CE%A4%CE%A1%CE%91%CE%99%20%CE%92.png</image:loc>
+      <image:title>ΑΠΣ ΠΑΤΡΑΙ Β Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A0%CE%A3%20%CE%A0%CE%91%CE%A4%CE%A1%CE%91%CE%99.png</image:loc>
       <image:title>ΑΠΣ ΠΑΤΡΑΙ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A3%20%CE%91%CE%9D%CE%91%CE%93%CE%95%CE%9D%CE%9D%CE%97%CE%A3%CE%97%20%CE%A3%CE%9A%CE%99%CE%91%CE%94%CE%91.png</image:loc>
+      <image:title>ΑΣ ΑΝΑΓΕΝΝΗΣΗ ΣΚΙΑΔΑ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A3%20%CE%91%CE%A3%CE%A4%CE%95%CE%A1%CE%91%CE%A3%20%CE%9B%CE%95%CE%9F%CE%9D%CE%A4%CE%99%CE%9F%CE%A5.png</image:loc>
@@ -1913,6 +1957,10 @@
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A3%20%CE%91%CE%A3%CE%A4%CE%95%CE%A1%CE%91%CE%A3%20%CE%9C%CE%99%CE%9D%CE%A4%CE%99%CE%9B%CE%9F%CE%93%CE%9B%CE%99%CE%9F%CE%A5.png</image:loc>
       <image:title>ΑΣ ΑΣΤΕΡΑΣ ΜΙΝΤΙΛΟΓΛΙΟΥ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A3%20%CE%91%CE%A4%CE%9B%CE%91%CE%A3.png</image:loc>
+      <image:title>ΑΣ ΑΤΛΑΣ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A3%20%CE%91%CE%A4%CE%A1%CE%9F%CE%9C%CE%97%CE%A4%CE%9F%CE%A3%20%CE%9B%CE%91%CE%A0%CE%A0%CE%91.png</image:loc>
@@ -1935,6 +1983,14 @@
       <image:title>ΑΣ ΝΙΚΗ ΠΡΟΑΣΤΙΟΥ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A3%20%CE%A0%CE%91%CE%9D%CE%91%CE%98%CE%97%CE%9D%CE%91%CE%AA%CE%9A%CE%9F%CE%A3%20%CE%A0%CE%91%CE%A4%CE%A1%CE%A9%CE%9D.png</image:loc>
+      <image:title>ΑΣ ΠΑΝΑΘΗΝΑΪΚΟΣ ΠΑΤΡΩΝ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A3%20%CE%A6%CE%9F%CE%99%CE%9D%CE%99%CE%9A%CE%91%CE%A3%20%CE%91%CE%93%CE%A5%CE%99%CE%91%CE%A3.png</image:loc>
+      <image:title>ΑΣ ΦΟΙΝΙΚΑΣ ΑΓΥΙΑΣ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%91%CE%A3%CE%A4%CE%95%CE%A1%CE%91%CE%A3%20%CE%9B%CE%95%CE%9F%CE%9D%CE%A4%CE%99%CE%9F%CE%A5.png</image:loc>
       <image:title>ΑΣΤΕΡΑΣ ΛΕΟΝΤΙΟΥ Logo / Λογότυπο</image:title>
     </image:image>
@@ -1947,20 +2003,32 @@
       <image:title>ΓΣ ΘΥΕΛΛΑ ΑΙΓΙΟΥ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%94%CE%91%CE%92%CE%9F%CE%A5%CE%A1%CE%9B%CE%97%CE%A3%20%CE%9A92.png</image:loc>
-      <image:title>ΔΑΒΟΥΡΛΗΣ Κ92 Logo / Λογότυπο</image:title>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%94%CE%91%CE%92%CE%9F%CE%A5%CE%A1%CE%9B%CE%97%CE%A3%20%CE%9A%CE%A9%CE%A3%CE%A4%CE%91%CE%A3%201992.png</image:loc>
+      <image:title>ΔΑΒΟΥΡΛΗΣ ΚΩΣΤΑΣ 1992 Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%96%CE%91%CE%92%CE%9B%CE%91%CE%9D%CE%99%20%CE%91%CE%99%CE%91%CE%A3.png</image:loc>
       <image:title>ΖΑΒΛΑΝΙ ΑΙΑΣ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%9F%CE%9B%CE%A5%CE%9C%CE%A0%CE%99%CE%91%CE%9A%CE%9F%CE%A3%20%CE%A6%CE%99%CE%9B%CE%A9%CE%9D%20%CE%A0%CE%9F%CE%94%CE%9F%CE%A3%CE%A6%CE%91%CE%99%CE%A1%CE%9F%CE%A5.png</image:loc>
+      <image:title>ΟΛΥΜΠΙΑΚΟΣ ΦΙΛΩΝ ΠΟΔΟΣΦΑΙΡΟΥ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%A0%CE%91%CE%9D%CE%99%CE%A9%CE%9D%CE%99%CE%9F%CE%A3%20%CE%91%CE%A7%CE%99%CE%9B%CE%9B%CE%95%CE%91%CE%A3%20%CE%91%CE%93%CE%A5%CE%99%CE%91%CE%A3.png</image:loc>
       <image:title>ΠΑΝΙΩΝΙΟΣ ΑΧΙΛΛΕΑΣ ΑΓΥΙΑΣ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%A0%CE%91%CE%9F%CE%9A%20%CE%A0%CE%91%CE%A4%CE%A1%CE%91%CE%A3%202018.png</image:loc>
+      <image:title>ΠΑΟΚ ΠΑΤΡΑΣ 2018 Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%A0%CE%91%CE%A3%20%CE%A0%CE%91%CE%A4%CE%A1%CE%91%CE%AA%CE%9A%CE%9F%CE%A3.png</image:loc>
       <image:title>ΠΑΣ ΠΑΤΡΑΪΚΟΣ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%91%CE%A7%CE%91%CE%AA%CE%91%CE%A3/%CE%A0%CE%9F%20%CE%91%CE%A5%CE%A4%CE%9F%CE%9D%CE%9F%CE%9C%CE%97.png</image:loc>
+      <image:title>ΠΟ ΑΥΤΟΝΟΜΗ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%92%CE%9F%CE%99%CE%A9%CE%A4%CE%99%CE%91%CE%A3/%CE%91%CE%95%20%CE%94%CE%97%CE%9B%CE%95%CE%A3%CE%99%CE%9F%CE%A5.png</image:loc>
@@ -7703,8 +7771,8 @@
       <image:title>ΑΣ ΓΑΛΑΤΑ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%A7%CE%91%CE%9D%CE%99%CE%A9%CE%9D/%CE%91%CE%A3%20%CE%9D%CE%95%CE%9F%CE%A3%20%CE%9A%CE%99%CE%A3%CE%A3%CE%91%CE%9C%CE%99%CE%9A%CE%9F%CE%A3%20%CE%92%20-%20%CE%91%CE%BD%CF%84%CE%B9%CE%B3%CF%81%CE%B1%CF%86%CE%AE.png</image:loc>
-      <image:title>ΑΣ ΝΕΟΣ ΚΙΣΣΑΜΙΚΟΣ Β   Αντιγραφή Logo / Λογότυπο</image:title>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%A7%CE%91%CE%9D%CE%99%CE%A9%CE%9D/%CE%91%CE%A3%20%CE%9D%CE%95%CE%9F%CE%A3%20%CE%9A%CE%99%CE%A3%CE%A3%CE%91%CE%9C%CE%99%CE%9A%CE%9F%CE%A3%20%CE%92.png</image:loc>
+      <image:title>ΑΣ ΝΕΟΣ ΚΙΣΣΑΜΙΚΟΣ Β Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%A7%CE%91%CE%9D%CE%99%CE%A9%CE%9D/%CE%91%CE%A3%20%CE%9D%CE%95%CE%9F%CE%A3%20%CE%9A%CE%99%CE%A3%CE%A3%CE%91%CE%9C%CE%99%CE%9A%CE%9F%CE%A3.png</image:loc>
@@ -7833,19 +7901,19 @@
   </url>
   <url>
     <loc>https://greek-football-logos.site/misc</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-03-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://greek-football-logos.site/tag-manager</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://greek-football-logos.site/collections</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-03-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
