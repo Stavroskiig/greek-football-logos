@@ -88,7 +88,7 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
 
     // Center map on Greece
     this.map = L.map(this.mapContainer.nativeElement, {
-      center: [38.2749, 23.8103],
+      center: [38.3749, 23.8103],
       zoom: 7, // Initial zoom
       minZoom: 7, // Prevent zooming out further than Greece
       maxBounds: greeceBounds, // Restrict panning to these bounds
@@ -106,13 +106,7 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
     this.http.get('assets/map/greece-regions.geojson').subscribe({
       next: (geoData: any) => {
         this.geoJsonLayer = L.geoJSON(geoData, {
-          style: (feature) => this.getRegionStyle(this.themeService.isDarkMode()),
-          onEachFeature: (feature, layer) => {
-            layer.on({
-              mouseover: (e) => this.highlightFeature(e),
-              mouseout: (e) => this.resetHighlight(e)
-            });
-          }
+          style: (feature) => this.getRegionStyle(this.themeService.isDarkMode())
         }).addTo(this.map);
       },
       error: (err) => console.error('Error loading Greece GeoJSON', err)
@@ -152,30 +146,13 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
 
   private getRegionStyle(isDark: boolean): L.PathOptions {
     return {
-      fillColor: isDark ? '#374151' : '#e5e7eb', // gray-700 / gray-200
-      weight: 2,
-      opacity: 1,
-      color: isDark ? '#1f2937' : '#ffffff', // gray-800 / white
-      fillOpacity: 0.6
+      fillColor: isDark ? '#1e3a8a' : '#3b82f6', // blue-900 / blue-500
+      weight: 1.5, // Slightly thinner borders
+      opacity: 0.8,
+      color: isDark ? '#1e40af' : '#93c5fd', // blue-800 / blue-300
+      fillOpacity: isDark ? 0.3 : 0.15, // More transparent
+      interactive: false
     };
-  }
-
-  private highlightFeature(e: L.LeafletMouseEvent): void {
-    const layer = e.target;
-    // Highlight styling
-    layer.setStyle({
-      fillOpacity: 0.8,
-      fillColor: '#3b82f6', // blue-500
-    });
-
-    // Bring to front
-    layer.bringToFront();
-  }
-
-  private resetHighlight(e: L.LeafletMouseEvent): void {
-    if (this.geoJsonLayer) {
-      this.geoJsonLayer.resetStyle(e.target);
-    }
   }
 
   setLeague(league: string): void {
@@ -228,10 +205,10 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
   }
 
   private selectTeam(team: TeamLocation, logoUrl: string): void {
-    // Pan to feature and open sidebar
-    this.map.flyTo([team.lat, team.lng], 9, {
+    // Pan to feature and open sidebar without zooming all the way out
+    this.map.setView([team.lat, team.lng], 9, {
       animate: true,
-      duration: 1
+      duration: 0.5 // slightly faster animation
     });
     this.selectedTeam = team;
     this.selectedTeamLogoUrl = logoUrl;
@@ -239,9 +216,9 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
 
   closeSidebar(): void {
     this.selectedTeam = null;
-    this.map.flyTo([38.2749, 23.8103], 6, {
+    this.map.setView([38.3749, 23.8103], 7, { // Note: changed zoom back to 7 from 6 to match the init zoom and prevent sudden jumps
       animate: true,
-      duration: 1
+      duration: 0.5
     });
   }
 }
