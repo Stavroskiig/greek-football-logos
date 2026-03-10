@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, combineLatest, firstValueFrom } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, firstValueFrom, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Collection } from '../models/collection';
 import { TeamLogo } from '../models/team-logo';
 import { LogoService, Page } from './logo.service';
@@ -110,18 +110,16 @@ export class CollectionService {
   }
 
   getCollectionWithLogos(id: string): Observable<{ collection: Collection; logos: TeamLogo[] } | undefined> {
-    return combineLatest([
-      this.getCollectionById(id),
-      this.logoService.getLogosManifest()
-    ]).pipe(
-      map(([collection, allLogos]) => {
-        if (!collection) return undefined;
+    return this.getCollectionById(id).pipe(
+      switchMap(collection => {
+        if (!collection) return of(undefined);
+        if (!collection.logoIds || collection.logoIds.length === 0) {
+          return of({ collection, logos: [] });
+        }
 
-        const logos = allLogos.filter(logo =>
-          collection.logoIds.includes(logo.id)
+        return this.logoService.getLogosByIds(collection.logoIds, undefined, 0, Math.max(collection.logoIds.length, 500)).pipe(
+          map(page => ({ collection, logos: page.content }))
         );
-
-        return { collection, logos };
       })
     );
   }
@@ -199,13 +197,14 @@ export class CollectionService {
   }
 
   getCollectionLogos(collectionId: string): Observable<TeamLogo[]> {
-    return combineLatest([
-      this.getCollectionById(collectionId),
-      this.logoService.getLogosManifest()
-    ]).pipe(
-      map(([collection, allLogos]) => {
-        if (!collection) return [];
-        return allLogos.filter(logo => collection.logoIds.includes(logo.id));
+    return this.getCollectionById(collectionId).pipe(
+      switchMap(collection => {
+        if (!collection || !collection.logoIds || collection.logoIds.length === 0) {
+          return of([]);
+        }
+        return this.logoService.getLogosByIds(collection.logoIds, undefined, 0, Math.max(collection.logoIds.length, 500)).pipe(
+          map(page => page.content)
+        );
       })
     );
   }
