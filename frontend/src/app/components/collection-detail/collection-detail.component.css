@@ -243,7 +243,6 @@
   max-height: 120px;
   object-fit: contain;
   padding: 0.5rem;
-  /* Add padding to prevent trimming on edges */
 }
 
 .logo-info {
