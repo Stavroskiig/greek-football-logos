@@ -112,10 +112,9 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
       error: (err) => console.error('Error loading Greece GeoJSON', err)
     });
 
-    // Load Super League & SL2 Locations and merge with dynamic DB leagues
     this.http.get<TeamLocation[]>('assets/data/team-locations.json').subscribe({
       next: (locations) => {
-        this.logoService.getAllLogos(0, 5000).subscribe(dbLogos => {
+        this.logoService.getAllLogos(0, 5000, true).subscribe(dbLogos => {
           // Create a map of team names to their dynamic league IDs/names and paths
           const dbDataMap = new Map<string, { league: string, path: string }>();
           dbLogos.content.forEach(logo => {
