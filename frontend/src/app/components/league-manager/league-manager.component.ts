@@ -29,6 +29,7 @@ export class LeagueManagerComponent implements OnInit {
   selectedTeamIds: Set<string> = new Set<string>();
   targetLeagueId: string = '';
   
+  isLoading: boolean = false;
   isUpdating: boolean = false;
   successMessage: string = '';
   errorMessage: string = '';
@@ -48,11 +49,18 @@ export class LeagueManagerComponent implements OnInit {
     this.loadData();
   }
 
-  loadData() {
+  loadData(forceRefresh: boolean = false) {
+    this.isLoading = true;
     // Get all logos
-    this.logoService.getAllLogos(0, 5000).subscribe(response => {
+    this.logoService.getAllLogos(0, 5000, forceRefresh).subscribe(response => {
       this.teams = response.content;
       this.filteredTeams = this.teams;
+      this.isLoading = false;
+      
+      // Re-apply filter if one was active
+      if (this.filterLeague || this.searchTerm) {
+        this.filterTeams();
+      }
     });
 
     // Get all leagues
@@ -140,7 +148,7 @@ export class LeagueManagerComponent implements OnInit {
       next: () => {
         this.showMessage(`Successfully updated ${this.selectedTeamIds.size} team(s)!`, false);
         this.selectedTeamIds.clear();
-        this.loadData(); // Reload to get updated leagues
+        this.loadData(true); // Reload to get updated leagues and bust cache
         this.isUpdating = false;
       },
       error: () => {

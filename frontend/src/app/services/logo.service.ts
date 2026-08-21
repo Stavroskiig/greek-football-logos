@@ -61,10 +61,11 @@ export class LogoService {
     return this.manifestPaths$;
   }
 
-  getLogos(league?: string, searchTerm?: string, page: number = 0, size: number = 50): Observable<Page<TeamLogo>> {
+  getLogos(league?: string, searchTerm?: string, page: number = 0, size: number = 50, forceRefresh: boolean = false): Observable<Page<TeamLogo>> {
     let url = `${this.apiUrl}?page=${page}&size=${size}`;
     if (league) url += `&league=${encodeURIComponent(league)}`;
     if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
+    if (forceRefresh) url += `&t=${new Date().getTime()}`;
 
     return forkJoin({
       pageData: this.http.get<Page<TeamLogo>>(url).pipe(retry({ count: 3, delay: 2000 })),
@@ -209,8 +210,8 @@ export class LogoService {
     return '/assets/league-logos/default-league.png';
   }
 
-  getAllLogos(page: number = 0, size: number = 1000): Observable<Page<TeamLogo>> {
-    return this.getLogos(undefined, undefined, page, size);
+  getAllLogos(page: number = 0, size: number = 1000, forceRefresh: boolean = false): Observable<Page<TeamLogo>> {
+    return this.getLogos(undefined, undefined, page, size, forceRefresh);
   }
 
   getLogosManifest(): Observable<TeamLogo[]> {
