@@ -65,8 +65,19 @@ export class LogoService {
     let url = `${this.apiUrl}?page=${page}&size=${size}`;
     if (league) url += `&league=${encodeURIComponent(league)}`;
     if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
-    if (forceRefresh) url += `&t=${new Date().getTime()}`;
+    if (forceRefresh && isPlatformBrowser(this.platformId)) {
+      sessionStorage.setItem('force_refresh_timestamp', new Date().getTime().toString());
+    }
 
+    let timestamp = '';
+    if (isPlatformBrowser(this.platformId)) {
+      timestamp = sessionStorage.getItem('force_refresh_timestamp') || '';
+    }
+
+    if (forceRefresh || timestamp) {
+      const t = forceRefresh ? new Date().getTime() : timestamp;
+      url += `&t=${t}`;
+    }
     return forkJoin({
       pageData: this.http.get<Page<TeamLogo>>(url).pipe(retry({ count: 3, delay: 2000 })),
       manifestPaths: this.manifestPaths$
