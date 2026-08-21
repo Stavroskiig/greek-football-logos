@@ -8,6 +8,7 @@ import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { LogoItemComponent } from '../logo-item/logo-item.component';
 import { LeagueSelectorComponent } from '../league-selector/league-selector.component';
 import { TeamLogo } from '../../models/team-logo';
+import { League } from '../../models/league';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -18,10 +19,10 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class LogoDisplayComponent implements OnInit, OnDestroy {
   searchTerm: string = '';
-  selectedLeague: string = 'SUPERLEAGUE';
+  selectedLeague: string = 'superleague';
 
   logos: TeamLogo[] = [];
-  leagues$: Observable<string[]>;
+  leagues$: Observable<League[]>;
 
   // Pagination state
   currentPage: number = 0;
@@ -163,8 +164,21 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
     this.loadLogos(true);
   }
 
-  getLeagueLogoPath(leagueName: string): string {
-    return this.logoService.getLeagueLogoPath(leagueName);
+  getLeagueLogoPath(leagueId: string): string {
+    const displayName = this.getDisplayName(leagueId);
+    return this.logoService.getLeagueLogoPath(displayName);
+  }
+
+  getDisplayName(leagueId: string): string {
+    if (!leagueId) return 'All Leagues';
+    return leagueId.replace(/-/g, ' ').toUpperCase();
+  }
+
+  onImageError(event: Event): void {
+    const target = event.target as HTMLImageElement;
+    if (target) {
+      target.style.display = 'none';
+    }
   }
 
   private normalizeString(str: string): string {

@@ -8,6 +8,7 @@ import { AdminService } from '../../services/admin.service';
 import { LogoService } from '../../services/logo.service';
 import { StructuredDataService } from '../../services/structured-data.service';
 import { TeamLogo } from '../../models/team-logo';
+import { League } from '../../models/league';
 import { FileManagerComponent } from '../file-manager/file-manager.component';
 
 @Component({
@@ -25,7 +26,7 @@ export class TagManagerComponent implements OnInit {
   teamTags: { [teamId: string]: string[] } = {};
   searchTerm: string = '';
   selectedLeague: string = '';
-  leagues: string[] = [];
+  leagues: League[] = [];
   isLeagueDropdownOpen: boolean = false;
   showSavedMessage: boolean = false;
 
@@ -83,7 +84,7 @@ export class TagManagerComponent implements OnInit {
     // Filter by league
     if (this.selectedLeague) {
       filtered = filtered.filter(team =>
-        team.league === this.selectedLeague
+        team.league?.id === this.selectedLeague
       );
     }
 
@@ -92,7 +93,7 @@ export class TagManagerComponent implements OnInit {
       const term = this.searchTerm.toLowerCase();
       filtered = filtered.filter(team =>
         team.name.toLowerCase().includes(term) ||
-        (team.league && team.league.toLowerCase().includes(term))
+        (team.league && team.league.name.toLowerCase().includes(term))
       );
     }
 
@@ -119,13 +120,14 @@ export class TagManagerComponent implements OnInit {
     this.filterTeams();
   }
 
-  getLeagueLogoPath(leagueName: string): string {
-    return this.logoService.getLeagueLogoPath(leagueName);
+  getLeagueLogoPath(leagueId: string): string {
+    const displayName = this.getLeagueDisplayName(leagueId);
+    return this.logoService.getLeagueLogoPath(displayName);
   }
 
-  getLeagueDisplayName(league: string): string {
-    if (!league) return '🌍 All Leagues';
-    return league;
+  getLeagueDisplayName(leagueId: string): string {
+    if (!leagueId) return '🌍 All Leagues';
+    return leagueId.replace(/-/g, ' ').toUpperCase();
   }
 
   onImageError(event: Event): void {

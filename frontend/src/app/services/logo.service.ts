@@ -1,9 +1,10 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 import { catchError, map, shareReplay, tap, retry } from 'rxjs/operators';
 import { TeamLogo } from '../models/team-logo';
+import { League } from '../models/league';
 import { TagService } from './tag.service';
 
 import { environment } from '../../environments/environment';
@@ -28,12 +29,36 @@ export interface Page<T> {
 export class LogoService {
   private apiUrl = `${environment.apiUrl}/logos`;
 
+  private manifestPaths$!: Observable<Map<string, string>>;
+
   constructor(
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object,
     private tagService: TagService
   ) {
-    // Determine leagues once initially (optional optimization: can move to backend)
+    this.initManifestPaths();
+  }
+
+  private initManifestPaths() {
+    const timestamp = new Date().getTime();
+    this.manifestPaths$ = this.http.get<any[]>(`/assets/logos-manifest.json?t=${timestamp}`).pipe(
+      map(manifest => {
+        const pathMap = new Map<string, string>();
+        manifest.forEach(item => {
+          pathMap.set(item.name, item.path);
+        });
+        return pathMap;
+      }),
+      catchError(err => {
+        console.error('Failed to load logos-manifest.json for path mapping', err);
+        return of(new Map<string, string>());
+      }),
+      shareReplay(1)
+    );
+  }
+
+  getManifestPaths(): Observable<Map<string, string>> {
+    return this.manifestPaths$;
   }
 
   getLogos(league?: string, searchTerm?: string, page: number = 0, size: number = 50): Observable<Page<TeamLogo>> {
@@ -41,9 +66,11 @@ export class LogoService {
     if (league) url += `&league=${encodeURIComponent(league)}`;
     if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
 
-    return this.http.get<Page<TeamLogo>>(url).pipe(
-      retry({ count: 3, delay: 2000 }),
-      map((pageData: any) => {
+    return forkJoin({
+      pageData: this.http.get<Page<TeamLogo>>(url).pipe(retry({ count: 3, delay: 2000 })),
+      manifestPaths: this.manifestPaths$
+    }).pipe(
+      map(({ pageData, manifestPaths }) => {
         // Handle local cache poisoning during transition (if browser cached the old backend's flat array)
         if (Array.isArray(pageData)) {
           pageData = {
@@ -53,12 +80,13 @@ export class LogoService {
             last: true,
             size: pageData.length,
             number: 0
-          } as Page<TeamLogo>;
+          } as any as Page<TeamLogo>;
         }
 
-        // Hydrate tags
+        // Hydrate tags and overwrite DB path with physical path from manifest
         pageData.content = pageData.content.map((logo: TeamLogo) => ({
           ...logo,
+          path: manifestPaths.get(logo.name) || logo.path,
           tags: this.tagService.getTeamTags(logo.id)
         }));
         return pageData as Page<TeamLogo>;
@@ -75,12 +103,15 @@ export class LogoService {
     let url = `${this.apiUrl}/by-ids?page=${page}&size=${size}`;
     if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
 
-    return this.http.post<Page<TeamLogo>>(url, ids).pipe(
-      retry({ count: 3, delay: 2000 }),
-      map((pageData: any) => {
-        // Hydrate tags
+    return forkJoin({
+      pageData: this.http.post<Page<TeamLogo>>(url, ids).pipe(retry({ count: 3, delay: 2000 })),
+      manifestPaths: this.manifestPaths$
+    }).pipe(
+      map(({ pageData, manifestPaths }) => {
+        // Hydrate tags and overwrite DB path with physical path from manifest
         pageData.content = pageData.content.map((logo: TeamLogo) => ({
           ...logo,
+          path: manifestPaths.get(logo.name) || logo.path,
           tags: this.tagService.getTeamTags(logo.id)
         }));
         return pageData as Page<TeamLogo>;
@@ -100,21 +131,11 @@ export class LogoService {
     return this.http.post<{ message: string; addedCount: number }>(`${this.apiUrl}/sync`, manifestData);
   }
 
-  getLeagues(): Observable<string[]> {
-    // For now, returning standard list or fetch from distinct API. Hardcoded priority for speed.
-    const priorityOrder = ['SUPERLEAGUE', 'SUPERLEAGUE 2', 'Γ ΕΘΝΙΚΗ'];
-    const epsLeagues = [
-      'ΕΠΣ ΑΘΗΝΩΝ', 'ΕΠΣ ΑΙΤΩΛΟΑΚΑΡΝΑΝΙΑΣ', 'ΕΠΣ ΑΝΑΤΟΛΙΚΗΣ ΑΤΤΙΚΗΣ', 'ΕΠΣ ΑΡΓΟΛΙΔΑΣ', 'ΕΠΣ ΑΡΚΑΔΙΑΣ',
-      'ΕΠΣ ΑΡΤΑΣ', 'ΕΠΣ ΑΧΑΪΑΣ', 'ΕΠΣ ΒΟΙΩΤΙΑΣ', 'ΕΠΣ ΓΡΕΒΕΝΩΝ', 'ΕΠΣ ΔΡΑΜΑΣ', 'ΕΠΣ ΔΥΤΙΚΗΣ ΑΤΤΙΚΗΣ',
-      'ΕΠΣ ΔΩΔΕΚΑΝΗΣΟΥ', 'ΕΠΣ ΕΒΡΟΥ', 'ΕΠΣ ΕΥΒΟΙΑΣ', 'ΕΠΣ ΕΥΡΥΤΑΝΙΑΣ', 'ΕΠΣ ΕΥΡΩΠΑ', 'ΕΠΣ ΗΛΕΙΑΣ',
-      'ΕΠΣ ΗΜΑΘΙΑΣ', 'ΕΠΣ ΗΠΕΙΡΟΥ', 'ΕΠΣ ΗΡΑΚΛΕΙΟΥ', 'ΕΠΣ ΘΕΣΠΡΩΤΙΑΣ', 'ΕΠΣ ΘΕΣΣΑΛΙΑΣ', 'ΕΠΣ ΘΡΑΚΗΣ',
-      'ΕΠΣ ΚΑΒΑΛΑΣ', 'ΕΠΣ ΚΑΡΔΙΤΣΑΣ', 'ΕΠΣ ΚΑΣΤΟΡΙΑΣ', 'ΕΠΣ ΚΕΡΚΥΡΑΣ', 'ΕΠΣ ΚΕΦΑΛΛΗΝΙΑΣ-ΙΘΑΚΗΣ',
-      'ΕΠΣ ΚΙΛΚΙΣ', 'ΕΠΣ ΚΟΖΑΝΗΣ', 'ΕΠΣ ΚΟΡΙΝΘΙΑΣ', 'ΕΠΣ ΚΥΚΛΑΔΩΝ', 'ΕΠΣ ΛΑΚΩΝΙΑΣ', 'ΕΠΣ ΛΑΡΙΣΑΣ',
-      'ΕΠΣ ΛΑΣΙΘΙΟΥ', 'ΕΠΣ ΛΕΣΒΟΥ-ΛΗΜΝΟΥ', 'ΕΠΣ ΜΑΚΕΔΟΝΙΑΣ', 'ΕΠΣ ΜΕΣΣΗΝΙΑΣ', 'ΕΠΣ ΞΑΝΘΗΣ', 'ΕΠΣ ΠΕΙΡΑΙΑ',
-      'ΕΠΣ ΠΕΛΛΑΣ', 'ΕΠΣ ΠΙΕΡΙΑΣ', 'ΕΠΣ ΠΡΕΒΕΖΑΣ-ΛΕΥΚΑΔΑΣ', 'ΕΠΣ ΡΕΘΥΜΝΟΥ', 'ΕΠΣ ΣΑΜΟΥ', 'ΕΠΣ ΣΕΡΡΩΝ',
-      'ΕΠΣ ΤΡΙΚΑΛΩΝ', 'ΕΠΣ ΦΘΙΩΤΙΔΑΣ', 'ΕΠΣ ΦΛΩΡΙΝΑΣ', 'ΕΠΣ ΦΩΚΙΔΑΣ', 'ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ', 'ΕΠΣ ΧΑΝΙΩΝ', 'ΕΠΣ ΧΙΟΥ'
-    ];
-    return of([...priorityOrder, ...epsLeagues]);
+  getLeagues(): Observable<League[]> {
+    return this.http.get<League[]>(`${environment.apiUrl}/leagues`).pipe(
+      retry({ count: 3, delay: 2000 }),
+      shareReplay(1)
+    );
   }
 
   getLeagueLogoPath(leagueName: string): string {

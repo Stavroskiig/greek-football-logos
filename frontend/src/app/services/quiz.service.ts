@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { Observable, BehaviorSubject, of, forkJoin } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { LogoService } from './logo.service';
 import { environment } from '../../environments/environment';
@@ -39,9 +39,18 @@ export class QuizService {
 
     const url = `${this.apiUrl}/generate?mode=${settings.mode}&difficulty=${settings.difficulty}&count=${settings.questionCount}`;
 
-    return this.http.get<QuizQuestion[]>(url).pipe(
-      map(questions => {
+    return forkJoin({
+      questions: this.http.get<QuizQuestion[]>(url),
+      paths: this.logoService.getManifestPaths()
+    }).pipe(
+      map(({ questions, paths }) => {
         console.log('Loaded questions from backend:', questions.length);
+        
+        // Resolve actual logo paths from manifest using logoName (which backend now sends in logoPath field)
+        questions.forEach(q => {
+          q.logoPath = paths.get(q.logoPath) || q.logoPath;
+        });
+
         const game: QuizGame = {
           id: this.generateGameId(),
           mode: settings.mode,

@@ -33,7 +33,8 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'collections', pathMatch: 'full' },
       { path: 'collections', component: AdminCollectionManagerComponent },
-      { path: 'tags', component: TagManagerComponent }
+      { path: 'tags', component: TagManagerComponent },
+      { path: 'leagues', loadComponent: () => import('./components/league-manager/league-manager.component').then(m => m.LeagueManagerComponent) }
     ]
   },
   { path: '**', redirectTo: '' }

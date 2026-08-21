@@ -10,11 +10,6 @@
     "league": "SUPERLEAGUE"
   },
   {
-    "name": "ΑΕ ΛΑΡΙΣΑΣ",
-    "path": "assets/logos/SUPERLEAGUE/ΑΕ ΛΑΡΙΣΑΣ.png",
-    "league": "SUPERLEAGUE"
-  },
-  {
     "name": "ΑΕΚ",
     "path": "assets/logos/SUPERLEAGUE/ΑΕΚ.png",
     "league": "SUPERLEAGUE"
@@ -40,13 +35,13 @@
     "league": "SUPERLEAGUE"
   },
   {
-    "name": "ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ",
-    "path": "assets/logos/SUPERLEAGUE/ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ.png",
+    "name": "ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ",
+    "path": "assets/logos/SUPERLEAGUE/ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ.png",
     "league": "SUPERLEAGUE"
   },
   {
-    "name": "ΜΓΣ ΠΑΝΣΕΡΡΑΪΚΟΣ",
-    "path": "assets/logos/SUPERLEAGUE/ΜΓΣ ΠΑΝΣΕΡΡΑΪΚΟΣ.png",
+    "name": "ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ",
+    "path": "assets/logos/SUPERLEAGUE/ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ.png",
     "league": "SUPERLEAGUE"
   },
   {
@@ -65,13 +60,18 @@
     "league": "SUPERLEAGUE"
   },
   {
+    "name": "ΠΣ ΚΑΛΑΜΑΤΑ",
+    "path": "assets/logos/SUPERLEAGUE/ΠΣ ΚΑΛΑΜΑΤΑ.png",
+    "league": "SUPERLEAGUE"
+  },
+  {
     "name": "ΣΦΠ ΟΛΥΜΠΙΑΚΟΣ",
     "path": "assets/logos/SUPERLEAGUE/ΣΦΠ ΟΛΥΜΠΙΑΚΟΣ.png",
     "league": "SUPERLEAGUE"
   },
   {
-    "name": "ΑΟ ΚΑΒΑΛΑ",
-    "path": "assets/logos/SUPERLEAGUE 2/ΑΟ ΚΑΒΑΛΑ.png",
+    "name": "ΑΕ ΛΑΡΙΣΑΣ",
+    "path": "assets/logos/SUPERLEAGUE 2/ΑΕ ΛΑΡΙΣΑΣ.png",
     "league": "SUPERLEAGUE 2"
   },
   {
@@ -80,18 +80,18 @@
     "league": "SUPERLEAGUE 2"
   },
   {
-    "name": "ΑΠΟ ΠΑΝΑΡΓΕΙΑΚΟΣ ΑΡΓΟΣ",
-    "path": "assets/logos/SUPERLEAGUE 2/ΑΠΟ ΠΑΝΑΡΓΕΙΑΚΟΣ ΑΡΓΟΣ.png",
+    "name": "ΑΠΣ ΖΑΚΥΝΘΟΣ",
+    "path": "assets/logos/SUPERLEAGUE 2/ΑΠΣ ΖΑΚΥΝΘΟΣ.png",
+    "league": "SUPERLEAGUE 2"
+  },
+  {
+    "name": "ΑΠΣ ΠΑΝΘΡΑΚΙΚΟΣ",
+    "path": "assets/logos/SUPERLEAGUE 2/ΑΠΣ ΠΑΝΘΡΑΚΙΚΟΣ.png",
     "league": "SUPERLEAGUE 2"
   },
   {
     "name": "ΑΣ ΑΝΑΓΕΝΝΗΣΗ ΚΑΡΔΙΤΣΑΣ 1904",
     "path": "assets/logos/SUPERLEAGUE 2/ΑΣ ΑΝΑΓΕΝΝΗΣΗ ΚΑΡΔΙΤΣΑΣ 1904.png",
-    "league": "SUPERLEAGUE 2"
-  },
-  {
-    "name": "ΑΣ ΜΑΚΕΔΟΝΙΚΟΣ ΝΕΑΠΟΛΗΣ",
-    "path": "assets/logos/SUPERLEAGUE 2/ΑΣ ΜΑΚΕΔΟΝΙΚΟΣ ΝΕΑΠΟΛΗΣ.png",
     "league": "SUPERLEAGUE 2"
   },
   {
@@ -102,16 +102,6 @@
   {
     "name": "ΑΣΤΕΡΑΣ ΑΚΤΩΡ Β",
     "path": "assets/logos/SUPERLEAGUE 2/ΑΣΤΕΡΑΣ ΑΚΤΩΡ Β.png",
-    "league": "SUPERLEAGUE 2"
-  },
-  {
-    "name": "ΓΣ ΗΛΙΟΥΠΟΛΗΣ",
-    "path": "assets/logos/SUPERLEAGUE 2/ΓΣ ΗΛΙΟΥΠΟΛΗΣ.png",
-    "league": "SUPERLEAGUE 2"
-  },
-  {
-    "name": "ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ",
-    "path": "assets/logos/SUPERLEAGUE 2/ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ.png",
     "league": "SUPERLEAGUE 2"
   },
   {
@@ -130,13 +120,13 @@
     "league": "SUPERLEAGUE 2"
   },
   {
-    "name": "ΜΦΑΟΦ ΚΑΜΠΑΝΙΑΚΟΣ ΧΑΛΑΣΤΡΑΣ",
-    "path": "assets/logos/SUPERLEAGUE 2/ΜΦΑΟΦ ΚΑΜΠΑΝΙΑΚΟΣ ΧΑΛΑΣΤΡΑΣ.png",
+    "name": "ΜΓΣ ΑΠΟΛΛΩΝ ΚΑΛΑΜΑΡΙΑΣ",
+    "path": "assets/logos/SUPERLEAGUE 2/ΜΓΣ ΑΠΟΛΛΩΝ ΚΑΛΑΜΑΡΙΑΣ.png",
     "league": "SUPERLEAGUE 2"
   },
   {
-    "name": "ΠΑΕ ΑΙΓΑΛΕΩ",
-    "path": "assets/logos/SUPERLEAGUE 2/ΠΑΕ ΑΙΓΑΛΕΩ.png",
+    "name": "ΜΓΣ ΠΑΝΣΕΡΡΑΪΚΟΣ",
+    "path": "assets/logos/SUPERLEAGUE 2/ΜΓΣ ΠΑΝΣΕΡΡΑΪΚΟΣ.png",
     "league": "SUPERLEAGUE 2"
   },
   {
@@ -145,23 +135,13 @@
     "league": "SUPERLEAGUE 2"
   },
   {
-    "name": "ΠΑΕ ΧΑΝΙΑ",
-    "path": "assets/logos/SUPERLEAGUE 2/ΠΑΕ ΧΑΝΙΑ.png",
-    "league": "SUPERLEAGUE 2"
-  },
-  {
     "name": "ΠΑΟΚ Β",
     "path": "assets/logos/SUPERLEAGUE 2/ΠΑΟΚ Β.png",
     "league": "SUPERLEAGUE 2"
   },
   {
-    "name": "ΠΑΣ ΓΙΑΝΝΙΝΑ",
-    "path": "assets/logos/SUPERLEAGUE 2/ΠΑΣ ΓΙΑΝΝΙΝΑ.png",
-    "league": "SUPERLEAGUE 2"
-  },
-  {
-    "name": "ΠΣ ΚΑΛΑΜΑΤΑ",
-    "path": "assets/logos/SUPERLEAGUE 2/ΠΣ ΚΑΛΑΜΑΤΑ.png",
+    "name": "ΠΑΣ ΠΥΡΓΟΣ 1968",
+    "path": "assets/logos/SUPERLEAGUE 2/ΠΑΣ ΠΥΡΓΟΣ 1968.png",
     "league": "SUPERLEAGUE 2"
   },
   {
@@ -240,6 +220,11 @@
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
+    "name": "ΑΟ ΚΑΒΑΛΑ",
+    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΑΟ ΚΑΒΑΛΑ.png",
+    "league": "Γ ΕΘΝΙΚΗ"
+  },
+  {
     "name": "ΑΟ ΚΑΡΥΣΤΟΥ",
     "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΑΟ ΚΑΡΥΣΤΟΥ.png",
     "league": "Γ ΕΘΝΙΚΗ"
@@ -315,23 +300,18 @@
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
+    "name": "ΑΠΟ ΠΑΝΑΡΓΕΙΑΚΟΣ ΑΡΓΟΣ",
+    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΑΠΟ ΠΑΝΑΡΓΕΙΑΚΟΣ ΑΡΓΟΣ.png",
+    "league": "Γ ΕΘΝΙΚΗ"
+  },
+  {
     "name": "ΑΠΣ ΓΡΑΝΙΤΗΣ ΑΓ. ΜΑΡΙΝΑΣ",
     "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΑΠΣ ΓΡΑΝΙΤΗΣ ΑΓ. ΜΑΡΙΝΑΣ.png",
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
-    "name": "ΑΠΣ ΖΑΚΥΝΘΟΣ",
-    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΑΠΣ ΖΑΚΥΝΘΟΣ.png",
-    "league": "Γ ΕΘΝΙΚΗ"
-  },
-  {
     "name": "ΑΠΣ ΘΥΕΛΛΑ ΠΑΤΡΩΝ",
     "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΑΠΣ ΘΥΕΛΛΑ ΠΑΤΡΩΝ.png",
-    "league": "Γ ΕΘΝΙΚΗ"
-  },
-  {
-    "name": "ΑΠΣ ΠΑΝΘΡΑΚΙΚΟΣ",
-    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΑΠΣ ΠΑΝΘΡΑΚΙΚΟΣ.png",
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
@@ -372,6 +352,11 @@
   {
     "name": "ΑΣ ΘΕΣΠΡΩΤΟΣ ΗΓΟΥΜΕΝΙΤΣΑΣ",
     "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΑΣ ΘΕΣΠΡΩΤΟΣ ΗΓΟΥΜΕΝΙΤΣΑΣ.png",
+    "league": "Γ ΕΘΝΙΚΗ"
+  },
+  {
+    "name": "ΑΣ ΜΑΚΕΔΟΝΙΚΟΣ ΝΕΑΠΟΛΗΣ",
+    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΑΣ ΜΑΚΕΔΟΝΙΚΟΣ ΝΕΑΠΟΛΗΣ.png",
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
@@ -425,6 +410,11 @@
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
+    "name": "ΓΣ ΗΛΙΟΥΠΟΛΗΣ",
+    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΓΣ ΗΛΙΟΥΠΟΛΗΣ.png",
+    "league": "Γ ΕΘΝΙΚΗ"
+  },
+  {
     "name": "ΓΣ ΠΑΝΑΙΓΙΑΛΕΙΟΣ",
     "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΓΣ ΠΑΝΑΙΓΙΑΛΕΙΟΣ.png",
     "league": "Γ ΕΘΝΙΚΗ"
@@ -445,13 +435,13 @@
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
-    "name": "ΜΓΣ ΑΠΟΛΛΩΝ ΚΑΛΑΜΑΡΙΑΣ",
-    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΜΓΣ ΑΠΟΛΛΩΝ ΚΑΛΑΜΑΡΙΑΣ.png",
+    "name": "ΜΓΣ ΟΡΕΣΤΗΣ ΟΡΕΣΤΙΑΔΑΣ",
+    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΜΓΣ ΟΡΕΣΤΗΣ ΟΡΕΣΤΙΑΔΑΣ.png",
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
-    "name": "ΜΓΣ ΟΡΕΣΤΗΣ ΟΡΕΣΤΙΑΔΑΣ",
-    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΜΓΣ ΟΡΕΣΤΗΣ ΟΡΕΣΤΙΑΔΑΣ.png",
+    "name": "ΜΦΑΟΦ ΚΑΜΠΑΝΙΑΚΟΣ ΧΑΛΑΣΤΡΑΣ",
+    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΜΦΑΟΦ ΚΑΜΠΑΝΙΑΚΟΣ ΧΑΛΑΣΤΡΑΣ.png",
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
@@ -465,8 +455,18 @@
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
+    "name": "ΠΑΕ ΑΙΓΑΛΕΩ",
+    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΠΑΕ ΑΙΓΑΛΕΩ.png",
+    "league": "Γ ΕΘΝΙΚΗ"
+  },
+  {
     "name": "ΠΑΕ ΑΚΡΙΤΕΣ ΣΥΚΕΩΝ",
     "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΠΑΕ ΑΚΡΙΤΕΣ ΣΥΚΕΩΝ.png",
+    "league": "Γ ΕΘΝΙΚΗ"
+  },
+  {
+    "name": "ΠΑΕ ΧΑΝΙΑ",
+    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΠΑΕ ΧΑΝΙΑ.png",
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
@@ -490,6 +490,11 @@
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
+    "name": "ΠΑΣ ΓΙΑΝΝΙΝΑ",
+    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΠΑΣ ΓΙΑΝΝΙΝΑ.png",
+    "league": "Γ ΕΘΝΙΚΗ"
+  },
+  {
     "name": "ΠΑΣ ΚΟΡΙΝΘΟΣ",
     "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΠΑΣ ΚΟΡΙΝΘΟΣ.png",
     "league": "Γ ΕΘΝΙΚΗ"
@@ -497,11 +502,6 @@
   {
     "name": "ΠΑΣ ΛΑΜΙΑ",
     "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΠΑΣ ΛΑΜΙΑ.png",
-    "league": "Γ ΕΘΝΙΚΗ"
-  },
-  {
-    "name": "ΠΑΣ ΠΥΡΓΟΣ 1968",
-    "path": "assets/logos/Γ ΕΘΝΙΚΗ/ΠΑΣ ΠΥΡΓΟΣ 1968.png",
     "league": "Γ ΕΘΝΙΚΗ"
   },
   {
@@ -2630,6 +2630,11 @@
     "league": "ΕΠΣ ΒΟΙΩΤΙΑΣ"
   },
   {
+    "name": "ΑΟ ΥΨΗΛΑΝΤΗ ΕΛΠΙΔΕΣ ΑΛΙΑΡΤΟΥ",
+    "path": "assets/logos/ΕΠΣ ΒΟΙΩΤΙΑΣ/ΑΟ ΥΨΗΛΑΝΤΗ ΕΛΠΙΔΕΣ ΑΛΙΑΡΤΟΥ.png",
+    "league": "ΕΠΣ ΒΟΙΩΤΙΑΣ"
+  },
+  {
     "name": "ΑΟ ΥΨΗΛΑΝΤΗΣ",
     "path": "assets/logos/ΕΠΣ ΒΟΙΩΤΙΑΣ/ΑΟ ΥΨΗΛΑΝΤΗΣ.png",
     "league": "ΕΠΣ ΒΟΙΩΤΙΑΣ"
@@ -2652,6 +2657,11 @@
   {
     "name": "ΑΠΟΛΛΩΝ ΝΕΟΧΩΡΑΚΙΟΥ",
     "path": "assets/logos/ΕΠΣ ΒΟΙΩΤΙΑΣ/ΑΠΟΛΛΩΝ ΝΕΟΧΩΡΑΚΙΟΥ.png",
+    "league": "ΕΠΣ ΒΟΙΩΤΙΑΣ"
+  },
+  {
+    "name": "ΑΣ ΗΡΑΚΛΗΣ ΑΣΩΠΙΑΣ",
+    "path": "assets/logos/ΕΠΣ ΒΟΙΩΤΙΑΣ/ΑΣ ΗΡΑΚΛΗΣ ΑΣΩΠΙΑΣ.png",
     "league": "ΕΠΣ ΒΟΙΩΤΙΑΣ"
   },
   {
@@ -2747,6 +2757,11 @@
   {
     "name": "ΑΣ ΕΛΠΙΔΕΣ ΣΕΙΡΗΝΙΟΥ",
     "path": "assets/logos/ΕΠΣ ΓΡΕΒΕΝΩΝ/ΑΣ ΕΛΠΙΔΕΣ ΣΕΙΡΗΝΙΟΥ.png",
+    "league": "ΕΠΣ ΓΡΕΒΕΝΩΝ"
+  },
+  {
+    "name": "ΑΣ ΛΥΚΟΙ ΦΕΛΛΙΟΥ",
+    "path": "assets/logos/ΕΠΣ ΓΡΕΒΕΝΩΝ/ΑΣ ΛΥΚΟΙ ΦΕΛΛΙΟΥ.png",
     "league": "ΕΠΣ ΓΡΕΒΕΝΩΝ"
   },
   {
@@ -3135,6 +3150,11 @@
     "league": "ΕΠΣ ΔΥΤΙΚΗΣ ΑΤΤΙΚΗΣ"
   },
   {
+    "name": "ΑΕ ΡΟΔΙΩΝ ΑΦΑΝΤΟΥ Β",
+    "path": "assets/logos/ΕΠΣ ΔΩΔΕΚΑΝΗΣΟΥ/ΑΕ ΡΟΔΙΩΝ ΑΦΑΝΤΟΥ Β.png",
+    "league": "ΕΠΣ ΔΩΔΕΚΑΝΗΣΟΥ"
+  },
+  {
     "name": "ΑΕΣ ΚΛΕΑΝΘΗΣ ΠΑΡΑΔΕΙΣΙΟΥ",
     "path": "assets/logos/ΕΠΣ ΔΩΔΕΚΑΝΗΣΟΥ/ΑΕΣ ΚΛΕΑΝΘΗΣ ΠΑΡΑΔΕΙΣΙΟΥ.png",
     "league": "ΕΠΣ ΔΩΔΕΚΑΝΗΣΟΥ"
@@ -3192,6 +3212,11 @@
   {
     "name": "ΑΣΤΕΡΑΣ ΜΑΣΣΑΡΩΝ",
     "path": "assets/logos/ΕΠΣ ΔΩΔΕΚΑΝΗΣΟΥ/ΑΣΤΕΡΑΣ ΜΑΣΣΑΡΩΝ.png",
+    "league": "ΕΠΣ ΔΩΔΕΚΑΝΗΣΟΥ"
+  },
+  {
+    "name": "ΓΑΣ ΙΑΛΥΣΟΣ Β",
+    "path": "assets/logos/ΕΠΣ ΔΩΔΕΚΑΝΗΣΟΥ/ΓΑΣ ΙΑΛΥΣΟΣ Β.png",
     "league": "ΕΠΣ ΔΩΔΕΚΑΝΗΣΟΥ"
   },
   {
@@ -4933,6 +4958,11 @@
     "name": "ΠΟ ΑΚΡΟΠΟΛΗ ΣΕΣΚΛΟΥ",
     "path": "assets/logos/ΕΠΣ ΘΕΣΣΑΛΙΑΣ/ΠΟ ΑΚΡΟΠΟΛΗ ΣΕΣΚΛΟΥ.png",
     "league": "ΕΠΣ ΘΕΣΣΑΛΙΑΣ"
+  },
+  {
+    "name": "1",
+    "path": "assets/logos/ΕΠΣ ΘΡΑΚΗΣ/1.png",
+    "league": "ΕΠΣ ΘΡΑΚΗΣ"
   },
   {
     "name": "ΑΚΡΙΤΕΣ ΚΟΜΟΤΗΝΗΣ",
@@ -9515,6 +9545,11 @@
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
+    "name": "ΑΕ ΠΑΛΛΗΝΗΣ",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΕ ΠΑΛΛΗΝΗΣ.png",
+    "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
+  },
+  {
     "name": "ΑΕ ΠΟΝΤΙΩΝ ΠΕΤΡΑΛΩΝΩΝ",
     "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΕ ΠΟΝΤΙΩΝ ΠΕΤΡΑΛΩΝΩΝ.png",
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
@@ -9530,8 +9565,8 @@
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
-    "name": "ΑΝΑΓΕΝΝΗΣΗ ΤΡΙΓΛΙΑΣ 2022",
-    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΝΑΓΕΝΝΗΣΗ ΤΡΙΓΛΙΑΣ 2022.png",
+    "name": "ΑΝΑΓΕΝΝΗΣΗ ΤΡΙΓΛΙΑΣ",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΝΑΓΕΝΝΗΣΗ ΤΡΙΓΛΙΑΣ.png",
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
@@ -9610,6 +9645,11 @@
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
+    "name": "ΑΣ ΔΟΞΑ ΚΡΗΜΝΗΣ",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΣ ΔΟΞΑ ΚΡΗΜΝΗΣ.png",
+    "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
+  },
+  {
     "name": "ΑΣ ΔΟΞΑ ΟΡΜΥΛΙΑΣ",
     "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΣ ΔΟΞΑ ΟΡΜΥΛΙΑΣ.png",
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
@@ -9627,6 +9667,16 @@
   {
     "name": "ΑΣ ΘΕΡΜΑΪΚΟΣ ΠΟΡΤΑΡΙΑΣ",
     "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΣ ΘΕΡΜΑΪΚΟΣ ΠΟΡΤΑΡΙΑΣ.png",
+    "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
+  },
+  {
+    "name": "ΑΣ ΘΥΕΛΛΑ ΚΡΗΝΗΣ",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΣ ΘΥΕΛΛΑ ΚΡΗΝΗΣ.png",
+    "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
+  },
+  {
+    "name": "ΑΣ ΘΥΕΛΛΑ ΜΕΤΑΓΓΙΤΣΙΟΥ",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΣ ΘΥΕΛΛΑ ΜΕΤΑΓΓΙΤΣΙΟΥ.png",
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
@@ -9660,8 +9710,8 @@
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
-    "name": "ΑΣ ΟΛΥΝΘΟΥ",
-    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΣ ΟΛΥΝΘΟΥ.png",
+    "name": "ΑΣ ΟΛΥΝΘΙΑΚΟΣ",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΣ ΟΛΥΝΘΙΑΚΟΣ.png",
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
@@ -9700,6 +9750,11 @@
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
+    "name": "ΕΛΠΙΣ ΠΟΛΥΓΥΡΟΥ",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΕΛΠΙΣ ΠΟΛΥΓΥΡΟΥ.png",
+    "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
+  },
+  {
     "name": "ΕΡΑΣΙΤΕΧΝΕΣ ΠΑΟΚ ΛΑΚΚΩΜΑΤΟΣ",
     "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΕΡΑΣΙΤΕΧΝΕΣ ΠΑΟΚ ΛΑΚΚΩΜΑΤΟΣ.png",
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
@@ -9717,6 +9772,11 @@
   {
     "name": "ΜΓΟ ΣΤΡΑΤΩΝΙΟΥ",
     "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΜΓΟ ΣΤΡΑΤΩΝΙΟΥ.png",
+    "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
+  },
+  {
+    "name": "ΜΓΣ ΑΚΑΝΘΟΣ ΙΕΡΙΣΣΟΥ",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΜΓΣ ΑΚΑΝΘΟΣ ΙΕΡΙΣΣΟΥ.png",
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
@@ -9757,6 +9817,11 @@
   {
     "name": "ΠΟ ΣΑΡΤΗΣ 2011",
     "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΠΟ ΣΑΡΤΗΣ 2011.png",
+    "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
+  },
+  {
+    "name": "ΧΟΛΟΜΩΝ ΖΕΡΒΟΧΩΡΙΩΝ",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΧΟΛΟΜΩΝ ΖΕΡΒΟΧΩΡΙΩΝ.png",
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {

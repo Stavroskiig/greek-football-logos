@@ -80,7 +80,7 @@ export class AdminCollectionManagerComponent implements OnInit {
     const leagues = new Set<string>();
     this.allLogos.forEach(logo => {
       if (logo.league) {
-        leagues.add(logo.league);
+        leagues.add(logo.league.name);
       }
     });
     this.availableLeagues = Array.from(leagues).sort();
@@ -93,13 +93,13 @@ export class AdminCollectionManagerComponent implements OnInit {
     if (this.searchTerm.trim()) {
       filtered = filtered.filter(logo =>
         logo.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        logo.league?.toLowerCase().includes(this.searchTerm.toLowerCase())
+        logo.league?.name.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
 
     // Filter by selected league
     if (this.selectedLeague) {
-      filtered = filtered.filter(logo => logo.league === this.selectedLeague);
+      filtered = filtered.filter(logo => logo.league?.name === this.selectedLeague);
     }
 
     this.filteredLogos = filtered;

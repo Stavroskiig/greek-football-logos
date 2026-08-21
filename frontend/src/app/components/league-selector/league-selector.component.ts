@@ -2,7 +2,8 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LogoService } from '../../services/logo.service';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { League } from '../../models/league';
 
 @Component({
   selector: 'app-league-selector',
@@ -14,7 +15,7 @@ export class LeagueSelectorComponent implements OnInit {
   @Input() selectedLeague: string = '';
   @Output() leagueChange = new EventEmitter<string>();
 
-  leagues$: Observable<string[]>;
+  leagues$: Observable<League[]>;
   isOpen = false;
 
   constructor(private logoService: LogoService) {
@@ -41,9 +42,11 @@ export class LeagueSelectorComponent implements OnInit {
     return this.logoService.getLeagueLogoPath(leagueName);
   }
 
-  getDisplayName(league: string): string {
-    if (!league) return '🌍 All Leagues';
-    return league;
+  getDisplayName(leagueId: string): string {
+    if (!leagueId) return '🌍 All Leagues';
+    
+    // Attempt to format ID reasonably if we don't have the object mapping here
+    return leagueId.replace(/-/g, ' ').toUpperCase();
   }
 
   onImageError(event: Event): void {

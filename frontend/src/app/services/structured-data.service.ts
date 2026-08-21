@@ -60,7 +60,7 @@ export class StructuredDataService {
       },
       "description": `Official logo of ${team.name}, Greek football team`,
       "sport": "Football",
-      "league": team.league || "Greek Football League",
+      "league": team.league?.name || "Greek Football League",
       "location": {
         "@type": "Place",
         "name": "Greece"

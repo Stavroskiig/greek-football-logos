@@ -93,7 +93,7 @@
               <img [src]="logo.path" [alt]="logo.name" class="logo-image">
               <div class="logo-info">
                 <span class="logo-name">{{ logo.name }}</span>
-                <span class="logo-league" *ngIf="logo.league">{{ logo.league }}</span>
+                <span class="logo-league" *ngIf="logo.league">{{ logo.league.name }}</span>
               </div>
               <button *ngIf="newCollection.logoIds.includes(logo.id)"
                 (click)="removeLogoFromCreate(logo.id); $event.stopPropagation()" class="remove-logo-btn">
@@ -182,7 +182,7 @@
               <img [src]="logo.path" [alt]="logo.name" class="logo-image">
               <div class="logo-info">
                 <span class="logo-name">{{ logo.name }}</span>
-                <span class="logo-league" *ngIf="logo.league">{{ logo.league }}</span>
+                <span class="logo-league" *ngIf="logo.league">{{ logo.league.name }}</span>
               </div>
               <button *ngIf="editForm.logoIds.includes(logo.id)"
                 (click)="removeLogoFromEdit(logo.id); $event.stopPropagation()" class="remove-logo-btn">

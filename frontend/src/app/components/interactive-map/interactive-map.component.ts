@@ -112,11 +112,31 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
       error: (err) => console.error('Error loading Greece GeoJSON', err)
     });
 
-    // Load Super League & SL2 Locations
+    // Load Super League & SL2 Locations and merge with dynamic DB leagues
     this.http.get<TeamLocation[]>('assets/data/team-locations.json').subscribe({
       next: (locations) => {
-        this.allLocations = locations;
-        this.filterMarkers();
+        this.logoService.getAllLogos(0, 5000).subscribe(dbLogos => {
+          // Create a map of team names to their dynamic league IDs/names and paths
+          const dbDataMap = new Map<string, { league: string, path: string }>();
+          dbLogos.content.forEach(logo => {
+            // Map by the exact logo name (which matches the JSON 'id' field for most teams)
+            dbDataMap.set(logo.name, { league: logo.league?.name || '', path: logo.path });
+          });
+
+          // Merge DB leagues and paths into locations
+          this.allLocations = locations.map(loc => {
+            const dbData = dbDataMap.get(loc.id) || dbDataMap.get(loc.name);
+            return {
+              ...loc,
+              // Override the static league with the DB league if it exists
+              league: dbData ? dbData.league : loc.league,
+              // Add dynamic path from DB (which uses manifest)
+              dynamicPath: dbData ? dbData.path : null
+            } as TeamLocation & { dynamicPath?: string };
+          });
+          
+          this.filterMarkers();
+        });
       },
       error: (err) => console.error('Error loading team locations', err)
     });
@@ -173,14 +193,17 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
     this.addTeamMarkers(filteredTeams);
   }
 
-  private addTeamMarkers(locations: TeamLocation[]): void {
+  private addTeamMarkers(locations: (TeamLocation & { dynamicPath?: string })[]): void {
     locations.forEach(team => {
-      // Build dynamic URL Path according to Active League. Need to account for potential folder variations for SUPERLEAGUE 2
-      let folderName = 'SUPERLEAGUE';
-      if (team.league === 'SUPERLEAGUE 2') folderName = 'SUPERLEAGUE 2';
-      if (team.league === 'Γ ΕΘΝΙΚΗ') folderName = 'Γ ΕΘΝΙΚΗ';
-
-      const logoUrl = `assets/logos/${folderName}/${team.id}.png`;
+      // Use dynamicPath if available, otherwise fallback to static hardcoded path
+      let logoUrl = team.dynamicPath;
+      
+      if (!logoUrl) {
+        let folderName = 'SUPERLEAGUE';
+        if (team.league === 'SUPERLEAGUE 2') folderName = 'SUPERLEAGUE 2';
+        if (team.league === 'Γ ΕΘΝΙΚΗ') folderName = 'Γ ΕΘΝΙΚΗ';
+        logoUrl = `assets/logos/${folderName}/${team.id}.png`;
+      }
 
       // Custom HTML Icon for the Logo marker
       const customIcon = L.divIcon({
