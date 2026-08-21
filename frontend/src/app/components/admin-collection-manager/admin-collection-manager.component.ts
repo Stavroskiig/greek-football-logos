@@ -304,25 +304,4 @@ export class AdminCollectionManagerComponent implements OnInit {
       }
     }
   }
-
-  async syncLogos(): Promise<void> {
-    if (confirm('This will read the logos-manifest.json and insert any new logos into the Database. Proceed?')) {
-      this.isLoading = true;
-      try {
-        const manifestResponse = await fetch('/assets/logos-manifest.json');
-        if (!manifestResponse.ok) {
-          throw new Error('Could not fetch local logos-manifest.json');
-        }
-        const manifestData = await manifestResponse.json();
-
-        const response = await import('rxjs').then(rxjs => rxjs.firstValueFrom(this.logoService.syncLogos(manifestData)));
-        alert(`Sync complete! ${response.addedCount} new logos were added to the database. The page will now reload.`);
-        window.location.reload();
-      } catch (err) {
-        console.error('Logo sync failed:', err);
-        alert('Logo sync encountered an error. Check console.');
-        this.isLoading = false;
-      }
-    }
-  }
 } 
