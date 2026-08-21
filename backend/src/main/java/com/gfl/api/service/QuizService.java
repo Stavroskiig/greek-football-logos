@@ -62,7 +62,7 @@ public class QuizService {
             correctAnswer = logo.getName();
             options = generateTeamOptions(logo, actualDifficulty);
         } else {
-            correctAnswer = logo.getLeague() != null ? logo.getLeague() : "Unknown";
+            correctAnswer = logo.getLeague() != null ? logo.getLeague().getName() : "Unknown";
             options = generateLeagueOptions(logo, actualDifficulty);
         }
 
@@ -71,7 +71,7 @@ public class QuizService {
 
         return QuizQuestionDTO.builder()
                 .id("question-" + index)
-                .logoPath(logo.getPath())
+                .logoPath(logo.getName())
                 .correctAnswer(correctAnswer)
                 .options(shuffledOptions)
                 .difficulty(actualDifficulty)
@@ -136,7 +136,7 @@ public class QuizService {
 
     private List<String> generateLeagueOptions(TeamLogo correctLogo, String difficulty) {
         List<String> options = new ArrayList<>();
-        String currentLeague = correctLogo.getLeague() != null ? correctLogo.getLeague() : "Unknown";
+        String currentLeague = correctLogo.getLeague() != null ? correctLogo.getLeague().getName() : "Unknown";
         options.add(currentLeague);
 
         // Define a pool of major leagues to pick from to ensure realistic options, or

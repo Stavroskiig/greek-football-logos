@@ -94,6 +94,15 @@ public class TeamLogoController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/league/{leagueId}")
+    public ResponseEntity<TeamLogo> updateTeamLeague(@PathVariable String id, @PathVariable String leagueId) {
+        try {
+            return ResponseEntity.ok(teamLogoService.updateTeamLeague(id, leagueId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping("/sync")
     public ResponseEntity<?> syncLogos(@RequestBody java.util.List<com.gfl.api.dto.LogoSyncDTO> manifestData) {
         try {

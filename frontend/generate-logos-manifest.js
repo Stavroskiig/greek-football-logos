@@ -22,7 +22,7 @@ function scanLogos(dir, league = '') {
       result.push({
         name: teamName,
         path: `assets/logos/${league ? league + '/' : ''}${item.name}`,
-        league: league || 'Other'
+        league: league || 'No League'
       });
     }
   }

@@ -18,10 +18,10 @@ public class TeamLogo {
 
     private String name;
 
-    private String path;
 
-    private String league;
-
+    @ManyToOne
+    @JoinColumn(name = "league_id")
+    private League league;
     @ElementCollection
     @CollectionTable(name = "team_logo_tags", joinColumns = @JoinColumn(name = "team_logo_id"))
     @Column(name = "tag")

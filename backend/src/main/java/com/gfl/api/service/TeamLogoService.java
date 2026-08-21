@@ -1,6 +1,8 @@
 package com.gfl.api.service;
 
+import com.gfl.api.model.League;
 import com.gfl.api.model.TeamLogo;
+import com.gfl.api.repository.LeagueRepository;
 import com.gfl.api.repository.TeamLogoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,21 +19,22 @@ import java.util.Map;
 public class TeamLogoService {
 
     private final TeamLogoRepository teamLogoRepository;
+    private final LeagueRepository leagueRepository;
 
     public Page<TeamLogo> getAllLogos(Pageable pageable) {
         return teamLogoRepository.findAll(pageable);
     }
 
-    public Page<TeamLogo> getLogosByLeague(String league, Pageable pageable) {
-        return teamLogoRepository.findByLeague(league, pageable);
+    public Page<TeamLogo> getLogosByLeague(String leagueId, Pageable pageable) {
+        return teamLogoRepository.findByLeagueId(leagueId, pageable);
     }
 
     public Page<TeamLogo> searchLogosByName(String name, Pageable pageable) {
         return teamLogoRepository.findByNameContainingIgnoreCase(name, pageable);
     }
 
-    public Page<TeamLogo> searchLogosByLeagueAndName(String league, String name, Pageable pageable) {
-        return teamLogoRepository.findByLeagueAndNameContainingIgnoreCase(league, name, pageable);
+    public Page<TeamLogo> searchLogosByLeagueAndName(String leagueId, String name, Pageable pageable) {
+        return teamLogoRepository.findByLeagueIdAndNameContainingIgnoreCase(leagueId, name, pageable);
     }
 
     public Page<TeamLogo> getLogosByIds(List<String> ids, Pageable pageable) {
@@ -46,6 +49,15 @@ public class TeamLogoService {
         return teamLogoRepository.save(teamLogo);
     }
 
+    public TeamLogo updateTeamLeague(String logoId, String leagueId) {
+        TeamLogo logo = teamLogoRepository.findById(logoId)
+                .orElseThrow(() -> new RuntimeException("Logo not found"));
+        League league = leagueRepository.findById(leagueId)
+                .orElseThrow(() -> new RuntimeException("League not found"));
+        logo.setLeague(league);
+        return teamLogoRepository.save(logo);
+    }
+
     public void deleteTeamLogo(String id) {
         teamLogoRepository.deleteById(id);
     }
@@ -55,15 +67,30 @@ public class TeamLogoService {
         try {
             for (com.gfl.api.dto.LogoSyncDTO rawLogo : rawLogos) {
                 String name = rawLogo.getName();
-                String path = rawLogo.getPath();
-                String league = rawLogo.getLeague();
+
+                String rawLeagueName = rawLogo.getLeague();
+                String lId = "other";
+                String lName = "Other";
+                if (rawLeagueName != null && !rawLeagueName.isEmpty() && !rawLeagueName.equalsIgnoreCase("Other")
+                        && !rawLeagueName.equalsIgnoreCase("No League")) {
+                    lId = generateConsistentId(rawLeagueName);
+                    lName = rawLeagueName;
+                }
+
+                final String finalLeagueId = lId;
+                final String finalLeagueName = lName;
+                League league = leagueRepository.findById(finalLeagueId).orElseGet(() -> {
+                    League newLeague = new League(finalLeagueId, finalLeagueName, 0);
+                    return leagueRepository.save(newLeague);
+                });
 
                 String id = generateId(name);
-                if (!teamLogoRepository.existsById(id)) {
+                TeamLogo existingLogo = teamLogoRepository.findById(id).orElse(null);
+
+                if (existingLogo == null) {
                     TeamLogo logo = new TeamLogo();
                     logo.setId(id);
                     logo.setName(name);
-                    logo.setPath(path);
                     logo.setLeague(league);
                     teamLogoRepository.save(logo);
                     addedCount++;
