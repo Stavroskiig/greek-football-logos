@@ -46,35 +46,36 @@ export class LeagueManagerComponent implements OnInit {
       this.router.navigate(['/admin-login']);
       return;
     }
-    this.loadData();
+    
+    // Get all leagues first
+    this.logoService.getLeagues().subscribe(leagues => {
+      this.leagues = leagues;
+      // Select the first league by default if available
+      if (this.leagues.length > 0 && !this.filterLeague) {
+        this.filterLeague = this.leagues[0].id;
+      }
+      this.loadData();
+    });
   }
 
   loadData(forceRefresh: boolean = false) {
-    this.isLoading = true;
-    // Get all logos
-    this.logoService.getAllLogos(0, 5000, forceRefresh).subscribe(response => {
-      this.teams = response.content;
-      this.filteredTeams = this.teams;
-      this.isLoading = false;
-      
-      // Re-apply filter if one was active
-      if (this.filterLeague || this.searchTerm) {
-        this.filterTeams();
-      }
-    });
+    if (!this.filterLeague) {
+      this.teams = [];
+      this.filteredTeams = [];
+      return;
+    }
 
-    // Get all leagues
-    this.logoService.getLeagues().subscribe(leagues => {
-      this.leagues = leagues;
+    this.isLoading = true;
+    // Get logos ONLY for the selected league
+    this.logoService.getLogos(this.filterLeague, undefined, 0, 500, forceRefresh).subscribe(response => {
+      this.teams = response.content;
+      this.filterTeams();
+      this.isLoading = false;
     });
   }
 
   filterTeams() {
     let filtered = this.teams;
-
-    if (this.filterLeague) {
-      filtered = filtered.filter(team => team.league?.id === this.filterLeague);
-    }
 
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase();
@@ -90,12 +91,11 @@ export class LeagueManagerComponent implements OnInit {
   onFilterLeagueChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     this.filterLeague = target.value;
-    this.filterTeams();
+    this.loadData();
   }
 
   clearFilters() {
     this.searchTerm = '';
-    this.filterLeague = '';
     this.filterTeams();
   }
 
