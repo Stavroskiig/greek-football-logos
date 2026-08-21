@@ -82,7 +82,7 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
     this.searchSubject.next(this.searchTerm + '|' + this.selectedLeague);
   }
 
-  loadLogos(reset: boolean = false) {
+  loadLogos(reset: boolean = false, forceRefresh: boolean = false) {
     if (this.isLoading && !reset) return;
 
     if (reset) {
@@ -102,7 +102,8 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
       this.selectedLeague,
       this.searchTerm,
       this.currentPage,
-      this.pageSize
+      this.pageSize,
+      forceRefresh
     ).pipe(takeUntil(this.destroy$)).subscribe({
       next: (page) => {
         if (reset) {
@@ -145,6 +146,10 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
   clearSearch() {
     this.searchTerm = '';
     this.applyFilters();
+  }
+  
+  refreshData() {
+    this.loadLogos(true, true);
   }
 
   clearAllFilters() {
