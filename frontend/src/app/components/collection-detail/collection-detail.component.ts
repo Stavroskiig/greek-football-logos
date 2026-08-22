@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Collection } from '../../models/collection';
-import { TeamLogo } from '../../models/team-logo';
+import { Team } from '../../models/team';
 import { CollectionService } from '../../services/collection.service';
-import { LogoService } from '../../services/logo.service';
+import { TeamService } from '../../services/team.service';
 
 @Component({
   selector: 'app-collection-detail',
@@ -16,7 +16,7 @@ import { LogoService } from '../../services/logo.service';
 })
 export class CollectionDetailComponent implements OnInit {
   collection: Collection | undefined;
-  logos: TeamLogo[] = [];
+  logos: Team[] = [];
   isLoading = true;
 
   constructor(

@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, firstValueFrom, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Collection } from '../models/collection';
-import { TeamLogo } from '../models/team-logo';
-import { LogoService, Page } from './logo.service';
+import { Team } from '../models/team';
+import { TeamService, Page } from './team.service';
 import { CollectionFileService } from './collection-file.service';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class CollectionService {
   private readonly API_URL = 'http://localhost:8080/api/collections';
 
   constructor(
-    private logoService: LogoService,
+    private TeamService: TeamService,
     private collectionFileService: CollectionFileService,
     private http: HttpClient
   ) {
@@ -109,7 +109,7 @@ export class CollectionService {
     );
   }
 
-  getCollectionWithLogos(id: string): Observable<{ collection: Collection; logos: TeamLogo[] } | undefined> {
+  getCollectionWithLogos(id: string): Observable<{ collection: Collection; logos: Team[] } | undefined> {
     return this.getCollectionById(id).pipe(
       switchMap(collection => {
         if (!collection) return of(undefined);
@@ -117,7 +117,7 @@ export class CollectionService {
           return of({ collection, logos: [] });
         }
 
-        return this.logoService.getLogosByIds(collection.logoIds, undefined, 0, Math.max(collection.logoIds.length, 500)).pipe(
+        return this.TeamService.getTeamsByIds(collection.logoIds, undefined, 0, Math.max(collection.logoIds.length, 500)).pipe(
           map(page => ({ collection, logos: page.content }))
         );
       })
@@ -196,13 +196,13 @@ export class CollectionService {
     );
   }
 
-  getCollectionLogos(collectionId: string): Observable<TeamLogo[]> {
+  getCollectionLogos(collectionId: string): Observable<Team[]> {
     return this.getCollectionById(collectionId).pipe(
       switchMap(collection => {
         if (!collection || !collection.logoIds || collection.logoIds.length === 0) {
           return of([]);
         }
-        return this.logoService.getLogosByIds(collection.logoIds, undefined, 0, Math.max(collection.logoIds.length, 500)).pipe(
+        return this.TeamService.getTeamsByIds(collection.logoIds, undefined, 0, Math.max(collection.logoIds.length, 500)).pipe(
           map(page => page.content)
         );
       })

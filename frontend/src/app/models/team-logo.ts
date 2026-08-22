@@ -1,6 +1,6 @@
 import { League } from './league';
 
-export interface TeamLogo {
+export interface Team {
     id: string;
     name: string;
     path: string;

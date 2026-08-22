@@ -1,7 +1,7 @@
 package com.gfl.api.config;
 
 import com.gfl.api.repository.TeamLogoRepository;
-import com.gfl.api.service.TeamLogoService;
+import com.gfl.api.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -19,7 +19,7 @@ import java.util.List;
 public class DataSeeder {
 
     private final TeamLogoRepository teamLogoRepository;
-    private final TeamLogoService teamLogoService;
+    private final TeamService teamService;
 
     @Bean
     CommandLineRunner initDatabase() {
@@ -33,7 +33,7 @@ public class DataSeeder {
                         List<com.gfl.api.dto.LogoSyncDTO> rawLogos = mapper.readValue(manifestFile,
                                 new TypeReference<List<com.gfl.api.dto.LogoSyncDTO>>() {
                                 });
-                        teamLogoService.syncLogosFromManifest(rawLogos);
+                        teamService.syncTeamsFromManifest(rawLogos);
                     } else {
                         log.warn("Manifest file not found during local seed.");
                     }

@@ -42,7 +42,7 @@
             <button type="button" (click)="toggleLeagueDropdown()"
               class="w-full px-3 py-2 text-sm text-left bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <img *ngIf="selectedLeague" [src]="getLeagueLogoPath(selectedLeague)" [alt]="selectedLeague + ' logo'"
+                <img *ngIf="selectedLeague" [src]="getLeagueTeamPath(selectedLeague)" [alt]="selectedLeague + ' logo'"
                   class="w-4 h-4 object-contain" (error)="onImageError($event)" />
                 <span>{{ getLeagueDisplayName(selectedLeague) }}</span>
               </div>
@@ -66,7 +66,7 @@
               <button *ngFor="let league of leagues" type="button" (click)="onLeagueSelect(league.id)"
                 class="w-full px-3 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
                 [class.bg-blue-50]="selectedLeague === league.id" [class.dark:bg-blue-900]="selectedLeague === league.id">
-                <img [src]="getLeagueLogoPath(league.name)" [alt]="league.name + ' logo'" class="w-4 h-4 object-contain"
+                <img [src]="getLeagueTeamPath(league.name)" [alt]="league.name + ' logo'" class="w-4 h-4 object-contain"
                   (error)="onImageError($event)" />
                 <span>{{ league.name }}</span>
               </button>

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Collection } from '../../models/collection';
-import { TeamLogo } from '../../models/team-logo';
+import { Team } from '../../models/team';
 import { CollectionService } from '../../services/collection.service';
-import { LogoService } from '../../services/logo.service';
+import { TeamService } from '../../services/team.service';
 
 @Component({
   selector: 'app-admin-collection-manager',
@@ -15,7 +15,7 @@ import { LogoService } from '../../services/logo.service';
 })
 export class AdminCollectionManagerComponent implements OnInit {
   collections: Collection[] = [];
-  allLogos: TeamLogo[] = [];
+  allLogos: Team[] = [];
   isLoading = true;
 
   // Form states
@@ -48,11 +48,11 @@ export class AdminCollectionManagerComponent implements OnInit {
   searchTerm = '';
   selectedLeague = '';
   availableLeagues: string[] = [];
-  filteredLogos: TeamLogo[] = [];
+  filteredLogos: Team[] = [];
 
   constructor(
     private collectionService: CollectionService,
-    private logoService: LogoService
+    private TeamService: TeamService
   ) { }
 
   ngOnInit(): void {
@@ -69,7 +69,7 @@ export class AdminCollectionManagerComponent implements OnInit {
     });
 
     // Load all logos
-    this.logoService.getLogosManifest().subscribe(logos => {
+    this.TeamService.getTeamsManifest().subscribe(logos => {
       this.allLogos = logos;
       this.populateAvailableLeagues();
       this.filterLogos();
@@ -264,7 +264,7 @@ export class AdminCollectionManagerComponent implements OnInit {
   }
 
   // Helper methods
-  getCollectionLogos(logoIds: string[]): TeamLogo[] {
+  getCollectionLogos(logoIds: string[]): Team[] {
     return this.allLogos.filter(logo => logoIds.includes(logo.id));
   }
 

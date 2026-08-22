@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TeamLogo } from '../models/team-logo';
+import { Team } from '../models/team';
 import { TagStorageService } from './tag-storage.service';
 
 @Injectable({
@@ -42,14 +42,14 @@ export class TagService {
     this.tagStorage.clearAllTeamTags();
   }
 
-  getTeamsByTag(tag: string, allTeams: TeamLogo[]): TeamLogo[] {
+  getTeamsByTag(tag: string, allTeams: Team[]): Team[] {
     return allTeams.filter(team => {
       const teamTags = this.getTeamTags(team.id);
       return teamTags.includes(tag);
     });
   }
 
-  getTeamsByMultipleTags(tags: string[], allTeams: TeamLogo[]): TeamLogo[] {
+  getTeamsByMultipleTags(tags: string[], allTeams: Team[]): Team[] {
     if (tags.length === 0) return allTeams;
 
     return allTeams.filter(team => {

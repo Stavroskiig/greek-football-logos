@@ -1,7 +1,7 @@
 package com.gfl.api.controller;
 
-import com.gfl.api.model.TeamLogo;
-import com.gfl.api.service.TeamLogoService;
+import com.gfl.api.model.Team;
+import com.gfl.api.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,14 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/logos")
+@RequestMapping("/api/teams")
 @RequiredArgsConstructor
-public class TeamLogoController {
+public class TeamController {
 
-    private final TeamLogoService teamLogoService;
+    private final TeamService teamService;
 
     @GetMapping
-    public ResponseEntity<Page<TeamLogo>> getAllLogos(
+    public ResponseEntity<Page<Team>> getAllTeams(
             @RequestParam(required = false) String league,
             @RequestParam(required = false) String search,
             @RequestParam(defaultValue = "0") int page,
@@ -36,28 +36,28 @@ public class TeamLogoController {
         if (league != null && !league.isEmpty() && search != null && !search.isEmpty()) {
             return ResponseEntity.ok()
                     .cacheControl(cacheControl)
-                    .body(teamLogoService.searchLogosByLeagueAndName(league, search, pageable));
+                    .body(teamService.searchTeamsByLeagueAndName(league, search, pageable));
         }
 
         if (league != null && !league.isEmpty()) {
             return ResponseEntity.ok()
                     .cacheControl(cacheControl)
-                    .body(teamLogoService.getLogosByLeague(league, pageable));
+                    .body(teamService.getTeamsByLeague(league, pageable));
         }
 
         if (search != null && !search.isEmpty()) {
             return ResponseEntity.ok()
                     .cacheControl(cacheControl)
-                    .body(teamLogoService.searchLogosByName(search, pageable));
+                    .body(teamService.searchTeamsByName(search, pageable));
         }
 
         return ResponseEntity.ok()
                 .cacheControl(cacheControl)
-                .body(teamLogoService.getAllLogos(pageable));
+                .body(teamService.getAllTeams(pageable));
     }
 
     @PostMapping("/by-ids")
-    public ResponseEntity<Page<TeamLogo>> getLogosByIds(
+    public ResponseEntity<Page<Team>> getTeamsByIds(
             @RequestBody java.util.List<String> ids,
             @RequestParam(required = false) String search,
             @RequestParam(defaultValue = "0") int page,
@@ -75,38 +75,38 @@ public class TeamLogoController {
         if (search != null && !search.isEmpty()) {
             return ResponseEntity.ok()
                     .cacheControl(cacheControl)
-                    .body(teamLogoService.searchLogosByIdsAndName(ids, search, pageable));
+                    .body(teamService.searchTeamsByIdsAndName(ids, search, pageable));
         }
 
         return ResponseEntity.ok()
                 .cacheControl(cacheControl)
-                .body(teamLogoService.getLogosByIds(ids, pageable));
+                .body(teamService.getTeamsByIds(ids, pageable));
     }
 
     @PostMapping
-    public ResponseEntity<TeamLogo> createLogo(@RequestBody TeamLogo teamLogo) {
-        return ResponseEntity.ok(teamLogoService.saveTeamLogo(teamLogo));
+    public ResponseEntity<Team> createTeam(@RequestBody Team team) {
+        return ResponseEntity.ok(teamService.saveTeam(team));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLogo(@PathVariable String id) {
-        teamLogoService.deleteTeamLogo(id);
+    public ResponseEntity<Void> deleteTeam(@PathVariable String id) {
+        teamService.deleteTeam(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/league/{leagueId}")
-    public ResponseEntity<TeamLogo> updateTeamLeague(@PathVariable String id, @PathVariable String leagueId) {
+    public ResponseEntity<Team> updateTeamLeague(@PathVariable String id, @PathVariable String leagueId) {
         try {
-            return ResponseEntity.ok(teamLogoService.updateTeamLeague(id, leagueId));
+            return ResponseEntity.ok(teamService.updateTeamLeague(id, leagueId));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PostMapping("/sync")
-    public ResponseEntity<?> syncLogos(@RequestBody java.util.List<com.gfl.api.dto.LogoSyncDTO> manifestData) {
+    public ResponseEntity<?> syncTeams(@RequestBody java.util.List<com.gfl.api.dto.LogoSyncDTO> manifestData) {
         try {
-            int addedCount = teamLogoService.syncLogosFromManifest(manifestData);
+            int addedCount = teamService.syncTeamsFromManifest(manifestData);
             return ResponseEntity.ok(java.util.Map.of("message", "Sync successful", "addedCount", addedCount));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(java.util.Map.of("error", e.getMessage()));

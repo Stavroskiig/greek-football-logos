@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, of, forkJoin } from 'rxjs';
 import { catchError, map, shareReplay, tap, retry } from 'rxjs/operators';
-import { TeamLogo } from '../models/team-logo';
+import { Team } from '../models/team';
 import { League } from '../models/league';
 import { TagService } from './tag.service';
 
@@ -26,8 +26,8 @@ export interface Page<T> {
 @Injectable({
   providedIn: 'root',
 })
-export class LogoService {
-  private apiUrl = `${environment.apiUrl}/logos`;
+export class TeamService {
+  private apiUrl = `${environment.apiUrl}/teams`;
 
   private manifestPaths$!: Observable<Map<string, string>>;
 
@@ -61,7 +61,7 @@ export class LogoService {
     return this.manifestPaths$;
   }
 
-  getLogos(league?: string, searchTerm?: string, page: number = 0, size: number = 50, forceRefresh: boolean = false): Observable<Page<TeamLogo>> {
+  getTeams(league?: string, searchTerm?: string, page: number = 0, size: number = 50, forceRefresh: boolean = false): Observable<Page<Team>> {
     let url = `${this.apiUrl}?page=${page}&size=${size}`;
     if (league) url += `&league=${encodeURIComponent(league)}`;
     if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
@@ -79,7 +79,7 @@ export class LogoService {
       url += `&t=${t}`;
     }
     return forkJoin({
-      pageData: this.http.get<Page<TeamLogo>>(url).pipe(retry({ count: 3, delay: 2000 })),
+      pageData: this.http.get<Page<Team>>(url).pipe(retry({ count: 3, delay: 2000 })),
       manifestPaths: this.manifestPaths$
     }).pipe(
       map(({ pageData, manifestPaths }) => {
@@ -92,54 +92,54 @@ export class LogoService {
             last: true,
             size: pageData.length,
             number: 0
-          } as any as Page<TeamLogo>;
+          } as any as Page<Team>;
         }
 
         // Hydrate tags and overwrite DB path with physical path from manifest
-        pageData.content = pageData.content.map((logo: TeamLogo) => ({
-          ...logo,
-          path: manifestPaths.get(logo.name) || logo.path,
-          tags: this.tagService.getTeamTags(logo.id)
+        pageData.content = pageData.content.map((Team: Team) => ({
+          ...Team,
+          path: manifestPaths.get(Team.name) || Team.primaryLogo?.path,
+          tags: this.tagService.getTeamTags(Team.id)
         }));
-        return pageData as Page<TeamLogo>;
+        return pageData as Page<Team>;
       }),
       catchError((error) => {
-        console.error('Error loading paginated logos:', error);
+        console.error('Error loading paginated Teams:', error);
         // Return empty page structure on error
-        return of({ content: [], last: true, empty: true, totalElements: 0, totalPages: 0, size: size, number: page } as any as Page<TeamLogo>);
+        return of({ content: [], last: true, empty: true, totalElements: 0, totalPages: 0, size: size, number: page } as any as Page<Team>);
       })
     );
   }
 
-  getLogosByIds(ids: string[], searchTerm?: string, page: number = 0, size: number = 50): Observable<Page<TeamLogo>> {
+  getTeamsByIds(ids: string[], searchTerm?: string, page: number = 0, size: number = 50): Observable<Page<Team>> {
     let url = `${this.apiUrl}/by-ids?page=${page}&size=${size}`;
     if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
 
     return forkJoin({
-      pageData: this.http.post<Page<TeamLogo>>(url, ids).pipe(retry({ count: 3, delay: 2000 })),
+      pageData: this.http.post<Page<Team>>(url, ids).pipe(retry({ count: 3, delay: 2000 })),
       manifestPaths: this.manifestPaths$
     }).pipe(
       map(({ pageData, manifestPaths }) => {
         // Hydrate tags and overwrite DB path with physical path from manifest
-        pageData.content = pageData.content.map((logo: TeamLogo) => ({
-          ...logo,
-          path: manifestPaths.get(logo.name) || logo.path,
-          tags: this.tagService.getTeamTags(logo.id)
+        pageData.content = pageData.content.map((Team: Team) => ({
+          ...Team,
+          path: manifestPaths.get(Team.name) || Team.primaryLogo?.path,
+          tags: this.tagService.getTeamTags(Team.id)
         }));
-        return pageData as Page<TeamLogo>;
+        return pageData as Page<Team>;
       }),
       catchError((error) => {
-        console.error('Error loading paginated logos by ids:', error);
-        return of({ content: [], last: true, empty: true, totalElements: 0, totalPages: 0, size: size, number: page } as any as Page<TeamLogo>);
+        console.error('Error loading paginated Teams by ids:', error);
+        return of({ content: [], last: true, empty: true, totalElements: 0, totalPages: 0, size: size, number: page } as any as Page<Team>);
       })
     );
   }
 
-  deleteLogo(id: string): Observable<void> {
+  deleteTeam(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  syncLogos(manifestData: any[]): Observable<{ message: string; addedCount: number }> {
+  syncTeams(manifestData: any[]): Observable<{ message: string; addedCount: number }> {
     return this.http.post<{ message: string; addedCount: number }>(`${this.apiUrl}/sync`, manifestData);
   }
 
@@ -150,9 +150,9 @@ export class LogoService {
     );
   }
 
-  getLeagueLogoPath(leagueName: string): string {
-    // Map league names to their logo file names
-    const leagueLogoMap: { [key: string]: string } = {
+  getLeagueTeamPath(leagueName: string): string {
+    // Map league names to their Team file names
+    const leagueTeamMap: { [key: string]: string } = {
       'SUPERLEAGUE': 'SUPERLEAGUE.png',
       'SUPERLEAGUE 2': 'SUPERLEAGUE 2.png',
       'Γ ΕΘΝΙΚΗ': 'Γ ΕΘΝΙΚΗ.png',
@@ -212,20 +212,20 @@ export class LogoService {
       'ΕΠΣ ΓΡΕΒΕΝΩΝ': 'ΕΠΣ ΓΡΕΒΕΝΩΝ.png'
     };
 
-    const logoFileName = leagueLogoMap[leagueName];
-    if (logoFileName) {
-      return `/assets/league-logos/${logoFileName}`;
+    const TeamFileName = leagueTeamMap[leagueName];
+    if (TeamFileName) {
+      return `/assets/league-Teams/${TeamFileName}`;
     }
 
-    // Return a default logo or null if no mapping exists
-    return '/assets/league-logos/default-league.png';
+    // Return a default Team or null if no mapping exists
+    return '/assets/league-Teams/default-league.png';
   }
 
-  getAllLogos(page: number = 0, size: number = 1000, forceRefresh: boolean = false): Observable<Page<TeamLogo>> {
-    return this.getLogos(undefined, undefined, page, size, forceRefresh);
+  getAllTeams(page: number = 0, size: number = 1000, forceRefresh: boolean = false): Observable<Page<Team>> {
+    return this.getTeams(undefined, undefined, page, size, forceRefresh);
   }
 
-  getLogosManifest(): Observable<TeamLogo[]> {
-    return this.getAllLogos(0, 2000).pipe(map(page => page.content));
+  getTeamsManifest(): Observable<Team[]> {
+    return this.getAllTeams(0, 2000).pipe(map(page => page.content));
   }
 }

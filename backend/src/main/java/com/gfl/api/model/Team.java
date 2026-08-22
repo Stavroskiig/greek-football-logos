@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
-@Table(name = "team_info")
+@Table(name = "team")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeamInfo {
+public class Team {
 
     @Id
     private String id;
@@ -25,6 +27,17 @@ public class TeamInfo {
     private String history;
 
     private String website;
+
+    @ManyToOne
+    @JoinColumn(name = "league_id")
+    private League league;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "primary_logo_id")
+    private TeamLogo primaryLogo;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TeamLogo> historicalLogos = new ArrayList<>();
 
     @Embedded
     private Stadium stadium;

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LogoService } from '../../services/logo.service';
+import { TeamService } from '../../services/team.service';
 import { Observable, map } from 'rxjs';
 import { League } from '../../models/league';
 
@@ -18,8 +18,8 @@ export class LeagueSelectorComponent implements OnInit {
   leagues$: Observable<League[]>;
   isOpen = false;
 
-  constructor(private logoService: LogoService) {
-    this.leagues$ = this.logoService.getLeagues();
+  constructor(private TeamService: TeamService) {
+    this.leagues$ = this.TeamService.getLeagues();
   }
 
   ngOnInit() { }
@@ -38,8 +38,8 @@ export class LeagueSelectorComponent implements OnInit {
     this.isOpen = false;
   }
 
-  getLeagueLogoPath(leagueName: string): string {
-    return this.logoService.getLeagueLogoPath(leagueName);
+  getLeagueTeamPath(leagueName: string): string {
+    return this.TeamService.getLeagueTeamPath(leagueName);
   }
 
   getDisplayName(leagueId: string): string {

@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LogoService } from '../../services/logo.service';
+import { TeamService } from '../../services/team.service';
 import { TagService } from '../../services/tag.service';
 import { StructuredDataService } from '../../services/structured-data.service';
 import { Observable, Subscription, map, of, shareReplay } from 'rxjs';
 import { LogoItemComponent } from '../logo-item/logo-item.component';
 import { TagSelectorComponent } from '../tag-selector/tag-selector.component';
 import { Logo } from '../../models/logo';
-import { TeamLogo } from '../../models/team-logo';
+import { Team } from '../../models/team';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -20,10 +20,10 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class MiscDisplayComponent implements OnInit {
   searchTerm: string = '';
   selectedTags: string[] = [];
-  logos$!: Observable<TeamLogo[]>;
+  logos$!: Observable<Team[]>;
 
   constructor(
-    private logoService: LogoService,
+    private TeamService: TeamService,
     private tagService: TagService,
     private structuredDataService: StructuredDataService
   ) {
@@ -35,7 +35,7 @@ export class MiscDisplayComponent implements OnInit {
     this.applyFilters();
   }
 
-  private injectStructuredData(logos: TeamLogo[]): void {
+  private injectStructuredData(logos: Team[]): void {
     // Inject search page and collection structured data
     this.structuredDataService.injectMultipleStructuredData([
       this.structuredDataService.generateSearchPageStructuredData(),
@@ -59,7 +59,7 @@ export class MiscDisplayComponent implements OnInit {
         return;
       }
 
-      this.logos$ = this.logoService.getLogosByIds(teamIds, this.searchTerm.trim(), 0, 100).pipe(
+      this.logos$ = this.TeamService.getTeamsByIds(teamIds, this.searchTerm.trim(), 0, 100).pipe(
         map(page => {
           this.injectStructuredData(page.content);
           return page.content;
@@ -68,7 +68,7 @@ export class MiscDisplayComponent implements OnInit {
       );
     } else {
       // Only search term
-      this.logos$ = this.logoService.getLogos(undefined, this.searchTerm.trim(), 0, 100).pipe(
+      this.logos$ = this.TeamService.getTeams(undefined, this.searchTerm.trim(), 0, 100).pipe(
         map(page => {
           this.injectStructuredData(page.content);
           return page.content;

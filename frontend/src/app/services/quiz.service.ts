@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of, forkJoin } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { LogoService } from './logo.service';
+import { TeamService } from './team.service';
 import { environment } from '../../environments/environment';
 import {
   QuizQuestion,
@@ -12,7 +12,7 @@ import {
   QuizStats,
   QuizAnswer
 } from '../models/quiz';
-import { TeamLogo } from '../models/team-logo';
+import { Team } from '../models/team';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class QuizService {
   private quizStats$ = new BehaviorSubject<QuizStats>(this.getDefaultStats());
   private apiUrl = `${environment.apiUrl}/quiz`;
 
-  constructor(private logoService: LogoService, private http: HttpClient) {
+  constructor(private TeamService: TeamService, private http: HttpClient) {
     this.loadStats();
   }
 
@@ -41,7 +41,7 @@ export class QuizService {
 
     return forkJoin({
       questions: this.http.get<QuizQuestion[]>(url),
-      paths: this.logoService.getManifestPaths()
+      paths: this.TeamService.getManifestPaths()
     }).pipe(
       map(({ questions, paths }) => {
         console.log('Loaded questions from backend:', questions.length);

@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminService } from '../../services/admin.service';
-import { LogoService } from '../../services/logo.service';
-import { TeamLogo } from '../../models/team-logo';
+import { TeamService } from '../../services/team.service';
+import { Team } from '../../models/team';
 import { League } from '../../models/league';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -19,8 +19,8 @@ import { map, catchError } from 'rxjs/operators';
   styleUrls: ['./league-manager.component.css']
 })
 export class LeagueManagerComponent implements OnInit {
-  teams: TeamLogo[] = [];
-  filteredTeams: TeamLogo[] = [];
+  teams: Team[] = [];
+  filteredTeams: Team[] = [];
   leagues: League[] = [];
   
   searchTerm: string = '';
@@ -36,7 +36,7 @@ export class LeagueManagerComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
-    private logoService: LogoService,
+    private TeamService: TeamService,
     private http: HttpClient,
     private router: Router
   ) {}
@@ -48,7 +48,7 @@ export class LeagueManagerComponent implements OnInit {
     }
     
     // Get all leagues first
-    this.logoService.getLeagues().subscribe(leagues => {
+    this.TeamService.getLeagues().subscribe(leagues => {
       this.leagues = leagues;
       // Select the first league by default if available
       if (this.leagues.length > 0 && !this.filterLeague) {
@@ -67,7 +67,7 @@ export class LeagueManagerComponent implements OnInit {
 
     this.isLoading = true;
     // Get logos ONLY for the selected league
-    this.logoService.getLogos(this.filterLeague, undefined, 0, 500, forceRefresh).subscribe(response => {
+    this.TeamService.getTeams(this.filterLeague, undefined, 0, 500, forceRefresh).subscribe(response => {
       this.teams = response.content;
       this.filterTeams();
       this.isLoading = false;
@@ -135,7 +135,7 @@ export class LeagueManagerComponent implements OnInit {
 
     const updateRequests: Observable<any>[] = [];
     this.selectedTeamIds.forEach(teamId => {
-      const url = `${environment.apiUrl}/logos/${teamId}/league/${this.targetLeagueId}`;
+      const url = `${environment.apiUrl}/teams/${teamId}/league/${this.targetLeagueId}`;
       updateRequests.push(this.http.put(url, {}).pipe(
         catchError(error => {
           console.error(`Failed to update team ${teamId}`, error);
@@ -168,7 +168,7 @@ export class LeagueManagerComponent implements OnInit {
     }
   }
 
-  trackByTeamId(index: number, team: TeamLogo): string {
+  trackByTeamId(index: number, team: Team): string {
     return team.id;
   }
 }

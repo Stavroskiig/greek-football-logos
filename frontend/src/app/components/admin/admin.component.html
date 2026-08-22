@@ -6,7 +6,7 @@
         <p>{{ 'admin.description' | translate }}</p>
       </div>
       <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
-        <button (click)="syncLogos()" class="sync-btn" [disabled]="isSyncing" style="display: flex; align-items: center; gap: 0.5rem; background-color: #2563eb; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; font-weight: 500; transition: background-color 0.2s;">
+        <button (click)="syncTeams()" class="sync-btn" [disabled]="isSyncing" style="display: flex; align-items: center; gap: 0.5rem; background-color: #2563eb; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; font-weight: 500; transition: background-color 0.2s;">
           <svg *ngIf="!isSyncing" style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
           </svg>

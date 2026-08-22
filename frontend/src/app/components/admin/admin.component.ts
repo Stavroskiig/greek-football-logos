@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { AdminService } from '../../services/admin.service';
-import { LogoService } from '../../services/logo.service';
+import { TeamService } from '../../services/team.service';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -19,7 +19,7 @@ export class AdminComponent {
 
   constructor(
     private adminService: AdminService,
-    private logoService: LogoService,
+    private TeamService: TeamService,
     private router: Router
   ) { }
 
@@ -28,7 +28,7 @@ export class AdminComponent {
     this.router.navigate(['/']);
   }
 
-  async syncLogos(): Promise<void> {
+  async syncTeams(): Promise<void> {
     if (this.isSyncing) return;
     
     this.isSyncing = true;
@@ -42,7 +42,7 @@ export class AdminComponent {
       }
       const manifestData = await manifestResponse.json();
 
-      const response = await import('rxjs').then(rxjs => rxjs.firstValueFrom(this.logoService.syncLogos(manifestData)));
+      const response = await import('rxjs').then(rxjs => rxjs.firstValueFrom(this.TeamService.syncTeams(manifestData)));
       this.toastMessage = `Sync complete! ${response.addedCount} new logos added.`;
     } catch (err) {
       console.error('Logo sync failed:', err);

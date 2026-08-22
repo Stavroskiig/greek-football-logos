@@ -1,9 +1,10 @@
 package com.gfl.api.service;
 
 import com.gfl.api.model.League;
+import com.gfl.api.model.Team;
 import com.gfl.api.model.TeamLogo;
 import com.gfl.api.repository.LeagueRepository;
-import com.gfl.api.repository.TeamLogoRepository;
+import com.gfl.api.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,53 +17,53 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TeamLogoService {
+public class TeamService {
 
-    private final TeamLogoRepository teamLogoRepository;
+    private final TeamRepository teamRepository;
     private final LeagueRepository leagueRepository;
 
-    public Page<TeamLogo> getAllLogos(Pageable pageable) {
-        return teamLogoRepository.findAll(pageable);
+    public Page<Team> getAllTeams(Pageable pageable) {
+        return teamRepository.findAll(pageable);
     }
 
-    public Page<TeamLogo> getLogosByLeague(String leagueId, Pageable pageable) {
-        return teamLogoRepository.findByLeagueId(leagueId, pageable);
+    public Page<Team> getTeamsByLeague(String leagueId, Pageable pageable) {
+        return teamRepository.findByLeagueId(leagueId, pageable);
     }
 
-    public Page<TeamLogo> searchLogosByName(String name, Pageable pageable) {
-        return teamLogoRepository.findByNameContainingIgnoreCase(name, pageable);
+    public Page<Team> searchTeamsByName(String name, Pageable pageable) {
+        return teamRepository.findByNameContainingIgnoreCase(name, pageable);
     }
 
-    public Page<TeamLogo> searchLogosByLeagueAndName(String leagueId, String name, Pageable pageable) {
-        return teamLogoRepository.findByLeagueIdAndNameContainingIgnoreCase(leagueId, name, pageable);
+    public Page<Team> searchTeamsByLeagueAndName(String leagueId, String name, Pageable pageable) {
+        return teamRepository.findByLeagueIdAndNameContainingIgnoreCase(leagueId, name, pageable);
     }
 
-    public Page<TeamLogo> getLogosByIds(List<String> ids, Pageable pageable) {
-        return teamLogoRepository.findByIdIn(ids, pageable);
+    public Page<Team> getTeamsByIds(List<String> ids, Pageable pageable) {
+        return teamRepository.findByIdIn(ids, pageable);
     }
 
-    public Page<TeamLogo> searchLogosByIdsAndName(List<String> ids, String name, Pageable pageable) {
-        return teamLogoRepository.findByIdInAndNameContainingIgnoreCase(ids, name, pageable);
+    public Page<Team> searchTeamsByIdsAndName(List<String> ids, String name, Pageable pageable) {
+        return teamRepository.findByIdInAndNameContainingIgnoreCase(ids, name, pageable);
     }
 
-    public TeamLogo saveTeamLogo(TeamLogo teamLogo) {
-        return teamLogoRepository.save(teamLogo);
+    public Team saveTeam(Team team) {
+        return teamRepository.save(team);
     }
 
-    public TeamLogo updateTeamLeague(String logoId, String leagueId) {
-        TeamLogo logo = teamLogoRepository.findById(logoId)
-                .orElseThrow(() -> new RuntimeException("Logo not found"));
+    public Team updateTeamLeague(String teamId, String leagueId) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
         League league = leagueRepository.findById(leagueId)
                 .orElseThrow(() -> new RuntimeException("League not found"));
-        logo.setLeague(league);
-        return teamLogoRepository.save(logo);
+        team.setLeague(league);
+        return teamRepository.save(team);
     }
 
-    public void deleteTeamLogo(String id) {
-        teamLogoRepository.deleteById(id);
+    public void deleteTeam(String id) {
+        teamRepository.deleteById(id);
     }
 
-    public int syncLogosFromManifest(List<com.gfl.api.dto.LogoSyncDTO> rawLogos) {
+    public int syncTeamsFromManifest(List<com.gfl.api.dto.LogoSyncDTO> rawLogos) {
         int addedCount = 0;
         try {
             for (com.gfl.api.dto.LogoSyncDTO rawLogo : rawLogos) {
@@ -85,18 +86,26 @@ public class TeamLogoService {
                 });
 
                 String id = generateId(name);
-                TeamLogo existingLogo = teamLogoRepository.findById(id).orElse(null);
+                Team existingTeam = teamRepository.findById(id).orElse(null);
 
-                if (existingLogo == null) {
+                if (existingTeam == null) {
+                    Team team = new Team();
+                    team.setId(id);
+                    team.setName(name);
+                    team.setLeague(league);
+                    
                     TeamLogo logo = new TeamLogo();
                     logo.setId(id);
                     logo.setName(name);
-                    logo.setLeague(league);
-                    teamLogoRepository.save(logo);
+                    logo.setTeam(team);
+                    
+                    team.setPrimaryLogo(logo);
+                    
+                    teamRepository.save(team);
                     addedCount++;
                 }
             }
-            log.info("Successfully synced {} new logos.", addedCount);
+            log.info("Successfully synced {} new teams.", addedCount);
         } catch (Exception e) {
             log.error("Failed to sync database: ", e);
             throw new RuntimeException("Sync failed", e);

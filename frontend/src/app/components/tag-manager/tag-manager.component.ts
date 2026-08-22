@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { TagService } from '../../services/tag.service';
 import { TagStorageService } from '../../services/tag-storage.service';
 import { AdminService } from '../../services/admin.service';
-import { LogoService } from '../../services/logo.service';
+import { TeamService } from '../../services/team.service';
 import { StructuredDataService } from '../../services/structured-data.service';
-import { TeamLogo } from '../../models/team-logo';
+import { Team } from '../../models/team';
 import { League } from '../../models/league';
 import { FileManagerComponent } from '../file-manager/file-manager.component';
 
@@ -18,11 +18,11 @@ import { FileManagerComponent } from '../file-manager/file-manager.component';
   templateUrl: './tag-manager.component.html'
 })
 export class TagManagerComponent implements OnInit {
-  teams: TeamLogo[] = [];
-  filteredTeams: TeamLogo[] = [];
+  teams: Team[] = [];
+  filteredTeams: Team[] = [];
   availableTags: string[] = [];
   newTag: string = '';
-  selectedTeam: TeamLogo | null = null;
+  selectedTeam: Team | null = null;
   teamTags: { [teamId: string]: string[] } = {};
   searchTerm: string = '';
   selectedLeague: string = '';
@@ -34,7 +34,7 @@ export class TagManagerComponent implements OnInit {
     private tagService: TagService,
     private tagStorage: TagStorageService,
     private adminService: AdminService,
-    private logoService: LogoService,
+    private TeamService: TeamService,
     private structuredDataService: StructuredDataService,
     private router: Router
   ) { }
@@ -57,13 +57,13 @@ export class TagManagerComponent implements OnInit {
   }
 
   loadData() {
-    this.logoService.getLogosManifest().subscribe(teams => {
+    this.TeamService.getTeamsManifest().subscribe(teams => {
       this.teams = teams;
       this.filteredTeams = teams;
       this.teamTags = this.tagService.getAllTeamTags();
     });
 
-    this.logoService.getLeagues().subscribe(leagues => {
+    this.TeamService.getLeagues().subscribe(leagues => {
       this.leagues = leagues;
     });
 
@@ -120,9 +120,9 @@ export class TagManagerComponent implements OnInit {
     this.filterTeams();
   }
 
-  getLeagueLogoPath(leagueId: string): string {
+  getLeagueTeamPath(leagueId: string): string {
     const displayName = this.getLeagueDisplayName(leagueId);
-    return this.logoService.getLeagueLogoPath(displayName);
+    return this.TeamService.getLeagueTeamPath(displayName);
   }
 
   getLeagueDisplayName(leagueId: string): string {
@@ -143,7 +143,7 @@ export class TagManagerComponent implements OnInit {
     this.filterTeams();
   }
 
-  selectTeam(team: TeamLogo) {
+  selectTeam(team: Team) {
     this.selectedTeam = { ...team }; // Create a copy to avoid reference issues
   }
 
@@ -191,7 +191,7 @@ export class TagManagerComponent implements OnInit {
     return this.getTeamTags(teamId).includes(tag);
   }
 
-  trackByTeamId(index: number, team: TeamLogo): string {
+  trackByTeamId(index: number, team: Team): string {
     return team.id;
   }
 

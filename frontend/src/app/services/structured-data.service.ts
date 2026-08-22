@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TeamLogo } from '../models/team-logo';
+import { Team } from '../models/team';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,7 @@ export class StructuredDataService {
     };
   }
 
-  generateTeamLogoStructuredData(team: TeamLogo): object {
+  generateTeamStructuredData(team: Team): object {
     return {
       "@context": "https://schema.org",
       "@type": "SportsTeam",
@@ -68,7 +68,7 @@ export class StructuredDataService {
     };
   }
 
-  generateCollectionStructuredData(teams: TeamLogo[]): object {
+  generateCollectionStructuredData(teams: Team[]): object {
     return {
       "@context": "https://schema.org",
       "@type": "ItemList",

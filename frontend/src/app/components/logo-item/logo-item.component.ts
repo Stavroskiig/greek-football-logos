@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TeamLogo } from '../../models/team-logo';
+import { Team } from '../../models/team';
 import { ModalService } from '../../services/modal.service';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -11,7 +11,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './logo-item.component.html'
 })
 export class LogoItemComponent {
-  @Input() logo!: TeamLogo;
+  @Input() logo!: Team;
   imageLoaded = false;
 
   constructor(private modalService: ModalService) { }
@@ -30,7 +30,7 @@ export class LogoItemComponent {
         id: this.logo.id,
         name: this.logo.name,
         fullName: this.logo.name,
-        path: this.logo.path,
+        path: this.logo.path || '',
         founded: 0,
         colors: {
           primary: '#000000',
@@ -40,13 +40,13 @@ export class LogoItemComponent {
         history: '',
         achievements: { leagueTitles: 0, cupTitles: 0 }
       },
-      logoPath: this.logo.path
+      logoPath: this.logo.path || ''
     });
   }
 
   downloadLogo() {
     const link = document.createElement('a');
-    link.href = this.logo.path;
+    link.href = this.logo.path || '';
     link.download = `${this.logo.name.toLowerCase().replace(/\s+/g, '-')}-logo.png`;
     document.body.appendChild(link);
     link.click();

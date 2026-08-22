@@ -18,10 +18,13 @@ public class TeamLogo {
 
     private String name;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    private Team team;
 
-    @ManyToOne
-    @JoinColumn(name = "league_id")
-    private League league;
+    private Integer startYear;
+    private Integer endYear;
     @ElementCollection
     @CollectionTable(name = "team_logo_tags", joinColumns = @JoinColumn(name = "team_logo_id"))
     @Column(name = "tag")

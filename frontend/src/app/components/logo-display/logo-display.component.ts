@@ -1,13 +1,13 @@
 import { Component, OnInit, HostListener, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LogoService } from '../../services/logo.service';
+import { TeamService } from '../../services/team.service';
 import { StructuredDataService } from '../../services/structured-data.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { LogoItemComponent } from '../logo-item/logo-item.component';
 import { LeagueSelectorComponent } from '../league-selector/league-selector.component';
-import { TeamLogo } from '../../models/team-logo';
+import { Team } from '../../models/team';
 import { League } from '../../models/league';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -21,7 +21,7 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
   searchTerm: string = '';
   selectedLeague: string = 'superleague';
 
-  logos: TeamLogo[] = [];
+  logos: Team[] = [];
   leagues$: Observable<League[]>;
 
   // Pagination state
@@ -38,7 +38,7 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
   private readonly STORAGE_KEY = 'gfl_selected_league';
 
   constructor(
-    private logoService: LogoService,
+    private TeamService: TeamService,
     private structuredDataService: StructuredDataService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -49,7 +49,7 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.leagues$ = this.logoService.getLeagues();
+    this.leagues$ = this.TeamService.getLeagues();
   }
 
   ngOnInit() {
@@ -98,7 +98,7 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
 
-    this.logoSubscription = this.logoService.getLogos(
+    this.logoSubscription = this.TeamService.getTeams(
       this.selectedLeague,
       this.searchTerm,
       this.currentPage,
@@ -169,9 +169,9 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
     this.loadLogos(true);
   }
 
-  getLeagueLogoPath(leagueId: string): string {
+  getLeagueTeamPath(leagueId: string): string {
     const displayName = this.getDisplayName(leagueId);
-    return this.logoService.getLeagueLogoPath(displayName);
+    return this.TeamService.getLeagueTeamPath(displayName);
   }
 
   getDisplayName(leagueId: string): string {

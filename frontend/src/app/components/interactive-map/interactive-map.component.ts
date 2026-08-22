@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from '../../services/theme.service';
-import { LogoService } from '../../services/logo.service';
+import { TeamService } from '../../services/team.service';
 import * as L from 'leaflet';
 
 // Types for our locations JSON
@@ -48,7 +48,7 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
     private http: HttpClient,
     private translate: TranslateService,
     private themeService: ThemeService,
-    private logoService: LogoService,
+    private teamService: TeamService,
     private injector: Injector
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -129,9 +129,9 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
 
   private loadTeamsForLeague(league: string): void {
     const leagueId = this.getLeagueId(league);
-    // Fetch all logos for the selected league from the database
-    this.logoService.getLogos(leagueId, undefined, 0, 1000).subscribe({
-      next: (dbLogos) => {
+    // Fetch all teams for the selected league from the database
+    this.teamService.getTeams(leagueId, undefined, 0, 1000).subscribe({
+      next: (dbTeams) => {
         // Create a map of team locations by name/id for quick lookup
         const locationMap = new Map<string, TeamLocation>();
         this.baseLocations.forEach(loc => {
@@ -139,15 +139,15 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
           locationMap.set(loc.name, loc);
         });
 
-        // Filter and map DB logos to locations that exist in our static JSON
+        // Filter and map DB teams to locations that exist in our static JSON
         this.allLocations = [];
-        dbLogos.content.forEach(logo => {
-          const loc = locationMap.get(logo.id) || locationMap.get(logo.name);
+        dbTeams.content.forEach(team => {
+          const loc = locationMap.get(team.id) || locationMap.get(team.name);
           if (loc) {
             this.allLocations.push({
               ...loc,
-              league: logo.league?.name || league,
-              dynamicPath: logo.path
+              league: team.league?.name || league,
+              dynamicPath: team.path
             } as TeamLocation & { dynamicPath?: string });
           }
         });

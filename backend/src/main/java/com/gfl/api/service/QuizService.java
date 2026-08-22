@@ -1,8 +1,8 @@
 package com.gfl.api.service;
 
 import com.gfl.api.dto.QuizQuestionDTO;
-import com.gfl.api.model.TeamLogo;
-import com.gfl.api.repository.TeamLogoRepository;
+import com.gfl.api.model.Team;
+import com.gfl.api.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,23 +16,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuizService {
 
-    private final TeamLogoRepository teamLogoRepository;
+    private final TeamRepository TeamRepository;
 
     public List<QuizQuestionDTO> generateQuiz(String mode, String difficulty, int count) {
         log.info("Generating quiz: mode={}, difficulty={}, count={}", mode, difficulty, count);
 
-        List<TeamLogo> selectedLogos;
+        List<Team> selectedLogos;
         List<String> leagues = getLeaguesByDifficulty(difficulty);
 
         if (leagues.isEmpty()) {
-            selectedLogos = teamLogoRepository.findRandomLogos(count);
+            selectedLogos = TeamRepository.findRandomTeams(count);
         } else {
-            selectedLogos = teamLogoRepository.findRandomLogosByLeagues(leagues, count);
+            selectedLogos = TeamRepository.findRandomTeamsByLeagues(leagues, count);
         }
 
         List<QuizQuestionDTO> questions = new ArrayList<>();
         int i = 0;
-        for (TeamLogo logo : selectedLogos) {
+        for (Team logo : selectedLogos) {
             questions.add(createQuestion(logo, mode, difficulty, i++));
         }
 
@@ -48,7 +48,7 @@ public class QuizService {
         return Collections.emptyList(); // Hard or mixed means all leagues
     }
 
-    private QuizQuestionDTO createQuestion(TeamLogo logo, String mode, String difficultySetting, int index) {
+    private QuizQuestionDTO createQuestion(Team logo, String mode, String difficultySetting, int index) {
         String actualDifficulty = determineQuestionDifficulty(difficultySetting);
         int points = getPointsForDifficulty(actualDifficulty);
 
@@ -59,7 +59,7 @@ public class QuizService {
         List<String> options;
 
         if (isTeamQuestion) {
-            correctAnswer = logo.getName();
+            correctAnswer = logo.getPrimaryLogo().getName();
             options = generateTeamOptions(logo, actualDifficulty);
         } else {
             correctAnswer = logo.getLeague() != null ? logo.getLeague().getName() : "Unknown";
@@ -71,7 +71,7 @@ public class QuizService {
 
         return QuizQuestionDTO.builder()
                 .id("question-" + index)
-                .logoPath(logo.getName())
+                .logoPath(logo.getPrimaryLogo().getName())
                 .correctAnswer(correctAnswer)
                 .options(shuffledOptions)
                 .difficulty(actualDifficulty)
@@ -104,21 +104,21 @@ public class QuizService {
         }
     }
 
-    private List<String> generateTeamOptions(TeamLogo correctLogo, String difficulty) {
+    private List<String> generateTeamOptions(Team correctLogo, String difficulty) {
         List<String> options = new ArrayList<>();
-        options.add(correctLogo.getName());
+        options.add(correctLogo.getPrimaryLogo().getName());
 
         List<String> leagues = getLeaguesByDifficulty(difficulty);
-        List<TeamLogo> randomOtherLogos;
+        List<Team> randomOtherLogos;
 
         // Fetch enough random logos to ensure we get 3 distinct other names
         if (leagues.isEmpty()) {
-            randomOtherLogos = teamLogoRepository.findRandomLogos(10);
+            randomOtherLogos = TeamRepository.findRandomTeams(10);
         } else {
-            randomOtherLogos = teamLogoRepository.findRandomLogosByLeagues(leagues, 10);
+            randomOtherLogos = TeamRepository.findRandomTeamsByLeagues(leagues, 10);
         }
 
-        for (TeamLogo other : randomOtherLogos) {
+        for (Team other : randomOtherLogos) {
             if (!other.getId().equals(correctLogo.getId()) && !options.contains(other.getName())) {
                 options.add(other.getName());
             }
@@ -134,7 +134,7 @@ public class QuizService {
         return options;
     }
 
-    private List<String> generateLeagueOptions(TeamLogo correctLogo, String difficulty) {
+    private List<String> generateLeagueOptions(Team correctLogo, String difficulty) {
         List<String> options = new ArrayList<>();
         String currentLeague = correctLogo.getLeague() != null ? correctLogo.getLeague().getName() : "Unknown";
         options.add(currentLeague);
