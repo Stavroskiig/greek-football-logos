@@ -114,9 +114,23 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  private getLeagueId(leagueName: string): string {
+    switch (leagueName) {
+      case 'SUPERLEAGUE': return 'superleague';
+      case 'SUPERLEAGUE 2': return 'superleague-2';
+      case 'Γ ΕΘΝΙΚΗ': return 'γ-εθνικη';
+      default: 
+        return leagueName.toLowerCase()
+          .replace(/[\u0300-\u036f]/g, "") // remove diacritics
+          .replace(/[^a-z0-9α-ωά-ώ]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+    }
+  }
+
   private loadTeamsForLeague(league: string): void {
+    const leagueId = this.getLeagueId(league);
     // Fetch all logos for the selected league from the database
-    this.logoService.getLogos(league, undefined, 0, 1000).subscribe({
+    this.logoService.getLogos(leagueId, undefined, 0, 1000).subscribe({
       next: (dbLogos) => {
         // Create a map of team locations by name/id for quick lookup
         const locationMap = new Map<string, TeamLocation>();
