@@ -19,7 +19,7 @@ public class Team {
 
     private String name;
 
-    private String fullName;
+    private String shortName;
 
     private Integer founded;
 
@@ -28,18 +28,25 @@ public class Team {
 
     private String website;
 
-    @ManyToOne
+    @Column(name = "history_en", columnDefinition = "TEXT")
+    private String historyEn;
+
+    @Column(name = "history_el", columnDefinition = "TEXT")
+    private String historyEl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "league_id")
     private League league;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "primary_logo_id")
     private TeamLogo primaryLogo;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TeamLogo> historicalLogos = new ArrayList<>();
 
-    @Embedded
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "stadium_id")
     private Stadium stadium;
 
     @Embedded

@@ -1,0 +1,228 @@
+<div class="max-w-6xl mx-auto my-8 px-4">
+  <div class="text-center mb-8">
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Team Manager</h1>
+    <p class="text-gray-600 dark:text-gray-400">Admin interface for editing team details</p>
+
+    <!-- Saved Message -->
+    <div *ngIf="showSavedMessage"
+      class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-fade-in">
+      Changes saved successfully!
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Left Column: Teams List -->
+    <div class="lg:col-span-1">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Teams</h2>
+
+        <!-- Search and Filter Teams -->
+        <div class="mb-4 space-y-3">
+          <!-- Search Teams -->
+          <input type="text" [(ngModel)]="searchTerm" (input)="filterTeams()" placeholder="Search teams..."
+            class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+
+          <!-- League Filter -->
+          <div class="relative">
+            <button type="button" (click)="toggleLeagueDropdown()"
+              class="w-full px-3 py-2 text-sm text-left bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <img *ngIf="selectedLeague" [src]="getLeagueTeamPath(selectedLeague)" [alt]="selectedLeague + ' logo'"
+                  class="w-4 h-4 object-contain" (error)="onImageError($event)" />
+                <span>{{ getLeagueDisplayName(selectedLeague) }}</span>
+              </div>
+              <svg class="h-4 w-4 text-gray-400 transition-transform duration-200"
+                [class.rotate-180]="isLeagueDropdownOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div *ngIf="isLeagueDropdownOpen"
+              class="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <button type="button" (click)="onLeagueSelect('')"
+                class="w-full px-3 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                <span>🌍</span>
+                <span>All Leagues</span>
+              </button>
+
+              <button *ngFor="let league of leagues" type="button" (click)="onLeagueSelect(league.id)"
+                class="w-full px-3 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
+                [class.bg-blue-50]="selectedLeague === league.id" [class.dark:bg-blue-900]="selectedLeague === league.id">
+                <img [src]="getLeagueTeamPath(league.name)" [alt]="league.name + ' logo'" class="w-4 h-4 object-contain"
+                  (error)="onImageError($event)" />
+                <span>{{ league.name }}</span>
+              </button>
+            </div>
+            <div *ngIf="isLeagueDropdownOpen" class="fixed inset-0 z-40" (click)="closeLeagueDropdown()"></div>
+          </div>
+
+          <button (click)="clearFilters()"
+            class="w-full px-3 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
+            Clear Filters
+          </button>
+        </div>
+
+        <div class="space-y-2 max-h-[600px] overflow-y-auto">
+          <div *ngFor="let team of filteredTeams; trackBy: trackByTeamId" (click)="selectTeam(team)"
+            class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50"
+            [class.bg-blue-50]="selectedTeam?.id === team.id" [class.dark:bg-blue-900]="selectedTeam?.id === team.id">
+            <img [src]="team.path" [alt]="team.name" class="w-8 h-8 object-contain">
+            <div class="flex-1 min-w-0">
+              <div class="font-medium text-gray-900 dark:text-gray-100 truncate">{{ team.name }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">{{ team.league?.name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Edit Team -->
+    <div class="lg:col-span-2">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200 min-h-[600px]">
+        <div *ngIf="editingTeam; else noTeamSelected">
+          <div class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+            <img [src]="selectedTeam?.path" [alt]="selectedTeam?.name" class="w-16 h-16 object-contain">
+            <div>
+              <h2 class="text-2xl font-bold text-gray-800 dark:text-white">{{ editingTeam.name }}</h2>
+              <p class="text-gray-500 dark:text-gray-400">{{ editingTeam.league?.name }}</p>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="flex border-b border-gray-200 dark:border-gray-700 mb-6 overflow-x-auto">
+            <button (click)="setTab('general')" [class.border-blue-500]="activeTab === 'general'" [class.text-blue-600]="activeTab === 'general'" class="px-4 py-2 border-b-2 border-transparent hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">General</button>
+            <button (click)="setTab('stadium')" [class.border-blue-500]="activeTab === 'stadium'" [class.text-blue-600]="activeTab === 'stadium'" class="px-4 py-2 border-b-2 border-transparent hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">Stadium</button>
+            <button (click)="setTab('colors')" [class.border-blue-500]="activeTab === 'colors'" [class.text-blue-600]="activeTab === 'colors'" class="px-4 py-2 border-b-2 border-transparent hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">Colors</button>
+            <button (click)="setTab('achievements')" [class.border-blue-500]="activeTab === 'achievements'" [class.text-blue-600]="activeTab === 'achievements'" class="px-4 py-2 border-b-2 border-transparent hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">Achievements</button>
+            <button (click)="setTab('social')" [class.border-blue-500]="activeTab === 'social'" [class.text-blue-600]="activeTab === 'social'" class="px-4 py-2 border-b-2 border-transparent hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">Social</button>
+          </div>
+
+          <!-- Form Content -->
+          <div class="space-y-4">
+            
+            <!-- General Tab -->
+            <div *ngIf="activeTab === 'general'" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
+                <input type="text" [(ngModel)]="editingTeam.name" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Short Name</label>
+                <input type="text" [(ngModel)]="editingTeam.shortName" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Founded</label>
+                <input type="number" [(ngModel)]="editingTeam.founded" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Website</label>
+                <input type="text" [(ngModel)]="editingTeam.website" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">History (English)</label>
+                <textarea [(ngModel)]="editingTeam.historyEn" rows="6" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg"></textarea>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">History (Greek)</label>
+                <textarea [(ngModel)]="editingTeam.historyEl" rows="6" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg"></textarea>
+              </div>
+            </div>
+
+            <!-- Stadium Tab -->
+            <div *ngIf="activeTab === 'stadium'" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Stadium</label>
+                <select [(ngModel)]="editingTeam.stadium" [compareWith]="compareStadiums" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+                  <option [ngValue]="undefined">-- No Stadium --</option>
+                  <option *ngFor="let stadium of stadiums" [ngValue]="stadium">
+                    {{ stadium.name }} ({{ stadium.region }})
+                  </option>
+                </select>
+                <p class="text-sm text-gray-500 mt-2">
+                  If the stadium doesn't exist, you can create it in the <a routerLink="/admin/stadiums" class="text-blue-500 hover:underline">Stadiums Manager</a>.
+                </p>
+              </div>
+            </div>
+
+            <!-- Colors Tab -->
+            <div *ngIf="activeTab === 'colors'" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Primary Color (Hex)</label>
+                <input type="text" [(ngModel)]="editingTeam.colors!.primary" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Secondary Color (Hex)</label>
+                <input type="text" [(ngModel)]="editingTeam.colors!.secondary" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+            </div>
+
+            <!-- Achievements Tab -->
+            <div *ngIf="activeTab === 'achievements'" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Championships</label>
+                <input type="number" [(ngModel)]="editingTeam.achievements!.championships" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cups</label>
+                <input type="number" [(ngModel)]="editingTeam.achievements!.cups" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+            </div>
+
+            <!-- Social Media Tab -->
+            <div *ngIf="activeTab === 'social'" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Facebook URL</label>
+                <input type="text" [(ngModel)]="editingTeam.socialMedia!.facebook" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Twitter URL</label>
+                <input type="text" [(ngModel)]="editingTeam.socialMedia!.twitter" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Instagram URL</label>
+                <input type="text" [(ngModel)]="editingTeam.socialMedia!.instagram" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">YouTube URL</label>
+                <input type="text" [(ngModel)]="editingTeam.socialMedia!.youtube" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="mt-8 flex gap-4 justify-end">
+            <button (click)="cancelEdit()" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+              Cancel
+            </button>
+            <button (click)="saveTeamDetails()" [disabled]="isSaving || isSaved" 
+                    [ngClass]="{'bg-green-600 hover:bg-green-700': isSaved, 'bg-blue-600 hover:bg-blue-700': !isSaved}"
+                    class="px-4 py-2 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2">
+              <svg *ngIf="isSaving" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <svg *ngIf="isSaved" class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>{{ isSaving ? 'Saving...' : (isSaved ? 'Saved!' : 'Save Changes') }}</span>
+            </button>
+          </div>
+
+        </div>
+
+        <ng-template #noTeamSelected>
+          <div class="text-center py-12">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">Select a Team</h3>
+            <p class="mt-2 text-gray-500 dark:text-gray-400">Choose a team from the list to edit its details.</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

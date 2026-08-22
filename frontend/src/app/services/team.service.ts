@@ -139,6 +139,10 @@ export class TeamService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
+  updateTeam(id: string, team: Partial<Team>): Observable<Team> {
+    return this.http.put<Team>(`${this.apiUrl}/${id}`, team);
+  }
+
   syncTeams(manifestData: any[]): Observable<{ message: string; addedCount: number }> {
     return this.http.post<{ message: string; addedCount: number }>(`${this.apiUrl}/sync`, manifestData);
   }

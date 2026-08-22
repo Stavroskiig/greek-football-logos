@@ -1,0 +1,116 @@
+<div class="max-w-6xl mx-auto my-8 px-4">
+  <div class="text-center mb-8">
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Stadium Manager</h1>
+    <p class="text-gray-600 dark:text-gray-400">Admin interface for editing standalone stadium entities and locations</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Left Column: Stadiums List -->
+    <div class="lg:col-span-1">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Stadiums</h2>
+          <button (click)="createNewStadium()" class="p-2 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors" title="Create New Stadium">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          </button>
+        </div>
+
+        <!-- Search and Filter Stadiums -->
+        <div class="mb-4 space-y-3">
+          <input type="text" [(ngModel)]="searchTerm" (input)="filterStadiums()" placeholder="Search stadiums..."
+            class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+          <button (click)="clearFilters()" class="w-full px-3 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
+            Clear Filters
+          </button>
+        </div>
+
+        <div class="space-y-2 max-h-[600px] overflow-y-auto">
+          <div *ngFor="let stadium of filteredStadiums; trackBy: trackById" (click)="selectStadium(stadium)"
+            class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50"
+            [class.bg-blue-50]="selectedStadium?.id === stadium.id" [class.dark:bg-blue-900]="selectedStadium?.id === stadium.id">
+            <div class="flex-1 min-w-0">
+              <div class="font-medium text-gray-900 dark:text-gray-100 truncate">{{ stadium.name || 'Unnamed Stadium' }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ stadium.region || 'No region' }}</div>
+            </div>
+            <div *ngIf="stadium.latitude && stadium.longitude" class="text-green-500" title="Has location">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Edit Stadium -->
+    <div class="lg:col-span-2">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200 min-h-[600px] flex flex-col relative">
+        
+        <!-- Placeholder when no stadium is selected -->
+        <div *ngIf="!editingStadium" class="absolute inset-0 flex flex-col items-center justify-center bg-white dark:bg-gray-800 rounded-2xl z-10">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">Select a Stadium</h3>
+          <p class="mt-2 text-gray-500 dark:text-gray-400">Choose a stadium to edit its details and map location.</p>
+        </div>
+
+        <!-- Edit Form (always in DOM so map initializes, but hidden visually) -->
+        <div [class.invisible]="!editingStadium" [class.h-0]="!editingStadium" [class.overflow-hidden]="!editingStadium" class="flex-1 flex flex-col w-full h-full">
+          <div class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+            <div>
+              <h2 class="text-2xl font-bold text-gray-800 dark:text-white">{{ editingStadium?.name || 'Edit Stadium' }}</h2>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stadium Name</label>
+              <input type="text" [ngModel]="editingStadium?.name" (ngModelChange)="editingStadium && (editingStadium.name = $event)" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Capacity</label>
+              <input type="number" [ngModel]="editingStadium?.capacity" (ngModelChange)="editingStadium && (editingStadium.capacity = $event)" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Region</label>
+              <input type="text" [ngModel]="editingStadium?.region" (ngModelChange)="editingStadium && (editingStadium.region = $event)" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address/Location Details</label>
+              <input type="text" [ngModel]="editingStadium?.location" (ngModelChange)="editingStadium && (editingStadium.location = $event)" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Map Location (Click map to set)</label>
+            <div class="flex gap-4">
+              <input type="number" [ngModel]="editingStadium?.latitude" (ngModelChange)="editingStadium && (editingStadium.latitude = $event)" placeholder="Latitude" class="flex-1 px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg" readonly>
+              <input type="number" [ngModel]="editingStadium?.longitude" (ngModelChange)="editingStadium && (editingStadium.longitude = $event)" placeholder="Longitude" class="flex-1 px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg" readonly>
+            </div>
+          </div>
+
+          <!-- Interactive Map Container -->
+          <div #map class="w-full h-80 rounded-lg border border-gray-300 dark:border-gray-600 mt-2 mb-6 shadow-inner z-0"></div>
+
+          <div class="mt-auto flex gap-4 justify-end">
+            <button (click)="cancelEdit()" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+              Cancel
+            </button>
+            <button (click)="saveStadiumDetails()" [disabled]="isSaving || isSaved" 
+                    [ngClass]="{'bg-green-600 hover:bg-green-700': isSaved, 'bg-blue-600 hover:bg-blue-700': !isSaved}"
+                    class="px-4 py-2 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2">
+              <svg *ngIf="isSaving" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <svg *ngIf="isSaved" class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>{{ isSaving ? 'Saving...' : (isSaved ? 'Saved!' : 'Save Changes') }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

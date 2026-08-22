@@ -13,6 +13,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { AdminCollectionManagerComponent } from './components/admin-collection-manager/admin-collection-manager.component';
 import { AdminGuard } from './guards/admin.guard';
 import { InteractiveMapComponent } from './components/interactive-map/interactive-map.component';
+import { AdminStadiumManagerComponent } from './components/admin-stadium-manager/admin-stadium-manager.component';
 
 export const routes: Routes = [
   { path: '', component: LogoDisplayComponent },
@@ -33,6 +34,8 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'collections', pathMatch: 'full' },
       { path: 'collections', component: AdminCollectionManagerComponent },
+      { path: 'teams', loadComponent: () => import('./components/admin-team-manager/admin-team-manager.component').then(m => m.AdminTeamManagerComponent) },
+      { path: 'stadiums', component: AdminStadiumManagerComponent },
       { path: 'tags', component: TagManagerComponent },
       { path: 'leagues', loadComponent: () => import('./components/league-manager/league-manager.component').then(m => m.LeagueManagerComponent) }
     ]

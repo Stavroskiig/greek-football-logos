@@ -16,7 +16,9 @@ interface TeamLocation {
   region: string;
   league: string;
   founded: number;
-  historyKey: string;
+  historyKey?: string;
+  historyEn?: string;
+  historyEl?: string;
 }
 
 @Component({
@@ -143,12 +145,25 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
         this.allLocations = [];
         dbTeams.content.forEach(team => {
           const loc = locationMap.get(team.id) || locationMap.get(team.name);
-          if (loc) {
-            this.allLocations.push({
-              ...loc,
-              league: team.league?.name || league,
-              dynamicPath: team.path
-            } as TeamLocation & { dynamicPath?: string });
+          if (loc || (team.stadium && team.stadium.latitude && team.stadium.longitude)) {
+            const lat = team.stadium?.latitude || loc?.lat;
+            const lng = team.stadium?.longitude || loc?.lng;
+            
+            if (lat && lng) {
+              this.allLocations.push({
+                id: team.id,
+                name: team.name,
+                lat: lat,
+                lng: lng,
+                region: team.stadium?.region || loc?.region || 'Unknown',
+                league: team.league?.name || league,
+                founded: team.founded || loc?.founded || 0,
+                historyEn: team.historyEn,
+                historyEl: team.historyEl,
+                historyKey: loc?.historyKey,
+                dynamicPath: team.path
+              } as TeamLocation & { dynamicPath?: string });
+            }
           }
         });
 
@@ -255,5 +270,24 @@ export class InteractiveMapComponent implements AfterViewInit, OnDestroy {
       animate: true,
       duration: 0.5
     });
+  }
+
+  getLocalizedHistory(team: TeamLocation | null): string {
+    if (!team) return '';
+    const lang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
+    
+    // First try database fields
+    const dbText = lang === 'el' ? (team.historyEl || team.historyEn) : (team.historyEn || team.historyEl);
+    if (dbText) return dbText;
+    
+    // Fallback to translation files if DB is empty
+    if (team.historyKey) {
+      const translated = this.translate.instant(team.historyKey);
+      if (translated && translated !== team.historyKey) {
+        return translated;
+      }
+    }
+    
+    return '';
   }
 }

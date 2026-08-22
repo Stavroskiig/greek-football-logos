@@ -2,10 +2,14 @@ import { League } from './league';
 import { Logo } from './logo';
 
 export interface Stadium {
+  id?: number;
   name?: string;
   capacity?: number;
   built?: number;
   location?: string;
+  latitude?: number;
+  longitude?: number;
+  region?: string;
 }
 
 export interface Colors {
@@ -28,9 +32,10 @@ export interface SocialMedia {
 export interface Team {
   id: string;
   name: string;
-  fullName?: string;
+  shortName?: string;
   founded?: number;
-  history?: string;
+  historyEn?: string;
+  historyEl?: string;
   website?: string;
   league?: League;
   primaryLogo?: Logo;

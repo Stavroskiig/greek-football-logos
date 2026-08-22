@@ -103,6 +103,15 @@ public class TeamController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Team> updateTeam(@PathVariable String id, @RequestBody Team team) {
+        try {
+            return ResponseEntity.ok(teamService.updateTeam(id, team));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping("/sync")
     public ResponseEntity<?> syncTeams(@RequestBody java.util.List<com.gfl.api.dto.LogoSyncDTO> manifestData) {
         try {

@@ -59,6 +59,24 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
+    public Team updateTeam(String teamId, Team updatedTeam) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
+        
+        team.setName(updatedTeam.getName());
+        team.setShortName(updatedTeam.getShortName());
+        team.setFounded(updatedTeam.getFounded());
+        team.setHistory(updatedTeam.getHistory());
+        team.setWebsite(updatedTeam.getWebsite());
+        
+        team.setStadium(updatedTeam.getStadium());
+        team.setColors(updatedTeam.getColors());
+        team.setAchievements(updatedTeam.getAchievements());
+        team.setSocialMedia(updatedTeam.getSocialMedia());
+        
+        return teamRepository.save(team);
+    }
+
     public void deleteTeam(String id) {
         teamRepository.deleteById(id);
     }

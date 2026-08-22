@@ -1,0 +1,3 @@
+ALTER TABLE team ADD COLUMN stadium_latitude DOUBLE PRECISION;
+ALTER TABLE team ADD COLUMN stadium_longitude DOUBLE PRECISION;
+ALTER TABLE team ADD COLUMN stadium_region VARCHAR(255);
