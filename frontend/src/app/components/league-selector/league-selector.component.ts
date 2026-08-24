@@ -38,8 +38,9 @@ export class LeagueSelectorComponent implements OnInit {
     this.isOpen = false;
   }
 
-  getLeagueTeamPath(leagueName: string): string {
-    return this.TeamService.getLeagueTeamPath(leagueName);
+  getLeagueTeamPath(leagueId: string): string {
+    const displayName = this.getDisplayName(leagueId);
+    return this.TeamService.getLeagueTeamPath(displayName);
   }
 
   getDisplayName(leagueId: string): string {

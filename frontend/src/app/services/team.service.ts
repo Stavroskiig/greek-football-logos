@@ -218,11 +218,11 @@ export class TeamService {
 
     const TeamFileName = leagueTeamMap[leagueName];
     if (TeamFileName) {
-      return `/assets/league-Teams/${TeamFileName}`;
+      return `/assets/league-logos/${TeamFileName}`;
     }
 
     // Return a default Team or null if no mapping exists
-    return '/assets/league-Teams/default-league.png';
+    return '/assets/league-logos/default-league.png';
   }
 
   getAllTeams(page: number = 0, size: number = 1000, forceRefresh: boolean = false): Observable<Page<Team>> {
