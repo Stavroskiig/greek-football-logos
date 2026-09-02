@@ -26,7 +26,15 @@ export class AdminTeamManagerComponent implements OnInit {
   leagues: League[] = [];
   isLeagueDropdownOpen: boolean = false;
   showSavedMessage: boolean = false;
-  activeTab: 'general' | 'stadium' | 'colors' | 'achievements' | 'social' = 'general';
+  activeTab: 'general' | 'stadium' | 'colors' | 'achievements' | 'social' | 'history' = 'general';
+
+  // Historical Logos form state
+  newHistoricalLogo: any = {
+    path: '',
+    startYear: null,
+    endYear: null
+  };
+  editingHistoricalLogoId: string | null = null;
 
   constructor(
     private adminService: AdminService,
@@ -168,8 +176,104 @@ export class AdminTeamManagerComponent implements OnInit {
     }
   }
 
-  setTab(tab: 'general' | 'stadium' | 'colors' | 'achievements' | 'social') {
+  setTab(tab: 'general' | 'stadium' | 'colors' | 'achievements' | 'social' | 'history') {
     this.activeTab = tab;
+  }
+
+  editHistoricalLogo(logo: any) {
+    this.editingHistoricalLogoId = logo.id;
+    this.newHistoricalLogo = {
+      path: logo.path,
+      startYear: logo.startYear,
+      endYear: logo.endYear
+    };
+  }
+
+  cancelEditHistoricalLogo() {
+    this.editingHistoricalLogoId = null;
+    this.newHistoricalLogo = { path: '', startYear: null, endYear: null };
+  }
+
+  onPathChange(newPath: string) {
+    if (!newPath) return;
+    
+    // Try to extract start and end years from filenames ending with -YYYY_YYYY (e.g. team-1924_1929.png)
+    const filenameWithExt = newPath.split('/').pop() || '';
+    const filename = filenameWithExt.split('.')[0];
+    
+    const match = filename.match(/-(\d{4})_(\d{4})$/);
+    if (match) {
+      // Only auto-fill if they are currently empty, to not override manual edits
+      if (this.newHistoricalLogo.startYear === null || this.newHistoricalLogo.startYear === undefined) {
+        this.newHistoricalLogo.startYear = parseInt(match[1], 10);
+      }
+      if (this.newHistoricalLogo.endYear === null || this.newHistoricalLogo.endYear === undefined) {
+        this.newHistoricalLogo.endYear = parseInt(match[2], 10);
+      }
+    }
+  }
+
+  saveHistoricalLogo() {
+    if (this.editingTeam && this.editingTeam.id && this.newHistoricalLogo.path) {
+      this.isSaving = true;
+      
+      const request$ = this.editingHistoricalLogoId
+        ? this.teamService.updateHistoricalLogo(this.editingTeam.id, this.editingHistoricalLogoId, this.newHistoricalLogo)
+        : this.teamService.addHistoricalLogo(this.editingTeam.id, this.newHistoricalLogo);
+
+      request$.subscribe({
+        next: (updatedTeam) => {
+          this.isSaving = false;
+          if (updatedTeam.historicalLogos) {
+            updatedTeam.historicalLogos.sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
+          }
+          const index = this.teams.findIndex(t => t.id === updatedTeam.id);
+          if (index !== -1) {
+            updatedTeam.path = this.teams[index].path;
+            this.teams[index] = updatedTeam;
+          }
+          this.filterTeams();
+          this.selectTeam(updatedTeam);
+          this.showSavedIndicator();
+          // Reset form
+          this.cancelEditHistoricalLogo();
+        },
+        error: (err) => {
+          this.isSaving = false;
+          console.error('Error saving historical logo', err);
+          alert('Failed to save historical logo.');
+        }
+      });
+    }
+  }
+
+  deleteHistoricalLogo(logoId: string) {
+    if (this.editingTeam && this.editingTeam.id) {
+      if (confirm('Are you sure you want to delete this historical logo?')) {
+        this.isSaving = true;
+        this.teamService.deleteHistoricalLogo(this.editingTeam.id, logoId).subscribe({
+          next: (updatedTeam) => {
+            this.isSaving = false;
+            if (updatedTeam.historicalLogos) {
+              updatedTeam.historicalLogos.sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
+            }
+            const index = this.teams.findIndex(t => t.id === updatedTeam.id);
+            if (index !== -1) {
+              updatedTeam.path = this.teams[index].path;
+              this.teams[index] = updatedTeam;
+            }
+            this.filterTeams();
+            this.selectTeam(updatedTeam);
+            this.showSavedIndicator();
+          },
+          error: (err) => {
+            this.isSaving = false;
+            console.error('Error deleting historical logo', err);
+            alert('Failed to delete historical logo.');
+          }
+        });
+      }
+    }
   }
 
   private showSavedIndicator() {

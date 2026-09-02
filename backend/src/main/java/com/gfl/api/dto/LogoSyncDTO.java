@@ -9,4 +9,7 @@ public class LogoSyncDTO {
     private String name;
     private String path;
     private String league;
+    private Boolean isCurrent;
+    private Integer startYear;
+    private Integer endYear;
 }

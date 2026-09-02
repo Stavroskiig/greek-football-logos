@@ -1,5 +1,15 @@
 <div
   class="flex flex-col items-center p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm transition-all duration-300 ease-in-out w-full h-full box-border relative hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-gray-900/50">
+  <!-- History Icon (Top Left) -->
+  <button *ngIf="logo.historicalLogos && logo.historicalLogos.length > 1"
+    class="absolute top-2 left-2 w-7 h-7 rounded-full bg-white/90 dark:bg-gray-700/90 border-none flex items-center justify-center cursor-pointer text-gray-700 dark:text-gray-300 p-0 shadow-sm transition-colors duration-200 ease-in-out z-10 hover:bg-white dark:hover:bg-gray-600 hover:text-blue-600 dark:hover:text-blue-400"
+    (click)="showTeamHistory()" [attr.aria-label]="'View history for ' + logo.name">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+      <path fill="currentColor"
+        d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-1.783 1.748c.24-.21.465-.436.671-.676l.764.646a8.03 8.03 0 0 1-.935.882l-.5-.852zm-2.43 1.056c.28-.109.55-.235.81-.376l.462.887c-.309.16-.632.302-.966.42l-.306-.931zm-2.553.182c.22-.021.439-.052.657-.091l.178.984c-.261.047-.525.084-.791.111l-.044-.997zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3.5a.5.5 0 0 0 .5-.5v-4z"/>
+    </svg>
+  </button>
+  <!-- Zoom Icon (Top Right) -->
   <button
     class="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 dark:bg-gray-700/90 border-none flex items-center justify-center cursor-pointer text-gray-700 dark:text-gray-300 p-0 shadow-sm transition-colors duration-200 ease-in-out z-10 hover:bg-white dark:hover:bg-gray-600 hover:text-blue-600 dark:hover:text-blue-400"
     (click)="showFullImage()" [attr.aria-label]="'View full size logo for ' + logo.name">

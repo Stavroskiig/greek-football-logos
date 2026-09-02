@@ -96,11 +96,19 @@ export class TeamService {
         }
 
         // Hydrate tags and overwrite DB path with physical path from manifest
-        pageData.content = pageData.content.map((Team: Team) => ({
-          ...Team,
-          path: manifestPaths.get(Team.name) || Team.primaryLogo?.path,
-          tags: this.tagService.getTeamTags(Team.id)
-        }));
+        pageData.content = pageData.content.map((Team: Team) => {
+          if (Team.historicalLogos) {
+            Team.historicalLogos = Team.historicalLogos.map(logo => ({
+              ...logo,
+              path: logo.path || manifestPaths.get(Team.name) || ''
+            }));
+          }
+          return {
+            ...Team,
+            path: Team.primaryLogo?.path || manifestPaths.get(Team.name),
+            tags: this.tagService.getTeamTags(Team.id)
+          };
+        });
         return pageData as Page<Team>;
       }),
       catchError((error) => {
@@ -121,11 +129,19 @@ export class TeamService {
     }).pipe(
       map(({ pageData, manifestPaths }) => {
         // Hydrate tags and overwrite DB path with physical path from manifest
-        pageData.content = pageData.content.map((Team: Team) => ({
-          ...Team,
-          path: manifestPaths.get(Team.name) || Team.primaryLogo?.path,
-          tags: this.tagService.getTeamTags(Team.id)
-        }));
+        pageData.content = pageData.content.map((Team: Team) => {
+          if (Team.historicalLogos) {
+            Team.historicalLogos = Team.historicalLogos.map(logo => ({
+              ...logo,
+              path: logo.path || manifestPaths.get(Team.name) || ''
+            }));
+          }
+          return {
+            ...Team,
+            path: Team.primaryLogo?.path || manifestPaths.get(Team.name),
+            tags: this.tagService.getTeamTags(Team.id)
+          };
+        });
         return pageData as Page<Team>;
       }),
       catchError((error) => {
@@ -145,6 +161,18 @@ export class TeamService {
 
   syncTeams(manifestData: any[]): Observable<{ message: string; addedCount: number }> {
     return this.http.post<{ message: string; addedCount: number }>(`${this.apiUrl}/sync`, manifestData);
+  }
+
+  addHistoricalLogo(teamId: string, logo: any): Observable<Team> {
+    return this.http.post<Team>(`${this.apiUrl}/${teamId}/historical-logos`, logo);
+  }
+
+  updateHistoricalLogo(teamId: string, logoId: string, logo: any): Observable<Team> {
+    return this.http.put<Team>(`${this.apiUrl}/${teamId}/historical-logos/${logoId}`, logo);
+  }
+
+  deleteHistoricalLogo(teamId: string, logoId: string): Observable<Team> {
+    return this.http.delete<Team>(`${this.apiUrl}/${teamId}/historical-logos/${logoId}`);
   }
 
   getLeagues(): Observable<League[]> {

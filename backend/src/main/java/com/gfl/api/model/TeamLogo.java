@@ -20,6 +20,8 @@ public class TeamLogo {
 
     private String name;
 
+    private String path;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     @com.fasterxml.jackson.annotation.JsonIgnore

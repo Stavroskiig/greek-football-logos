@@ -26,4 +26,5 @@ export interface TeamInfo {
     twitter?: string;
     instagram?: string;
   };
+  historicalLogos?: import('./logo').Logo[];
 } 

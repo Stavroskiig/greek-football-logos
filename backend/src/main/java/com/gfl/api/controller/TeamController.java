@@ -112,6 +112,33 @@ public class TeamController {
         }
     }
 
+    @PostMapping("/{id}/historical-logos")
+    public ResponseEntity<Team> addHistoricalLogo(@PathVariable String id, @RequestBody com.gfl.api.model.TeamLogo logo) {
+        try {
+            return ResponseEntity.ok(teamService.addHistoricalLogo(id, logo));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/{id}/historical-logos/{logoId}")
+    public ResponseEntity<Team> updateHistoricalLogo(@PathVariable String id, @PathVariable String logoId, @RequestBody com.gfl.api.model.TeamLogo logo) {
+        try {
+            return ResponseEntity.ok(teamService.updateHistoricalLogo(id, logoId, logo));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/{id}/historical-logos/{logoId}")
+    public ResponseEntity<Team> deleteHistoricalLogo(@PathVariable String id, @PathVariable String logoId) {
+        try {
+            return ResponseEntity.ok(teamService.deleteHistoricalLogo(id, logoId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping("/sync")
     public ResponseEntity<?> syncTeams(@RequestBody java.util.List<com.gfl.api.dto.LogoSyncDTO> manifestData) {
         try {

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Team } from '../../models/team';
 import { ModalService } from '../../services/modal.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-logo-item',
@@ -14,7 +15,11 @@ export class LogoItemComponent {
   @Input() logo!: Team;
   imageLoaded = false;
 
-  constructor(private modalService: ModalService) { }
+  constructor(private modalService: ModalService, private router: Router) { }
+
+  showTeamHistory() {
+    this.router.navigate(['/team', this.logo.id, 'history']);
+  }
 
   onImageLoad() {
     this.imageLoaded = true;
@@ -31,14 +36,19 @@ export class LogoItemComponent {
         name: this.logo.name,
         fullName: this.logo.name,
         path: this.logo.path || '',
-        founded: 0,
+        founded: this.logo.founded || 0,
         colors: {
-          primary: '#000000',
-          secondary: '#FFFFFF'
+          primary: this.logo.colors?.primary || '#000000',
+          secondary: this.logo.colors?.secondary || '#FFFFFF'
         },
-        stadium: { name: '', capacity: 0, location: '' },
-        history: '',
-        achievements: { leagueTitles: 0, cupTitles: 0 }
+        stadium: { 
+          name: this.logo.stadium?.name || '', 
+          capacity: this.logo.stadium?.capacity || 0, 
+          location: this.logo.stadium?.location || ''
+        },
+        history: this.logo.historyEn || '', // or historyEl
+        achievements: this.logo.achievements ? { leagueTitles: this.logo.achievements.championships || 0, cupTitles: this.logo.achievements.cups || 0 } : { leagueTitles: 0, cupTitles: 0 },
+        historicalLogos: this.logo.historicalLogos || []
       },
       logoPath: this.logo.path || ''
     });

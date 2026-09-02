@@ -1,0 +1,54 @@
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+  <!-- Back button -->
+  <a routerLink="/" class="inline-flex items-center justify-center px-5 py-2.5 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-full shadow-sm hover:shadow-md transition-all font-medium mb-8 group">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16" class="mr-2 transform group-hover:-translate-x-1 transition-transform">
+      <path fill="currentColor" fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+    </svg>
+    {{ 'common.back' | translate }}
+  </a>
+
+  <div *ngIf="loading" class="flex justify-center items-center py-20">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400"></div>
+  </div>
+
+  <div *ngIf="!loading && team" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+    <div class="flex items-center gap-6 mb-12 border-b border-gray-200 dark:border-gray-700 pb-8">
+      <img *ngIf="team.path" [src]="team.path" [alt]="team.name" class="w-32 h-32 object-contain drop-shadow-md">
+      <div>
+        <h1 class="text-4xl font-bold text-gray-800 dark:text-white m-0">{{ team.name }}</h1>
+        <p class="text-xl text-gray-500 dark:text-gray-400 mt-2">{{ 'details.historical_logos' | translate }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="!team.historicalLogos || team.historicalLogos.length === 0" class="text-center py-12 text-gray-500 dark:text-gray-400 text-lg">
+      No historical logos found for this team.
+    </div>
+
+    <div *ngIf="team.historicalLogos && team.historicalLogos.length > 0" class="relative">
+      <!-- Horizontal Timeline Container -->
+      <div class="flex overflow-x-auto gap-8 pb-8 pt-8 px-4 snap-x hide-scrollbar">
+        
+        <!-- Timeline Line -->
+        <div class="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 dark:bg-gray-700 -z-10 translate-y-[-50%] rounded-full"></div>
+
+        <!-- Timeline Items -->
+        <div *ngFor="let hLogo of team.historicalLogos" class="flex-none flex flex-col items-center bg-white dark:bg-gray-800 p-6 rounded-xl min-w-[220px] snap-center shadow-md border border-gray-100 dark:border-gray-700 relative group hover:-translate-y-2 transition-transform duration-300">
+          <!-- Year Badge -->
+          <div class="absolute -top-4 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-sm group-hover:bg-blue-500 transition-colors">
+            <ng-container *ngIf="!hLogo.startYear && !hLogo.endYear">Current</ng-container>
+            <ng-container *ngIf="hLogo.startYear || hLogo.endYear">
+              {{ hLogo.startYear || '?' }} - {{ hLogo.endYear || 'Present' }}
+            </ng-container>
+          </div>
+          
+          <img [src]="hLogo.path" [alt]="hLogo.name" class="w-32 h-32 object-contain mt-4 drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !team" class="text-center py-20 text-gray-500 text-xl">
+    Team not found.
+  </div>
+</div>

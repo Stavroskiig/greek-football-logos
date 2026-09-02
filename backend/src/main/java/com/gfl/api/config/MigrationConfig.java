@@ -71,18 +71,6 @@ public class MigrationConfig {
             } catch (Exception e) {
                 log.error("Failed to run league migration: ", e);
             }
-
-            try {
-                String checkPathSql = "SELECT column_name FROM information_schema.columns WHERE table_name='team_logo' AND column_name='path'";
-                List<String> pathColumns = jdbcTemplate.queryForList(checkPathSql, String.class);
-                if (pathColumns.contains("path")) {
-                    log.info("Found obsolete 'path' column. Dropping it...");
-                    jdbcTemplate.execute("ALTER TABLE team_logo DROP COLUMN path");
-                    log.info("Successfully dropped 'path' column.");
-                }
-            } catch (Exception e) {
-                log.error("Failed to drop obsolete path column: ", e);
-            }
         };
     }
 

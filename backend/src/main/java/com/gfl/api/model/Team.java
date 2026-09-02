@@ -43,6 +43,7 @@ public class Team {
     private TeamLogo primaryLogo;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("startYear ASC")
     private List<TeamLogo> historicalLogos = new ArrayList<>();
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)

@@ -77,6 +77,48 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
+    public Team addHistoricalLogo(String teamId, TeamLogo logo) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
+        
+        logo.setId(teamId + "-hist-" + java.util.UUID.randomUUID().toString().substring(0, 8));
+        logo.setTeam(team);
+        logo.setName(team.getName());
+        
+        if (team.getHistoricalLogos() == null) {
+            team.setHistoricalLogos(new java.util.ArrayList<>());
+        }
+        team.getHistoricalLogos().add(logo);
+        return teamRepository.save(team);
+    }
+
+    public Team updateHistoricalLogo(String teamId, String logoId, TeamLogo updatedLogo) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
+        
+        if (team.getHistoricalLogos() != null) {
+            for (TeamLogo logo : team.getHistoricalLogos()) {
+                if (logo.getId().equals(logoId)) {
+                    logo.setPath(updatedLogo.getPath());
+                    logo.setStartYear(updatedLogo.getStartYear());
+                    logo.setEndYear(updatedLogo.getEndYear());
+                    break;
+                }
+            }
+        }
+        return teamRepository.save(team);
+    }
+
+    public Team deleteHistoricalLogo(String teamId, String logoId) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
+        
+        if (team.getHistoricalLogos() != null) {
+            team.getHistoricalLogos().removeIf(logo -> logo.getId().equals(logoId));
+        }
+        return teamRepository.save(team);
+    }
+
     public void deleteTeam(String id) {
         teamRepository.deleteById(id);
     }
@@ -84,6 +126,8 @@ public class TeamService {
     public int syncTeamsFromManifest(List<com.gfl.api.dto.LogoSyncDTO> rawLogos) {
         int addedCount = 0;
         try {
+            java.util.Set<String> clearedTeams = new java.util.HashSet<>();
+
             for (com.gfl.api.dto.LogoSyncDTO rawLogo : rawLogos) {
                 String name = rawLogo.getName();
 
@@ -104,24 +148,51 @@ public class TeamService {
                 });
 
                 String id = generateId(name);
-                Team existingTeam = teamRepository.findById(id).orElse(null);
+                Team team = teamRepository.findById(id).orElse(null);
+                boolean isNewTeam = false;
 
-                if (existingTeam == null) {
-                    Team team = new Team();
+                if (team == null) {
+                    team = new Team();
                     team.setId(id);
                     team.setName(name);
                     team.setLeague(league);
-                    
-                    TeamLogo logo = new TeamLogo();
+                    isNewTeam = true;
+                }
+
+                if (!clearedTeams.contains(id)) {
+                    // We intentionally DO NOT clear historical logos here anymore!
+                    // This protects historical logos added via the Admin UI from being wiped during syncs.
+                    clearedTeams.add(id);
+                }
+
+                boolean isCurrent = rawLogo.getIsCurrent() != null ? rawLogo.getIsCurrent() : true;
+
+                if (isCurrent) {
+                    TeamLogo logo = team.getPrimaryLogo() != null ? team.getPrimaryLogo() : new TeamLogo();
                     logo.setId(id);
                     logo.setName(name);
+                    logo.setPath(rawLogo.getPath());
+                    logo.setStartYear(rawLogo.getStartYear());
+                    logo.setEndYear(rawLogo.getEndYear());
+                    logo.setTeam(team);
+                    team.setPrimaryLogo(logo);
+                } else {
+                    TeamLogo logo = new TeamLogo();
+                    logo.setId(id + "-hist-" + java.util.UUID.randomUUID().toString().substring(0, 8));
+                    logo.setName(name);
+                    logo.setPath(rawLogo.getPath());
+                    logo.setStartYear(rawLogo.getStartYear());
+                    logo.setEndYear(rawLogo.getEndYear());
                     logo.setTeam(team);
                     
-                    team.setPrimaryLogo(logo);
-                    
-                    teamRepository.save(team);
-                    addedCount++;
+                    if (team.getHistoricalLogos() == null) {
+                        team.setHistoricalLogos(new java.util.ArrayList<>());
+                    }
+                    team.getHistoricalLogos().add(logo);
                 }
+
+                teamRepository.save(team);
+                if (isNewTeam) addedCount++;
             }
             log.info("Successfully synced {} new teams.", addedCount);
         } catch (Exception e) {

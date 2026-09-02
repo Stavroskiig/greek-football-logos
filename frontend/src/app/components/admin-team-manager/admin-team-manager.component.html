@@ -98,6 +98,7 @@
             <button (click)="setTab('colors')" [class.border-blue-500]="activeTab === 'colors'" [class.text-blue-600]="activeTab === 'colors'" class="px-4 py-2 border-b-2 border-transparent hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">Colors</button>
             <button (click)="setTab('achievements')" [class.border-blue-500]="activeTab === 'achievements'" [class.text-blue-600]="activeTab === 'achievements'" class="px-4 py-2 border-b-2 border-transparent hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">Achievements</button>
             <button (click)="setTab('social')" [class.border-blue-500]="activeTab === 'social'" [class.text-blue-600]="activeTab === 'social'" class="px-4 py-2 border-b-2 border-transparent hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">Social</button>
+            <button (click)="setTab('history')" [class.border-blue-500]="activeTab === 'history'" [class.text-blue-600]="activeTab === 'history'" class="px-4 py-2 border-b-2 border-transparent hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">Historical Logos</button>
           </div>
 
           <!-- Form Content -->
@@ -188,6 +189,67 @@
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">YouTube URL</label>
                 <input type="text" [(ngModel)]="editingTeam.socialMedia!.youtube" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+              </div>
+            </div>
+
+            <!-- Historical Logos Tab -->
+            <div *ngIf="activeTab === 'history'" class="space-y-6">
+              
+              <!-- Existing Historical Logos -->
+              <div>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Existing Historical Logos</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div *ngFor="let hLogo of editingTeam.historicalLogos" class="relative bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-700 flex flex-col items-center">
+                    <img [src]="hLogo.path" [alt]="hLogo.name" class="w-16 h-16 object-contain mb-2" (error)="onImageError($event)">
+                    <div class="text-xs text-gray-500 dark:text-gray-400 text-center">
+                      <span *ngIf="hLogo.startYear || hLogo.endYear">{{ hLogo.startYear || '?' }} - {{ hLogo.endYear || 'Current' }}</span>
+                      <span *ngIf="!hLogo.startYear && !hLogo.endYear">Unknown Years</span>
+                    </div>
+                    <!-- Actions Buttons -->
+                    <div class="absolute top-2 right-2 flex gap-1">
+                      <!-- Edit Button -->
+                      <button (click)="editHistoricalLogo(hLogo)" class="w-6 h-6 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full flex items-center justify-center transition-colors">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                      </button>
+                      <!-- Delete Button -->
+                      <button (click)="deleteHistoricalLogo(hLogo.id)" class="w-6 h-6 bg-red-100 hover:bg-red-200 text-red-600 rounded-full flex items-center justify-center transition-colors">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div *ngIf="!editingTeam.historicalLogos || editingTeam.historicalLogos.length === 0" class="col-span-full text-sm text-gray-500 dark:text-gray-400 text-center py-4">
+                    No historical logos found.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Add/Edit New Historical Logo -->
+              <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">{{ editingHistoricalLogoId ? 'Edit Historical Logo' : 'Add New Historical Logo' }}</h3>
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Logo Path (URL or local path)</label>
+                    <input type="text" [(ngModel)]="newHistoricalLogo.path" (ngModelChange)="onPathChange($event)" placeholder="e.g. assets/logos/history/aek-1924_1929.png" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+                  </div>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Start Year</label>
+                      <input type="number" [(ngModel)]="newHistoricalLogo.startYear" placeholder="e.g. 1924" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">End Year</label>
+                      <input type="number" [(ngModel)]="newHistoricalLogo.endYear" placeholder="e.g. 1929" class="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg">
+                    </div>
+                  </div>
+                  <div class="flex justify-end gap-2">
+                    <button *ngIf="editingHistoricalLogoId" (click)="cancelEditHistoricalLogo()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-lg transition-colors">
+                      Cancel
+                    </button>
+                    <button (click)="saveHistoricalLogo()" [disabled]="!newHistoricalLogo.path || isSaving" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                      {{ isSaving ? 'Saving...' : (editingHistoricalLogoId ? 'Update Logo' : 'Add Logo') }}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 

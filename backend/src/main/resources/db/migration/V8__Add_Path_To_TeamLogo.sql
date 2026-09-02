@@ -1,0 +1,1 @@
+ALTER TABLE team_logo ADD COLUMN path VARCHAR(255);

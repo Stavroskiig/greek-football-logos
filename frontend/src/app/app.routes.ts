@@ -40,5 +40,6 @@ export const routes: Routes = [
       { path: 'leagues', loadComponent: () => import('./components/league-manager/league-manager.component').then(m => m.LeagueManagerComponent) }
     ]
   },
+  { path: 'team/:id/history', loadComponent: () => import('./components/team-history/team-history.component').then(m => m.TeamHistoryComponent) },
   { path: '**', redirectTo: '' }
 ];

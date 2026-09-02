@@ -1,5 +1,13 @@
 [
   {
+    "name": "ΑΕΚ",
+    "path": "https://placehold.co/150x150/ffcc00/000000?text=AEK+1924",
+    "league": "SUPERLEAGUE",
+    "isCurrent": false,
+    "startYear": 1924,
+    "endYear": 1929
+  },
+  {
     "name": "ΑΓΣ ΑΣΤΕΡΑΣ ΤΡΙΠΟΛΗΣ",
     "path": "assets/logos/SUPERLEAGUE/ΑΓΣ ΑΣΤΕΡΑΣ ΤΡΙΠΟΛΗΣ.png",
     "league": "SUPERLEAGUE"
@@ -137,6 +145,11 @@
   {
     "name": "ΠΑΟΚ Β",
     "path": "assets/logos/SUPERLEAGUE 2/ΠΑΟΚ Β.png",
+    "league": "SUPERLEAGUE 2"
+  },
+  {
+    "name": "ΠΑΣ ΠΥΡΓΟΣ 1968 ΟΛΔ",
+    "path": "assets/logos/SUPERLEAGUE 2/ΠΑΣ ΠΥΡΓΟΣ 1968-ΟΛΔ.png",
     "league": "SUPERLEAGUE 2"
   },
   {
@@ -9595,6 +9608,11 @@
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
+    "name": "ΑΟ ΙΣΤΟΡΙΚΟΣ ΑΡΗΣ ΠΑΛΑΙΟΧΩΡΙΟΥ",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΟ ΙΣΤΟΡΙΚΟΣ ΑΡΗΣ ΠΑΛΑΙΟΧΩΡΙΟΥ.png",
+    "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
+  },
+  {
     "name": "ΑΟ ΣΑΡΤΗΣ",
     "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΟ ΣΑΡΤΗΣ.png",
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
@@ -9680,6 +9698,11 @@
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
+    "name": "ΑΣ ΕΛΠΙΣ ΒΡΑΣΤΑΜΩΝ 2026",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΣ ΕΛΠΙΣ ΒΡΑΣΤΑΜΩΝ 2026.png",
+    "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
+  },
+  {
     "name": "ΑΣ ΗΡΑΚΛΗΣ ΜΕΓΑΛΗΣ ΠΑΝΑΓΙΑΣ",
     "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΣ ΗΡΑΚΛΗΣ ΜΕΓΑΛΗΣ ΠΑΝΑΓΙΑΣ.png",
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
@@ -9762,6 +9785,11 @@
   {
     "name": "ΑΣΠ ΑΕΤΟΣ ΦΟΥΡΚΑΣ",
     "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΣΠ ΑΕΤΟΣ ΦΟΥΡΚΑΣ.png",
+    "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
+  },
+  {
+    "name": "ΑΣΤΕΡΑΣ ΝΕΩΝ ΣΙΛΑΤΩΝ 2026",
+    "path": "assets/logos/ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ/ΑΣΤΕΡΑΣ ΝΕΩΝ ΣΙΛΑΤΩΝ 2026.png",
     "league": "ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ"
   },
   {
