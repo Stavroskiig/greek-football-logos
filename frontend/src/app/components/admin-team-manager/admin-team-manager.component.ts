@@ -6,6 +6,8 @@ import { TeamService } from '../../services/team.service';
 import { StadiumService } from '../../services/stadium.service';
 import { Team, Stadium } from '../../models/team';
 import { League } from '../../models/league';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-team-manager',
@@ -16,7 +18,6 @@ import { League } from '../../models/league';
 })
 export class AdminTeamManagerComponent implements OnInit {
   teams: Team[] = [];
-  filteredTeams: Team[] = [];
   stadiums: Stadium[] = [];
   selectedTeam: Team | null = null;
   editingTeam: Team | null = null;
@@ -27,6 +28,12 @@ export class AdminTeamManagerComponent implements OnInit {
   isLeagueDropdownOpen: boolean = false;
   showSavedMessage: boolean = false;
   activeTab: 'general' | 'stadium' | 'colors' | 'achievements' | 'social' | 'history' = 'general';
+
+  currentPage: number = 0;
+  pageSize: number = 50;
+  totalPages: number = 0;
+  totalElements: number = 0;
+  private searchSubject = new Subject<string>();
 
   // Historical Logos form state
   newHistoricalLogo: any = {
@@ -45,16 +52,29 @@ export class AdminTeamManagerComponent implements OnInit {
   ngOnInit() {
     this.loadData();
     this.loadStadiums();
+
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(searchTerm => {
+      this.searchTerm = searchTerm;
+      this.currentPage = 0;
+      this.loadTeams();
+    });
   }
 
   loadData() {
-    this.teamService.getTeamsManifest().subscribe(teams => {
-      this.teams = teams;
-      this.filteredTeams = teams;
-    });
-
+    this.loadTeams();
     this.teamService.getLeagues().subscribe(leagues => {
       this.leagues = leagues;
+    });
+  }
+
+  loadTeams() {
+    this.teamService.getTeams(this.selectedLeague, this.searchTerm, this.currentPage, this.pageSize).subscribe(page => {
+      this.teams = page.content;
+      this.totalPages = page.totalPages;
+      this.totalElements = page.totalElements;
     });
   }
 
@@ -65,22 +85,21 @@ export class AdminTeamManagerComponent implements OnInit {
     });
   }
 
+  onSearchInput(event: any) {
+    this.searchSubject.next(event.target.value);
+  }
+
   filterTeams() {
-    let filtered = this.teams;
+    this.currentPage = 0;
+    this.loadTeams();
+  }
 
-    if (this.selectedLeague) {
-      filtered = filtered.filter(team => team.league?.id === this.selectedLeague);
+  changePage(delta: number) {
+    const newPage = this.currentPage + delta;
+    if (newPage >= 0 && newPage < this.totalPages) {
+      this.currentPage = newPage;
+      this.loadTeams();
     }
-
-    if (this.searchTerm.trim()) {
-      const term = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(team =>
-        team.name.toLowerCase().includes(term) ||
-        (team.league && team.league.name.toLowerCase().includes(term))
-      );
-    }
-
-    this.filteredTeams = filtered;
   }
 
   toggleLeagueDropdown() {
@@ -157,7 +176,6 @@ export class AdminTeamManagerComponent implements OnInit {
             updatedTeam.path = this.teams[index].path;
             this.teams[index] = updatedTeam;
           }
-          this.filterTeams();
           this.selectTeam(updatedTeam);
           this.showSavedIndicator();
         },
@@ -232,7 +250,6 @@ export class AdminTeamManagerComponent implements OnInit {
             updatedTeam.path = this.teams[index].path;
             this.teams[index] = updatedTeam;
           }
-          this.filterTeams();
           this.selectTeam(updatedTeam);
           this.showSavedIndicator();
           // Reset form
@@ -262,7 +279,6 @@ export class AdminTeamManagerComponent implements OnInit {
               updatedTeam.path = this.teams[index].path;
               this.teams[index] = updatedTeam;
             }
-            this.filterTeams();
             this.selectTeam(updatedTeam);
             this.showSavedIndicator();
           },
