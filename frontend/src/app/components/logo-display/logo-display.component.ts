@@ -31,11 +31,14 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   totalElements: number = 0;
 
+  showHistoryBanner: boolean = true;
+
   private destroy$ = new Subject<void>();
   private searchSubject = new Subject<string>();
   private logoSubscription?: Subscription;
 
   private readonly STORAGE_KEY = 'gfl_selected_league';
+  private readonly BANNER_STORAGE_KEY = 'historyBannerDismissed';
 
   constructor(
     private TeamService: TeamService,
@@ -46,6 +49,11 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
       const savedLeague = localStorage.getItem(this.STORAGE_KEY);
       if (savedLeague !== null) {
         this.selectedLeague = savedLeague;
+      }
+      
+      const bannerDismissed = localStorage.getItem(this.BANNER_STORAGE_KEY);
+      if (bannerDismissed === 'true') {
+        this.showHistoryBanner = false;
       }
     }
 
@@ -150,6 +158,13 @@ export class LogoDisplayComponent implements OnInit, OnDestroy {
   
   refreshData() {
     this.loadLogos(true, true);
+  }
+
+  dismissHistoryBanner() {
+    this.showHistoryBanner = false;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.BANNER_STORAGE_KEY, 'true');
+    }
   }
 
   clearAllFilters() {
