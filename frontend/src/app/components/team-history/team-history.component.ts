@@ -46,4 +46,19 @@ export class TeamHistoryComponent implements OnInit {
       this.loading = false;
     });
   }
+
+  get chunkedLogos() {
+    if (!this.team || !this.team.historicalLogos) return [];
+    
+    const chunkSize = 4;
+    const chunks = [];
+    for (let i = 0; i < this.team.historicalLogos.length; i += chunkSize) {
+      chunks.push(this.team.historicalLogos.slice(i, i + chunkSize));
+    }
+    return chunks;
+  }
+
+  getEmptySlots(count: number): number[] {
+    return new Array(Math.max(0, count)).fill(0);
+  }
 }

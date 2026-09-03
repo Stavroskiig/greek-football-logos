@@ -1,11 +1,88 @@
 [
   {
-    "name": "ΑΕΚ",
-    "path": "https://placehold.co/150x150/ffcc00/000000?text=AEK+1924",
-    "league": "SUPERLEAGUE",
-    "isCurrent": false,
-    "startYear": 1924,
-    "endYear": 1929
+    "name": "ΑΓΣ ΑΣΤΕΡΑΣ ΤΡΙΠΟΛΗΣ 1931_2009",
+    "path": "assets/logos/history/ΑΓΣ ΑΣΤΕΡΑΣ ΤΡΙΠΟΛΗΣ-1931_2009.png",
+    "league": "history"
+  },
+  {
+    "name": "ΑΓΣ ΑΣΤΕΡΑΣ ΤΡΙΠΟΛΗΣ 2009_2020",
+    "path": "assets/logos/history/ΑΓΣ ΑΣΤΕΡΑΣ ΤΡΙΠΟΛΗΣ-2009_2020.png",
+    "league": "history"
+  },
+  {
+    "name": "ΑΕ ΚΗΦΙΣΙΑ 2012_2021",
+    "path": "assets/logos/history/ΑΕ ΚΗΦΙΣΙΑ-2012_2021.png",
+    "league": "history"
+  },
+  {
+    "name": "ΑΕ ΚΗΦΙΣΙΑ 2020_2021",
+    "path": "assets/logos/history/ΑΕ ΚΗΦΙΣΙΑ-2020_2021.png",
+    "league": "history"
+  },
+  {
+    "name": "ΑΕ ΚΗΦΙΣΙΑ 2021_2024",
+    "path": "assets/logos/history/ΑΕ ΚΗΦΙΣΙΑ-2021_2024.png",
+    "league": "history"
+  },
+  {
+    "name": "ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ 1926_1970",
+    "path": "assets/logos/history/ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ-1926_1970.png",
+    "league": "history"
+  },
+  {
+    "name": "ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ 1970_1985",
+    "path": "assets/logos/history/ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ-1970_1985.png",
+    "league": "history"
+  },
+  {
+    "name": "ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ 1985_2009",
+    "path": "assets/logos/history/ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ-1985_2009.png",
+    "league": "history"
+  },
+  {
+    "name": "ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ 2009_2016",
+    "path": "assets/logos/history/ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ-2009_2016.png",
+    "league": "history"
+  },
+  {
+    "name": "ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ 2016_2020",
+    "path": "assets/logos/history/ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ-2016_2020.png",
+    "league": "history"
+  },
+  {
+    "name": "ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ 2026_2027",
+    "path": "assets/logos/history/ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ-2026_2027.png",
+    "league": "history"
+  },
+  {
+    "name": "ΜΓΣ ΟΡΦΕΑΣ ΕΛΕΥΘΕΡΟΥΠΟΛΗΣ 1925_2024",
+    "path": "assets/logos/history/ΜΓΣ ΟΡΦΕΑΣ ΕΛΕΥΘΕΡΟΥΠΟΛΗΣ-1925_2024.png",
+    "league": "history"
+  },
+  {
+    "name": "ΟΦΗ 1925_1980",
+    "path": "assets/logos/history/ΟΦΗ-1925_1980.png",
+    "league": "history"
+  },
+  {
+    "name": "ΟΦΗ 1980_2016",
+    "path": "assets/logos/history/ΟΦΗ-1980_2016.png",
+    "league": "history"
+  },
+  {
+    "name": "ΟΦΗ 2016_2020",
+    "path": "assets/logos/history/ΟΦΗ-2016_2020.png",
+    "league": "history"
+  },
+  {
+    "name": "ΟΦΗ 2020_2026",
+    "path": "assets/logos/history/ΟΦΗ-2020_2026.png",
+    "league": "history"
+  },
+  {
+    "name": "ΠΑΣ ΠΥΡΓΟΣ 1968 2025_2026",
+    "path": "assets/logos/history/ΠΑΣ ΠΥΡΓΟΣ 1968-2025_2026.png",
+    "league": "history"
   },
   {
     "name": "ΑΓΣ ΑΣΤΕΡΑΣ ΤΡΙΠΟΛΗΣ",
@@ -145,11 +222,6 @@
   {
     "name": "ΠΑΟΚ Β",
     "path": "assets/logos/SUPERLEAGUE 2/ΠΑΟΚ Β.png",
-    "league": "SUPERLEAGUE 2"
-  },
-  {
-    "name": "ΠΑΣ ΠΥΡΓΟΣ 1968 ΟΛΔ",
-    "path": "assets/logos/SUPERLEAGUE 2/ΠΑΣ ΠΥΡΓΟΣ 1968-ΟΛΔ.png",
     "league": "SUPERLEAGUE 2"
   },
   {
@@ -3463,6 +3535,11 @@
     "league": "ΕΠΣ ΕΒΡΟΥ"
   },
   {
+    "name": "ΑΟ ΣΑΜΟΘΡΑΚΗΣ",
+    "path": "assets/logos/ΕΠΣ ΕΒΡΟΥ/ΑΟ ΣΑΜΟΘΡΑΚΗΣ.png",
+    "league": "ΕΠΣ ΕΒΡΟΥ"
+  },
+  {
     "name": "ΑΠΣ ΔΟΞΑ ΣΤΕΡΝΑΣ",
     "path": "assets/logos/ΕΠΣ ΕΒΡΟΥ/ΑΠΣ ΔΟΞΑ ΣΤΕΡΝΑΣ.png",
     "league": "ΕΠΣ ΕΒΡΟΥ"
@@ -5245,11 +5322,6 @@
   {
     "name": "ΜΓΣ ΜΑΚΕΔΟΝΙΚΟΣ ΑΓΙΑΣΜΑΤΟΣ",
     "path": "assets/logos/ΕΠΣ ΚΑΒΑΛΑΣ/ΜΓΣ ΜΑΚΕΔΟΝΙΚΟΣ ΑΓΙΑΣΜΑΤΟΣ.png",
-    "league": "ΕΠΣ ΚΑΒΑΛΑΣ"
-  },
-  {
-    "name": "ΜΓΣ ΟΡΦΕΑΣ ΕΛΕΥΘΕΡΟΥΠΟΛΗΣ 100",
-    "path": "assets/logos/ΕΠΣ ΚΑΒΑΛΑΣ/ΜΓΣ ΟΡΦΕΑΣ ΕΛΕΥΘΕΡΟΥΠΟΛΗΣ 100.png",
     "league": "ΕΠΣ ΚΑΒΑΛΑΣ"
   },
   {

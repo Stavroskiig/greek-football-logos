@@ -24,28 +24,80 @@
       No historical logos found for this team.
     </div>
 
-    <div *ngIf="team.historicalLogos && team.historicalLogos.length > 0" class="relative">
-      <!-- Horizontal Timeline Container -->
-      <div class="flex overflow-x-auto gap-8 pb-8 pt-8 px-4 snap-x hide-scrollbar">
-        
-        <!-- Timeline Line -->
-        <div class="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 dark:bg-gray-700 -z-10 translate-y-[-50%] rounded-full"></div>
+    <div *ngIf="team.historicalLogos && team.historicalLogos.length > 0" class="mt-12">
+      
+      <!-- DESKTOP SNEAKING TIMELINE (md and up) -->
+      <div class="hidden md:flex flex-col items-center mx-auto">
+        <ng-container *ngFor="let chunk of chunkedLogos; let r = index; let lastRow = last">
+          
+          <!-- Row of Cards -->
+          <div class="flex items-center w-[944px]" [ngClass]="{'flex-row': r % 2 === 0, 'flex-row-reverse': r % 2 !== 0}">
+            <ng-container *ngFor="let hLogo of chunk; let i = index; let lastItem = last">
+              
+              <!-- Card -->
+              <div class="flex flex-col items-center p-5 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 transition-all duration-300 ease-in-out w-[200px] flex-shrink-0 relative hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-gray-900/50 group">
+                <div class="w-32 h-32 flex items-center justify-center mb-5">
+                  <img [src]="hLogo.path" [alt]="hLogo.name" class="max-w-full max-h-full object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-300">
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-1.5 rounded-full text-sm font-semibold text-center w-full truncate shadow-inner">
+                  <ng-container *ngIf="!hLogo.startYear && !hLogo.endYear">Current</ng-container>
+                  <ng-container *ngIf="hLogo.startYear || hLogo.endYear">
+                    {{ hLogo.startYear || '?' }} - {{ hLogo.endYear || 'Present' }}
+                  </ng-container>
+                </div>
+              </div>
 
-        <!-- Timeline Items -->
-        <div *ngFor="let hLogo of team.historicalLogos" class="flex-none flex flex-col items-center bg-white dark:bg-gray-800 p-6 rounded-xl min-w-[220px] snap-center shadow-md border border-gray-100 dark:border-gray-700 relative group hover:-translate-y-2 transition-transform duration-300">
-          <!-- Year Badge -->
-          <div class="absolute -top-4 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-sm group-hover:bg-blue-500 transition-colors">
-            <ng-container *ngIf="!hLogo.startYear && !hLogo.endYear">Current</ng-container>
-            <ng-container *ngIf="hLogo.startYear || hLogo.endYear">
-              {{ hLogo.startYear || '?' }} - {{ hLogo.endYear || 'Present' }}
+              <!-- Connecting Arrow (Horizontal) -->
+              <div *ngIf="!lastItem" class="w-8 flex-shrink-0 mx-2 flex justify-center text-gray-300 dark:text-gray-600 animate-pulse">
+                <svg *ngIf="r % 2 === 0" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                <svg *ngIf="r % 2 !== 0" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+              </div>
+            </ng-container>
+
+            <!-- Fill remaining space if chunk has fewer than 4 items to keep exact alignment -->
+            <ng-container *ngFor="let empty of getEmptySlots(4 - chunk.length)">
+              <!-- Filler Arrow -->
+              <div class="w-8 flex-shrink-0 mx-2 opacity-0 pointer-events-none"></div>
+              <!-- Filler Card -->
+              <div class="w-[200px] flex-shrink-0 opacity-0 pointer-events-none"></div>
             </ng-container>
           </div>
-          
-          <img [src]="hLogo.path" [alt]="hLogo.name" class="w-32 h-32 object-contain mt-4 drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
-        </div>
 
+          <!-- Connecting Arrow (Vertical) between rows -->
+          <div *ngIf="!lastRow" class="flex w-[944px]" [ngClass]="{'justify-end': r % 2 === 0, 'justify-start': r % 2 !== 0}">
+            <div class="w-[200px] flex justify-center text-gray-300 dark:text-gray-600 animate-pulse pt-4 pb-4">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
+          </div>
+        </ng-container>
       </div>
+
+      <!-- MOBILE VERTICAL TIMELINE (sm and down) -->
+      <div class="flex md:hidden flex-col items-center gap-y-4">
+        <ng-container *ngFor="let hLogo of team.historicalLogos; let lastItem = last">
+          <!-- Card -->
+          <div class="flex flex-col items-center p-5 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 w-[240px] relative">
+            <div class="w-32 h-32 flex items-center justify-center mb-5">
+              <img [src]="hLogo.path" [alt]="hLogo.name" class="max-w-full max-h-full object-contain drop-shadow-md">
+            </div>
+            <div class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-1.5 rounded-full text-sm font-semibold text-center w-full truncate shadow-inner">
+              <ng-container *ngIf="!hLogo.startYear && !hLogo.endYear">Current</ng-container>
+              <ng-container *ngIf="hLogo.startYear || hLogo.endYear">
+                {{ hLogo.startYear || '?' }} - {{ hLogo.endYear || 'Present' }}
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- Vertical Down Arrow -->
+          <div *ngIf="!lastItem" class="text-gray-300 dark:text-gray-600 animate-pulse py-2">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+          </div>
+        </ng-container>
+      </div>
+      
     </div>
+
+
   </div>
 
   <div *ngIf="!loading && !team" class="text-center py-20 text-gray-500 text-xl">
