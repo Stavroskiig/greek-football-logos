@@ -17,7 +17,68 @@ export class AdminLogoUploadComponent implements OnInit {
   imagePreviewUrl: string | null = null;
   imageDimensions: { width: number; height: number } | null = null;
 
-  availableFolders: string[] = [];
+  static readonly DEFAULT_FOLDERS: string[] = [
+    'SUPERLEAGUE',
+    'SUPERLEAGUE 2',
+    'Γ ΕΘΝΙΚΗ',
+    'history',
+    'women',
+    'ΕΠΣ ΑΘΗΝΩΝ',
+    'ΕΠΣ ΑΙΤΩΛΟΑΚΑΡΝΑΝΙΑΣ',
+    'ΕΠΣ ΑΝΑΤΟΛΙΚΗΣ ΑΤΤΙΚΗΣ',
+    'ΕΠΣ ΑΡΓΟΛΙΔΑΣ',
+    'ΕΠΣ ΑΡΚΑΔΙΑΣ',
+    'ΕΠΣ ΑΡΤΑΣ',
+    'ΕΠΣ ΑΧΑΪΑΣ',
+    'ΕΠΣ ΒΟΙΩΤΙΑΣ',
+    'ΕΠΣ ΓΡΕΒΕΝΩΝ',
+    'ΕΠΣ ΔΡΑΜΑΣ',
+    'ΕΠΣ ΔΥΤΙΚΗΣ ΑΤΤΙΚΗΣ',
+    'ΕΠΣ ΔΩΔΕΚΑΝΗΣΟΥ',
+    'ΕΠΣ ΕΒΡΟΥ',
+    'ΕΠΣ ΕΥΒΟΙΑΣ',
+    'ΕΠΣ ΕΥΡΥΤΑΝΙΑΣ',
+    'ΕΠΣ ΖΑΚΥΝΘΟΥ',
+    'ΕΠΣ ΗΛΕΙΑΣ',
+    'ΕΠΣ ΗΜΑΘΙΑΣ',
+    'ΕΠΣ ΗΠΕΙΡΟΥ',
+    'ΕΠΣ ΗΡΑΚΛΕΙΟΥ',
+    'ΕΠΣ ΘΕΣΠΡΩΤΙΑΣ',
+    'ΕΠΣ ΘΕΣΣΑΛΙΑΣ',
+    'ΕΠΣ ΘΡΑΚΗΣ',
+    'ΕΠΣ ΚΑΒΑΛΑΣ',
+    'ΕΠΣ ΚΑΡΔΙΤΣΑΣ',
+    'ΕΠΣ ΚΑΣΤΟΡΙΑΣ',
+    'ΕΠΣ ΚΕΡΚΥΡΑΣ',
+    'ΕΠΣ ΚΕΦΑΛΛΗΝΙΑΣ-ΙΘΑΚΗΣ',
+    'ΕΠΣ ΚΙΛΚΙΣ',
+    'ΕΠΣ ΚΟΖΑΝΗΣ',
+    'ΕΠΣ ΚΟΡΙΝΘΙΑΣ',
+    'ΕΠΣ ΚΥΚΛΑΔΩΝ',
+    'ΕΠΣ ΛΑΚΩΝΙΑΣ',
+    'ΕΠΣ ΛΑΡΙΣΑΣ',
+    'ΕΠΣ ΛΑΣΙΘΙΟΥ',
+    'ΕΠΣ ΛΕΣΒΟΥ-ΛΗΜΝΟΥ',
+    'ΕΠΣ ΜΑΚΕΔΟΝΙΑΣ',
+    'ΕΠΣ ΜΕΣΣΗΝΙΑΣ',
+    'ΕΠΣ ΞΑΝΘΗΣ',
+    'ΕΠΣ ΠΕΙΡΑΙΑ',
+    'ΕΠΣ ΠΕΛΛΑΣ',
+    'ΕΠΣ ΠΙΕΡΙΑΣ',
+    'ΕΠΣ ΠΡΕΒΕΖΑΣ-ΛΕΥΚΑΔΑΣ',
+    'ΕΠΣ ΡΕΘΥΜΝΟΥ',
+    'ΕΠΣ ΣΑΜΟΥ',
+    'ΕΠΣ ΣΕΡΡΩΝ',
+    'ΕΠΣ ΤΡΙΚΑΛΩΝ',
+    'ΕΠΣ ΦΘΙΩΤΙΔΑΣ',
+    'ΕΠΣ ΦΛΩΡΙΝΑΣ',
+    'ΕΠΣ ΦΩΚΙΔΑΣ',
+    'ΕΠΣ ΧΑΛΚΙΔΙΚΗΣ',
+    'ΕΠΣ ΧΑΝΙΩΝ',
+    'ΕΠΣ ΧΙΟΥ'
+  ];
+
+  availableFolders: string[] = [...AdminLogoUploadComponent.DEFAULT_FOLDERS];
   selectedFolder: string = 'SUPERLEAGUE';
   customFolder: string = '';
   isCustomFolder: boolean = false;
@@ -54,14 +115,14 @@ export class AdminLogoUploadComponent implements OnInit {
   loadFolders(): void {
     this.logoUploadService.getAvailableFolders().subscribe({
       next: (folders: string[]) => {
-        this.availableFolders = folders;
-        if (folders.length > 0 && !this.selectedFolder) {
-          this.selectedFolder = folders[0];
+        if (folders && folders.length > 0) {
+          // Merge unique folders from server with default list
+          const set = new Set<string>([...folders, ...AdminLogoUploadComponent.DEFAULT_FOLDERS]);
+          this.availableFolders = Array.from(set);
         }
       },
       error: (err: any) => {
-        console.warn('Could not load dynamic folders, using default list', err);
-        this.availableFolders = ['SUPERLEAGUE', 'SUPERLEAGUE 2', 'Γ ΕΘΝΙΚΗ', 'history', 'women', 'ΕΠΣ ΑΘΗΝΩΝ', 'ΕΠΣ ΠΕΙΡΑΙΑ'];
+        console.warn('Could not load dynamic folders from API, keeping full default list', err);
       }
     });
   }
