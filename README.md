@@ -1,5 +1,8 @@
 # GreekFootballLogos
 
+> 🚀 **New to the project or on a new computer?**  
+> Check out the step-by-step **[Developer Setup Guide](file:///c:/Users/stavr/Documents/GitHub/greek-football-logos/DEVELOPER_SETUP.md)** to install dependencies, run the frontend, configure the backend, and get started!
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
 
 ## Development server

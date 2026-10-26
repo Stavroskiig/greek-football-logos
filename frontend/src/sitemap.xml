@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://greek-football-logos.site/</loc>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -25,6 +25,14 @@
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/history/%CE%91%CE%95%20%CE%9A%CE%97%CE%A6%CE%99%CE%A3%CE%99%CE%91-2021_2024.png</image:loc>
       <image:title>ΑΕ ΚΗΦΙΣΙΑ 2021_2024 Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/history/%CE%93%CE%A3%20%CE%97%CE%A1%CE%91%CE%9A%CE%9B%CE%97%CE%A3%20%CE%98%CE%95%CE%A3%CE%A3%CE%91%CE%9B%CE%9F%CE%9D%CE%99%CE%9A%CE%97%CE%A3-1908_1997.png</image:loc>
+      <image:title>ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ 1908_1997 Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/history/%CE%93%CE%A3%20%CE%97%CE%A1%CE%91%CE%9A%CE%9B%CE%97%CE%A3%20%CE%98%CE%95%CE%A3%CE%A3%CE%91%CE%9B%CE%9F%CE%9D%CE%99%CE%9A%CE%97%CE%A3-1997_2000.png</image:loc>
+      <image:title>ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ 1997_2000 Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/history/%CE%93%CE%A6%CE%A3%20%CE%A0%CE%91%CE%9D%CE%91%CE%99%CE%A4%CE%A9%CE%9B%CE%99%CE%9A%CE%9F%CE%A3-1926_1970.png</image:loc>
@@ -69,6 +77,10 @@
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/history/%CE%9F%CE%A6%CE%97-2020_2026.png</image:loc>
       <image:title>ΟΦΗ 2020_2026 Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/history/%CE%A0%CE%91%CE%9F%20%CE%97%CE%A1%CE%91%CE%9A%CE%9B%CE%97%CE%A3%20%CE%9E%CE%A5%CE%9B%CE%9F%CE%9A%CE%91%CE%A3%CE%A4%CE%A1%CE%9F%CE%A5-1928_2026.png</image:loc>
+      <image:title>ΠΑΟ ΗΡΑΚΛΗΣ ΞΥΛΟΚΑΣΤΡΟΥ 1928_2026 Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/history/%CE%A0%CE%91%CE%A3%20%CE%A0%CE%A5%CE%A1%CE%93%CE%9F%CE%A3%201968-2025_2026.png</image:loc>
@@ -8205,19 +8217,19 @@
   </url>
   <url>
     <loc>https://greek-football-logos.site/misc</loc>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://greek-football-logos.site/tag-manager</loc>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://greek-football-logos.site/collections</loc>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

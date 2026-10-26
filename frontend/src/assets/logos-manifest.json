@@ -25,6 +25,16 @@
     "league": "history"
   },
   {
+    "name": "ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ 1908_1997",
+    "path": "assets/logos/history/ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ-1908_1997.png",
+    "league": "history"
+  },
+  {
+    "name": "ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ 1997_2000",
+    "path": "assets/logos/history/ΓΣ ΗΡΑΚΛΗΣ ΘΕΣΣΑΛΟΝΙΚΗΣ-1997_2000.png",
+    "league": "history"
+  },
+  {
     "name": "ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ 1926_1970",
     "path": "assets/logos/history/ΓΦΣ ΠΑΝΑΙΤΩΛΙΚΟΣ-1926_1970.png",
     "league": "history"
@@ -77,6 +87,11 @@
   {
     "name": "ΟΦΗ 2020_2026",
     "path": "assets/logos/history/ΟΦΗ-2020_2026.png",
+    "league": "history"
+  },
+  {
+    "name": "ΠΑΟ ΗΡΑΚΛΗΣ ΞΥΛΟΚΑΣΤΡΟΥ 1928_2026",
+    "path": "assets/logos/history/ΠΑΟ ΗΡΑΚΛΗΣ ΞΥΛΟΚΑΣΤΡΟΥ-1928_2026.png",
     "league": "history"
   },
   {

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../services/admin.service';
 import { TeamService } from '../../services/team.service';
 import { StadiumService } from '../../services/stadium.service';
+import { LogoUploadService } from '../../services/logo-upload.service';
 import { Team, Stadium } from '../../models/team';
 import { League } from '../../models/league';
 import { Subject } from 'rxjs';
@@ -42,11 +43,13 @@ export class AdminTeamManagerComponent implements OnInit {
     endYear: null
   };
   editingHistoricalLogoId: string | null = null;
+  isUploadingHistoricalLogo: boolean = false;
 
   constructor(
     private adminService: AdminService,
     private teamService: TeamService,
-    private stadiumService: StadiumService
+    private stadiumService: StadiumService,
+    private logoUploadService: LogoUploadService
   ) {}
 
   ngOnInit() {
@@ -56,7 +59,7 @@ export class AdminTeamManagerComponent implements OnInit {
     this.searchSubject.pipe(
       debounceTime(300),
       distinctUntilChanged()
-    ).subscribe(searchTerm => {
+    ).subscribe((searchTerm: string) => {
       this.searchTerm = searchTerm;
       this.currentPage = 0;
       this.loadTeams();
@@ -65,13 +68,13 @@ export class AdminTeamManagerComponent implements OnInit {
 
   loadData() {
     this.loadTeams();
-    this.teamService.getLeagues().subscribe(leagues => {
+    this.teamService.getLeagues().subscribe((leagues: League[]) => {
       this.leagues = leagues;
     });
   }
 
   loadTeams() {
-    this.teamService.getTeams(this.selectedLeague, this.searchTerm, this.currentPage, this.pageSize).subscribe(page => {
+    this.teamService.getTeams(this.selectedLeague, this.searchTerm, this.currentPage, this.pageSize).subscribe((page: any) => {
       this.teams = page.content;
       this.totalPages = page.totalPages;
       this.totalElements = page.totalElements;
@@ -80,8 +83,8 @@ export class AdminTeamManagerComponent implements OnInit {
 
   loadStadiums() {
     this.stadiumService.getStadiums().subscribe({
-      next: (stadiums) => this.stadiums = stadiums,
-      error: (err) => console.error('Error loading stadiums', err)
+      next: (stadiums: Stadium[]) => this.stadiums = stadiums,
+      error: (err: any) => console.error('Error loading stadiums', err)
     });
   }
 
@@ -161,7 +164,7 @@ export class AdminTeamManagerComponent implements OnInit {
       this.isSaving = true;
       this.isSaved = false;
       this.teamService.updateTeam(this.editingTeam.id, this.editingTeam).subscribe({
-        next: (updatedTeam) => {
+        next: (updatedTeam: Team) => {
           this.isSaving = false;
           this.isSaved = true;
           // Revert back to normal state after 2 seconds
@@ -179,7 +182,7 @@ export class AdminTeamManagerComponent implements OnInit {
           this.selectTeam(updatedTeam);
           this.showSavedIndicator();
         },
-        error: (err) => {
+        error: (err: any) => {
           this.isSaving = false;
           console.error('Error saving team', err);
           alert('Failed to save team changes.');
@@ -240,10 +243,10 @@ export class AdminTeamManagerComponent implements OnInit {
         : this.teamService.addHistoricalLogo(this.editingTeam.id, this.newHistoricalLogo);
 
       request$.subscribe({
-        next: (updatedTeam) => {
+        next: (updatedTeam: Team) => {
           this.isSaving = false;
           if (updatedTeam.historicalLogos) {
-            updatedTeam.historicalLogos.sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
+            updatedTeam.historicalLogos.sort((a: any, b: any) => (a.startYear || 0) - (b.startYear || 0));
           }
           const index = this.teams.findIndex(t => t.id === updatedTeam.id);
           if (index !== -1) {
@@ -255,7 +258,7 @@ export class AdminTeamManagerComponent implements OnInit {
           // Reset form
           this.cancelEditHistoricalLogo();
         },
-        error: (err) => {
+        error: (err: any) => {
           this.isSaving = false;
           console.error('Error saving historical logo', err);
           alert('Failed to save historical logo.');
@@ -269,10 +272,10 @@ export class AdminTeamManagerComponent implements OnInit {
       if (confirm('Are you sure you want to delete this historical logo?')) {
         this.isSaving = true;
         this.teamService.deleteHistoricalLogo(this.editingTeam.id, logoId).subscribe({
-          next: (updatedTeam) => {
+          next: (updatedTeam: Team) => {
             this.isSaving = false;
             if (updatedTeam.historicalLogos) {
-              updatedTeam.historicalLogos.sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
+              updatedTeam.historicalLogos.sort((a: any, b: any) => (a.startYear || 0) - (b.startYear || 0));
             }
             const index = this.teams.findIndex(t => t.id === updatedTeam.id);
             if (index !== -1) {
@@ -282,7 +285,7 @@ export class AdminTeamManagerComponent implements OnInit {
             this.selectTeam(updatedTeam);
             this.showSavedIndicator();
           },
-          error: (err) => {
+          error: (err: any) => {
             this.isSaving = false;
             console.error('Error deleting historical logo', err);
             alert('Failed to delete historical logo.');
@@ -290,6 +293,47 @@ export class AdminTeamManagerComponent implements OnInit {
         });
       }
     }
+  }
+
+  onUploadHistoricalLogo(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0 || !this.editingTeam) return;
+
+    const file = input.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('league', 'history');
+    formData.append('teamId', this.editingTeam.id);
+    formData.append('isHistorical', 'true');
+    if (this.newHistoricalLogo.startYear) formData.append('startYear', this.newHistoricalLogo.startYear.toString());
+    if (this.newHistoricalLogo.endYear) formData.append('endYear', this.newHistoricalLogo.endYear.toString());
+
+    this.isUploadingHistoricalLogo = true;
+    this.logoUploadService.uploadLogo(formData).subscribe({
+      next: (res: any) => {
+        this.isUploadingHistoricalLogo = false;
+        input.value = '';
+        if (res.success && res.path) {
+          this.newHistoricalLogo.path = res.path;
+          this.showSavedIndicator();
+          // Reload updated team
+          if (this.editingTeam) {
+            this.teamService.getTeams(undefined, this.editingTeam.name, 0, 1).subscribe((page: any) => {
+              if (page.content && page.content.length > 0) {
+                const refreshed = page.content.find((t: Team) => t.id === this.editingTeam!.id) || page.content[0];
+                this.selectTeam(refreshed);
+              }
+            });
+          }
+        }
+      },
+      error: (err: any) => {
+        this.isUploadingHistoricalLogo = false;
+        input.value = '';
+        console.error('Historical logo upload error', err);
+        alert('Upload failed: ' + (err.error?.message || err.message));
+      }
+    });
   }
 
   private showSavedIndicator() {

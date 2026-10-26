@@ -35,6 +35,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'collections', pathMatch: 'full' },
       { path: 'collections', component: AdminCollectionManagerComponent },
       { path: 'teams', loadComponent: () => import('./components/admin-team-manager/admin-team-manager.component').then(m => m.AdminTeamManagerComponent) },
+      { path: 'upload-logo', loadComponent: () => import('./components/admin-logo-upload/admin-logo-upload.component').then(m => m.AdminLogoUploadComponent) },
       { path: 'stadiums', component: AdminStadiumManagerComponent },
       { path: 'tags', component: TagManagerComponent },
       { path: 'leagues', loadComponent: () => import('./components/league-manager/league-manager.component').then(m => m.LeagueManagerComponent) }
