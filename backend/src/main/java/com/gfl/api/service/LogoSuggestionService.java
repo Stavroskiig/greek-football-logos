@@ -31,4 +31,15 @@ public class LogoSuggestionService {
         }
         return logoSuggestionRepository.save(suggestion);
     }
+
+    public LogoSuggestion updateStatus(Long id, LogoSuggestion.SuggestionStatus status) {
+        return logoSuggestionRepository.findById(id).map(s -> {
+            s.setStatus(status);
+            return logoSuggestionRepository.save(s);
+        }).orElseThrow(() -> new RuntimeException("Suggestion not found with id " + id));
+    }
+
+    public void deleteSuggestion(Long id) {
+        logoSuggestionRepository.deleteById(id);
+    }
 }

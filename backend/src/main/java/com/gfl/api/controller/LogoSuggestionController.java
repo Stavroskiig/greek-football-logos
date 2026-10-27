@@ -28,4 +28,17 @@ public class LogoSuggestionController {
     public ResponseEntity<LogoSuggestion> submitSuggestion(@RequestBody LogoSuggestion suggestion) {
         return ResponseEntity.ok(logoSuggestionService.saveSuggestion(suggestion));
     }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<LogoSuggestion> updateStatus(
+            @PathVariable Long id,
+            @RequestParam LogoSuggestion.SuggestionStatus status) {
+        return ResponseEntity.ok(logoSuggestionService.updateStatus(id, status));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSuggestion(@PathVariable Long id) {
+        logoSuggestionService.deleteSuggestion(id);
+        return ResponseEntity.noContent().build();
+    }
 }

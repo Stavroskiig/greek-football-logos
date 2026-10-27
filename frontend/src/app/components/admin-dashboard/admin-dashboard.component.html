@@ -1,0 +1,586 @@
+<div class="dashboard-wrapper">
+  <!-- Hero / Overview Banner -->
+  <div class="dashboard-hero">
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span>{{ 'admin.dashboard_hero_badge' | translate }}</span>
+        </div>
+        <h1 class="hero-title">{{ 'admin.dashboard_title' | translate }}</h1>
+        <p class="hero-subtitle">
+          {{ 'admin.dashboard_subtitle' | translate }}
+        </p>
+      </div>
+
+      <div class="hero-right">
+        <!-- Live System Badges -->
+        <div class="health-card" [ngClass]="backendHealth.status">
+          <div class="health-indicator">
+            <span class="pulse-indicator"></span>
+            <span class="health-label">{{ 'admin.backend_api' | translate }}</span>
+          </div>
+          <div class="health-val">
+            <span *ngIf="backendHealth.status === 'checking'">{{ 'admin.checking_connectivity' | translate }}</span>
+            <span *ngIf="backendHealth.status === 'healthy'">
+              {{ 'admin.operational' | translate }} <span class="latency" *ngIf="backendHealth.latencyMs">({{ backendHealth.latencyMs }}ms)</span>
+            </span>
+            <span *ngIf="backendHealth.status === 'unreachable'">{{ 'admin.disconnected_standby' | translate }}</span>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a routerLink="/admin/upload-logo" class="hero-btn primary-btn">
+            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            {{ 'admin.upload_crest' | translate }}
+          </a>
+          <button (click)="runSyncLogosDb()" [disabled]="isSyncing" class="hero-btn secondary-btn">
+            <svg *ngIf="!isSyncing" class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <svg *ngIf="isSyncing" class="btn-icon animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            {{ (isSyncing ? 'admin.syncing' : 'admin.sync_manifest') | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sync Alert Message -->
+    <div *ngIf="syncMessage" class="sync-banner" [ngClass]="syncSuccess ? 'sync-banner-success' : 'sync-banner-error'">
+      <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path *ngIf="syncSuccess" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        <path *ngIf="!syncSuccess" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+      <span>{{ syncMessage }}</span>
+    </div>
+  </div>
+
+  <!-- KPI Statistics Grid -->
+  <div class="metrics-grid">
+    <!-- Total Clubs -->
+    <div class="metric-card card-teams" routerLink="/admin/teams">
+      <div class="metric-header">
+        <div class="metric-icon-wrap icon-blue">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </div>
+        <span class="metric-badge">{{ stats.totalLeagues }} {{ 'admin.divisions' | translate }}</span>
+      </div>
+      <div class="metric-body">
+        <div class="metric-value">
+          <span *ngIf="!isLoadingStats">{{ stats.totalTeams | number }}</span>
+          <span *ngIf="isLoadingStats" class="skeleton-val">...</span>
+        </div>
+        <div class="metric-label">{{ 'admin.registered_clubs' | translate }}</div>
+      </div>
+      <div class="metric-footer">
+        <span>{{ 'admin.manage_teams_crests' | translate }}</span>
+        <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <!-- Logos Manifest -->
+    <div class="metric-card card-logos" routerLink="/admin/upload-logo">
+      <div class="metric-header">
+        <div class="metric-icon-wrap icon-emerald">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <span class="metric-badge green-badge">{{ 'admin.direct_commit' | translate }}</span>
+      </div>
+      <div class="metric-body">
+        <div class="metric-value">
+          <span *ngIf="!isLoadingStats">{{ stats.totalLogosManifest | number }}</span>
+          <span *ngIf="isLoadingStats" class="skeleton-val">...</span>
+        </div>
+        <div class="metric-label">{{ 'admin.indexed_files' | translate }}</div>
+      </div>
+      <div class="metric-footer">
+        <span>{{ 'admin.upload_commit_crests' | translate }}</span>
+        <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <!-- Stadiums -->
+    <div class="metric-card card-stadiums" routerLink="/admin/stadiums">
+      <div class="metric-header">
+        <div class="metric-icon-wrap icon-amber">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+        </div>
+        <span class="metric-badge amber-badge">{{ stats.mappedStadiumsGps }} {{ 'admin.geocoded' | translate }}</span>
+      </div>
+      <div class="metric-body">
+        <div class="metric-value">
+          <span *ngIf="!isLoadingStats">{{ stats.totalStadiums | number }}</span>
+          <span *ngIf="isLoadingStats" class="skeleton-val">...</span>
+        </div>
+        <div class="metric-label">{{ 'admin.stadiums_venues' | translate }}</div>
+      </div>
+      <div class="metric-footer">
+        <span>{{ 'admin.manage_grounds_map' | translate }}</span>
+        <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <!-- Collections -->
+    <div class="metric-card card-collections" routerLink="/admin/collections">
+      <div class="metric-header">
+        <div class="metric-icon-wrap icon-purple">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <span class="metric-badge purple-badge">{{ 'admin.curated_albums' | translate }}</span>
+      </div>
+      <div class="metric-body">
+        <div class="metric-value">
+          <span *ngIf="!isLoadingStats">{{ stats.totalCollections | number }}</span>
+          <span *ngIf="isLoadingStats" class="skeleton-val">...</span>
+        </div>
+        <div class="metric-label">{{ 'admin.featured_collections' | translate }}</div>
+      </div>
+      <div class="metric-footer">
+        <span>{{ 'admin.edit_albums_sets' | translate }}</span>
+        <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="metric-card card-tags" routerLink="/admin/tags">
+      <div class="metric-header">
+        <div class="metric-icon-wrap icon-pink">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+          </svg>
+        </div>
+        <span class="metric-badge pink-badge">{{ 'admin.taxonomy' | translate }}</span>
+      </div>
+      <div class="metric-body">
+        <div class="metric-value">
+          <span *ngIf="!isLoadingStats">{{ stats.totalTags | number }}</span>
+          <span *ngIf="isLoadingStats" class="skeleton-val">...</span>
+        </div>
+        <div class="metric-label">{{ 'admin.metadata_taxonomy_tags' | translate }}</div>
+      </div>
+      <div class="metric-footer">
+        <span>{{ 'admin.organize_tag_system' | translate }}</span>
+        <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <!-- Pending Submissions -->
+    <div class="metric-card card-suggestions" (click)="suggestionsSection.scrollIntoView({ behavior: 'smooth' })">
+      <div class="metric-header">
+        <div class="metric-icon-wrap icon-rose">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          </svg>
+        </div>
+        <span class="metric-badge" [ngClass]="stats.pendingSuggestions > 0 ? 'alert-badge' : 'gray-badge'">
+          {{ stats.pendingSuggestions }} {{ 'admin.action_required' | translate }}
+        </span>
+      </div>
+      <div class="metric-body">
+        <div class="metric-value">
+          <span *ngIf="!isLoadingStats">{{ stats.pendingSuggestions }}</span>
+          <span *ngIf="isLoadingStats" class="skeleton-val">...</span>
+        </div>
+        <div class="metric-label">{{ 'admin.pending_fan_suggestions' | translate }}</div>
+      </div>
+      <div class="metric-footer">
+        <span>{{ 'admin.review_submissions_below' | translate }}</span>
+        <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Team Search & Jump Tool -->
+  <div class="quick-search-section">
+    <div class="search-box-card">
+      <div class="search-header">
+        <div class="search-title-wrap">
+          <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <span class="search-title">{{ 'admin.quick_club_jump' | translate }}</span>
+        </div>
+        <span class="search-hint">{{ 'admin.quick_club_jump_hint' | translate }}</span>
+      </div>
+
+      <div class="search-input-wrapper">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input 
+          type="text" 
+          [(ngModel)]="quickSearchTerm" 
+          (ngModelChange)="onQuickSearchInput($event)"
+          [placeholder]="'admin.quick_search_placeholder' | translate"
+          class="quick-search-input"
+        />
+        <button *ngIf="quickSearchTerm" (click)="clearQuickSearch()" class="search-clear-btn" title="Clear">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Quick Search Results Dropdown -->
+      <div *ngIf="quickSearchTerm && (searchResults.length > 0 || isSearching)" class="search-dropdown">
+        <div *ngIf="isSearching" class="search-loading-row">
+          <svg class="w-4 h-4 animate-spin text-blue-500" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span>{{ 'admin.searching_database' | translate }}</span>
+        </div>
+
+        <div *ngIf="!isSearching && searchResults.length === 0" class="search-no-results">
+          {{ 'admin.no_clubs_found' | translate }} "{{ quickSearchTerm }}".
+        </div>
+
+        <div *ngFor="let team of searchResults" (click)="navigateToTeam(team)" class="search-result-item">
+          <div class="result-logo-wrap">
+            <img *ngIf="team.path" [src]="team.path" [alt]="team.name" class="result-logo" (error)="$any($event.target).style.display='none'" />
+            <div *ngIf="!team.path" class="result-logo-placeholder">⚽</div>
+          </div>
+          <div class="result-info">
+            <div class="result-name">{{ team.name }}</div>
+            <div class="result-meta">
+              <span class="meta-tag league-tag" *ngIf="team.league?.name">{{ team.league?.name }}</span>
+              <span class="meta-tag stadium-tag" *ngIf="team.stadium?.name">🏟️ {{ team.stadium?.name }}</span>
+              <span class="meta-tag founded-tag" *ngIf="team.founded">{{ 'admin.est' | translate }} {{ team.founded }}</span>
+            </div>
+          </div>
+          <div class="result-action">
+            <span class="action-pill">{{ 'admin.edit_club' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Operations Hub / Launchpad -->
+  <div class="section-container">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <div class="section-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">{{ 'admin.operations_launchpad' | translate }}</h2>
+          <p class="section-desc">{{ 'admin.operations_launchpad_desc' | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="launchpad-grid">
+      <!-- Upload Logo -->
+      <div class="launch-card" routerLink="/admin/upload-logo">
+        <div class="launch-card-icon icon-blue">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+        </div>
+        <div class="launch-card-content">
+          <div class="launch-card-title">{{ 'admin.github_direct_upload_title' | translate }}</div>
+          <div class="launch-card-desc">
+            {{ 'admin.github_direct_upload_desc' | translate }}
+          </div>
+        </div>
+        <div class="launch-card-cta">
+          <span>{{ 'admin.launch_tool' | translate }}</span>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </div>
+      </div>
+
+      <!-- Teams & History -->
+      <div class="launch-card" routerLink="/admin/teams">
+        <div class="launch-card-icon icon-indigo">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </div>
+        <div class="launch-card-content">
+          <div class="launch-card-title">{{ 'admin.teams_historical_title' | translate }}</div>
+          <div class="launch-card-desc">
+            {{ 'admin.teams_historical_desc' | translate }}
+          </div>
+        </div>
+        <div class="launch-card-cta">
+          <span>{{ 'admin.launch_tool' | translate }}</span>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </div>
+      </div>
+
+      <!-- Stadiums -->
+      <div class="launch-card" routerLink="/admin/stadiums">
+        <div class="launch-card-icon icon-amber">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+        </div>
+        <div class="launch-card-content">
+          <div class="launch-card-title">{{ 'admin.stadiums_geo_title' | translate }}</div>
+          <div class="launch-card-desc">
+            {{ 'admin.stadiums_geo_desc' | translate }}
+          </div>
+        </div>
+        <div class="launch-card-cta">
+          <span>{{ 'admin.launch_tool' | translate }}</span>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </div>
+      </div>
+
+      <!-- Collections -->
+      <div class="launch-card" routerLink="/admin/collections">
+        <div class="launch-card-icon icon-purple">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <div class="launch-card-content">
+          <div class="launch-card-title">{{ 'admin.collections_studio_title' | translate }}</div>
+          <div class="launch-card-desc">
+            {{ 'admin.collections_studio_desc' | translate }}
+          </div>
+        </div>
+        <div class="launch-card-cta">
+          <span>{{ 'admin.launch_tool' | translate }}</span>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </div>
+      </div>
+
+      <!-- Leagues -->
+      <div class="launch-card" routerLink="/admin/leagues">
+        <div class="launch-card-icon icon-teal">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+        </div>
+        <div class="launch-card-content">
+          <div class="launch-card-title">{{ 'admin.league_batch_title' | translate }}</div>
+          <div class="launch-card-desc">
+            {{ 'admin.league_batch_desc' | translate }}
+          </div>
+        </div>
+        <div class="launch-card-cta">
+          <span>{{ 'admin.launch_tool' | translate }}</span>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </div>
+      </div>
+
+      <!-- Tags -->
+      <div class="launch-card" routerLink="/admin/tags">
+        <div class="launch-card-icon icon-pink">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+          </svg>
+        </div>
+        <div class="launch-card-content">
+          <div class="launch-card-title">{{ 'admin.taxonomy_tag_title' | translate }}</div>
+          <div class="launch-card-desc">
+            {{ 'admin.taxonomy_tag_desc' | translate }}
+          </div>
+        </div>
+        <div class="launch-card-cta">
+          <span>{{ 'admin.launch_tool' | translate }}</span>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Community Submissions & Suggestions Section -->
+  <div #suggestionsSection class="section-container">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <div class="section-icon icon-rose-bg">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="section-title">{{ 'admin.community_submissions_title' | translate }}</h2>
+            <span *ngIf="stats.pendingSuggestions > 0" class="counter-badge">{{ stats.pendingSuggestions }}</span>
+          </div>
+          <p class="section-desc">{{ 'admin.community_submissions_desc' | translate }}</p>
+        </div>
+      </div>
+
+      <!-- Filter Controls -->
+      <div class="suggestion-tabs">
+        <button 
+          (click)="setSuggestionFilter('PENDING')" 
+          [class.active]="filterSuggestionStatus === 'PENDING'"
+          class="sub-tab">
+          {{ 'admin.pending' | translate }}
+          <span class="sub-tab-count">{{ stats.pendingSuggestions }}</span>
+        </button>
+        <button 
+          (click)="setSuggestionFilter('ALL')" 
+          [class.active]="filterSuggestionStatus === 'ALL'"
+          class="sub-tab">
+          {{ 'admin.all_history' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Action feedback notification -->
+    <div *ngIf="suggestionActionMessage" class="toast-inline">
+      <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+      <span>{{ suggestionActionMessage }}</span>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoadingSuggestions" class="suggestions-loading">
+      <svg class="w-6 h-6 animate-spin text-blue-500" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <span>{{ 'admin.loading_submissions' | translate }}</span>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoadingSuggestions && suggestions.length === 0" class="suggestions-empty">
+      <div class="empty-icon-wrap">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <h3>{{ 'admin.all_caught_up' | translate }}</h3>
+      <p *ngIf="filterSuggestionStatus === 'PENDING'">{{ 'admin.no_pending_submissions' | translate }}</p>
+      <p *ngIf="filterSuggestionStatus === 'ALL'">{{ 'admin.no_all_submissions' | translate }}</p>
+    </div>
+
+    <!-- Suggestions List / Cards -->
+    <div *ngIf="!isLoadingSuggestions && suggestions.length > 0" class="suggestions-grid">
+      <div *ngFor="let item of suggestions" class="suggestion-card" [class.is-pending]="item.status === 'PENDING'">
+        <div class="suggestion-card-header">
+          <div class="submission-team">
+            <span class="team-name">{{ item.teamName }}</span>
+            <span class="team-eps" *ngIf="item.eps">{{ item.eps }}</span>
+          </div>
+          <span class="status-pill" [ngClass]="item.status?.toLowerCase()">
+            {{ item.status }}
+          </span>
+        </div>
+
+        <div class="suggestion-card-body">
+          <div class="suggestion-meta-row">
+            <span class="meta-label">{{ 'admin.submitter' | translate }}</span>
+            <a [href]="'mailto:' + item.senderEmail" class="meta-email">{{ item.senderEmail }}</a>
+          </div>
+
+          <div class="suggestion-meta-row" *ngIf="item.createdAt">
+            <span class="meta-label">{{ 'admin.submitted' | translate }}</span>
+            <span class="meta-date">{{ item.createdAt | date:'medium' }}</span>
+          </div>
+
+          <div class="suggestion-url-row" *ngIf="item.url">
+            <span class="meta-label">{{ 'admin.logo_reference' | translate }}</span>
+            <a [href]="item.url" target="_blank" rel="noopener noreferrer" class="meta-link" title="Open source logo in new tab">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+              {{ 'admin.view_image_file' | translate }}
+            </a>
+          </div>
+        </div>
+
+        <!-- Suggestion Action Buttons -->
+        <div class="suggestion-card-actions">
+          <button 
+            (click)="openUploadWithSuggestion(item)"
+            class="action-btn upload-action"
+            [title]="'admin.upload_to_github' | translate">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+            {{ 'admin.upload_to_github' | translate }}
+          </button>
+
+          <button 
+            *ngIf="item.status !== 'APPROVED'"
+            [disabled]="updatingSuggestionId === item.id"
+            (click)="updateSuggestionStatus(item, 'APPROVED')"
+            class="action-btn approve-action"
+            [title]="'admin.approve' | translate">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            {{ 'admin.approve' | translate }}
+          </button>
+
+          <button 
+            *ngIf="item.status !== 'REJECTED'"
+            [disabled]="updatingSuggestionId === item.id"
+            (click)="updateSuggestionStatus(item, 'REJECTED')"
+            class="action-btn reject-action"
+            [title]="'admin.reject' | translate">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            {{ 'admin.reject' | translate }}
+          </button>
+
+          <button 
+            [disabled]="updatingSuggestionId === item.id"
+            (click)="deleteSuggestion(item)"
+            class="action-btn delete-action"
+            [title]="'admin.delete' | translate">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- System Info & Maintenance Center -->
+  <div class="system-footer-card">
+    <div class="footer-col">
+      <div class="col-title">{{ 'admin.pipeline_title' | translate }}</div>
+      <p class="col-desc">
+        {{ 'admin.pipeline_desc_1' | translate }}
+        <code class="code-pill">main</code> on 
+        <a href="https://github.com/Stavroskiig/greek-football-logos" target="_blank" class="text-blue-500 hover:underline">Stavroskiig/greek-football-logos</a>.
+        {{ 'admin.pipeline_desc_2' | translate }}
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <div class="col-title">{{ 'admin.manifest_sync_title' | translate }}</div>
+      <p class="col-desc">
+        {{ 'admin.manifest_sync_desc' | translate }}
+      </p>
+      <button (click)="runSyncLogosDb()" [disabled]="isSyncing" class="sync-secondary-btn">
+        <svg *ngIf="!isSyncing" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        <svg *ngIf="isSyncing" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>{{ 'admin.run_db_sync_now' | translate }}</span>
+      </button>
+    </div>
+  </div>
+</div>

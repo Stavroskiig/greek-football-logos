@@ -7,6 +7,8 @@ import { LogoUploadService, LogoUploadResponse } from '../../services/logo-uploa
 import { TeamService } from '../../services/team.service';
 import { Team } from '../../models/team';
 
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-admin-logo-upload',
   standalone: true,
@@ -96,6 +98,7 @@ export class AdminLogoUploadComponent implements OnInit, OnDestroy {
   isSearchingTeams: boolean = false;
   private teamSearchSubject = new Subject<string>();
   private teamSearchSub?: Subscription;
+  private querySub?: Subscription;
 
   isHistorical: boolean = false;
   startYear: number | null = null;
@@ -110,18 +113,48 @@ export class AdminLogoUploadComponent implements OnInit, OnDestroy {
 
   constructor(
     private logoUploadService: LogoUploadService,
-    private teamService: TeamService
+    private teamService: TeamService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.loadFolders();
     this.setupTeamSearch();
+    this.checkQueryParams();
   }
 
   ngOnDestroy(): void {
     if (this.teamSearchSub) {
       this.teamSearchSub.unsubscribe();
     }
+    if (this.querySub) {
+      this.querySub.unsubscribe();
+    }
+  }
+
+  private checkQueryParams(): void {
+    this.querySub = this.route.queryParams.subscribe(params => {
+      if (params['teamName']) {
+        this.linkToTeam = true;
+        this.teamSearchTerm = params['teamName'];
+        this.onTeamSearchInput(this.teamSearchTerm);
+        // Also pre-fill filename if empty
+        if (!this.filename) {
+          this.filename = params['teamName'].trim().replace(/\s+/g, '_') + '.png';
+        }
+      }
+      if (params['folder']) {
+        const targetFolder = params['folder'];
+        const matched = this.availableFolders.find(f => f.toLowerCase() === targetFolder.toLowerCase());
+        if (matched) {
+          this.selectedFolder = matched;
+          this.isCustomFolder = false;
+        } else {
+          this.isCustomFolder = true;
+          this.customFolder = targetFolder;
+        }
+      }
+    });
   }
 
   loadFolders(): void {

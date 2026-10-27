@@ -32,7 +32,8 @@ export const routes: Routes = [
     component: AdminComponent,
     canActivate: [AdminGuard],
     children: [
-      { path: '', redirectTo: 'collections', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', loadComponent: () => import('./components/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent) },
       { path: 'collections', component: AdminCollectionManagerComponent },
       { path: 'teams', loadComponent: () => import('./components/admin-team-manager/admin-team-manager.component').then(m => m.AdminTeamManagerComponent) },
       { path: 'upload-logo', loadComponent: () => import('./components/admin-logo-upload/admin-logo-upload.component').then(m => m.AdminLogoUploadComponent) },

@@ -4,6 +4,16 @@ import emailjs from '@emailjs/browser';
 import { Observable, from, firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+export interface LogoSuggestion {
+  id?: number;
+  teamName: string;
+  eps?: string;
+  senderEmail: string;
+  url?: string;
+  createdAt?: string;
+  status?: 'PENDING' | 'APPROVED' | 'REJECTED';
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +27,18 @@ export class LogoSuggestionService {
 
   constructor(private http: HttpClient) {
     emailjs.init(this.EMAILJS_PUBLIC_KEY);
+  }
+
+  getSuggestions(pendingOnly: boolean = false): Observable<LogoSuggestion[]> {
+    return this.http.get<LogoSuggestion[]>(`${this.apiUrl}?pendingOnly=${pendingOnly}`);
+  }
+
+  updateSuggestionStatus(id: number, status: 'PENDING' | 'APPROVED' | 'REJECTED'): Observable<LogoSuggestion> {
+    return this.http.put<LogoSuggestion>(`${this.apiUrl}/${id}/status?status=${status}`, {});
+  }
+
+  deleteSuggestion(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   submitSuggestion(formData: FormData): Observable<any> {

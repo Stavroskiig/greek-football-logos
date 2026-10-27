@@ -9,12 +9,13 @@ import { LogoItemComponent } from '../logo-item/logo-item.component';
 import { LeagueSelectorComponent } from '../league-selector/league-selector.component';
 import { Team } from '../../models/team';
 import { League } from '../../models/league';
+import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-logo-display',
   standalone: true,
-  imports: [CommonModule, FormsModule, LogoItemComponent, LeagueSelectorComponent, TranslatePipe],
+  imports: [CommonModule, FormsModule, LogoItemComponent, LeagueSelectorComponent, TranslatePipe, RouterLink],
   templateUrl: './logo-display.component.html'
 })
 export class LogoDisplayComponent implements OnInit, OnDestroy {

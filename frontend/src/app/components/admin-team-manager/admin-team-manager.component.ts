@@ -10,6 +10,8 @@ import { League } from '../../models/league';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-admin-team-manager',
   standalone: true,
@@ -49,11 +51,17 @@ export class AdminTeamManagerComponent implements OnInit {
     private adminService: AdminService,
     private teamService: TeamService,
     private stadiumService: StadiumService,
-    private logoUploadService: LogoUploadService
+    private logoUploadService: LogoUploadService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.loadData();
+    this.route.queryParams.subscribe(params => {
+      if (params['search']) {
+        this.searchTerm = params['search'];
+      }
+      this.loadData();
+    });
     this.loadStadiums();
 
     this.searchSubject.pipe(
