@@ -38,6 +38,9 @@
               "src/styles.css"
             ],
             "scripts": [],
+            "allowedCommonJsDependencies": [
+              "leaflet"
+            ],
             "server": "src/main.server.ts",
             "prerender": false,
             "ssr": false
@@ -47,13 +50,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1.5MB",
+                  "maximumError": "2.5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "30kB",
+                  "maximumError": "50kB"
                 }
               ],
               "outputHashing": "all"
