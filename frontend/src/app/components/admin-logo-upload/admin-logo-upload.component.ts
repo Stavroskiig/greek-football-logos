@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Subject, Subscription, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import { LogoUploadService, LogoUploadResponse } from '../../services/logo-upload.service';
 import { TeamService } from '../../services/team.service';
 import { Team } from '../../models/team';
@@ -12,7 +14,7 @@ import { Team } from '../../models/team';
   templateUrl: './admin-logo-upload.component.html',
   styleUrls: ['./admin-logo-upload.component.css']
 })
-export class AdminLogoUploadComponent implements OnInit {
+export class AdminLogoUploadComponent implements OnInit, OnDestroy {
   selectedFile: File | null = null;
   imagePreviewUrl: string | null = null;
   imageDimensions: { width: number; height: number } | null = null;
@@ -87,10 +89,14 @@ export class AdminLogoUploadComponent implements OnInit {
   
   // Team assignment
   linkToTeam: boolean = false;
-  teams: Team[] = [];
-  filteredTeams: Team[] = [];
+  selectedTeam: Team | null = null;
   selectedTeamId: string = '';
   teamSearchTerm: string = '';
+  searchResults: Team[] = [];
+  isSearchingTeams: boolean = false;
+  private teamSearchSubject = new Subject<string>();
+  private teamSearchSub?: Subscription;
+
   isHistorical: boolean = false;
   startYear: number | null = null;
   endYear: number | null = null;
@@ -109,7 +115,13 @@ export class AdminLogoUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadFolders();
-    this.loadTeams();
+    this.setupTeamSearch();
+  }
+
+  ngOnDestroy(): void {
+    if (this.teamSearchSub) {
+      this.teamSearchSub.unsubscribe();
+    }
   }
 
   loadFolders(): void {
@@ -127,26 +139,51 @@ export class AdminLogoUploadComponent implements OnInit {
     });
   }
 
-  loadTeams(): void {
-    this.teamService.getAllTeams(0, 1000).subscribe({
+  setupTeamSearch(): void {
+    this.teamSearchSub = this.teamSearchSubject.pipe(
+      debounceTime(250),
+      distinctUntilChanged(),
+      switchMap((term: string) => {
+        const cleanTerm = term.trim();
+        if (!cleanTerm || cleanTerm.length < 1) {
+          this.isSearchingTeams = false;
+          return of({ content: [] });
+        }
+        this.isSearchingTeams = true;
+        // Search by name with a light page size (15 results)
+        return this.teamService.getTeams(undefined, cleanTerm, 0, 15).pipe(
+          catchError(() => of({ content: [] }))
+        );
+      })
+    ).subscribe({
       next: (page: any) => {
-        this.teams = (page.content || []).sort((a: Team, b: Team) => a.name.localeCompare(b.name));
-        this.filteredTeams = [...this.teams];
+        this.searchResults = page.content || [];
+        this.isSearchingTeams = false;
       },
-      error: (err: any) => console.error('Could not load teams', err)
+      error: () => {
+        this.isSearchingTeams = false;
+        this.searchResults = [];
+      }
     });
   }
 
-  onTeamSearch(term: string): void {
+  onTeamSearchInput(term: string): void {
     this.teamSearchTerm = term;
-    if (!term.trim()) {
-      this.filteredTeams = [...this.teams];
-    } else {
-      const lower = term.toLowerCase();
-      this.filteredTeams = this.teams.filter(t => 
-        t.name.toLowerCase().includes(lower) || (t.shortName && t.shortName.toLowerCase().includes(lower))
-      );
-    }
+    this.teamSearchSubject.next(term);
+  }
+
+  selectTeam(team: Team): void {
+    this.selectedTeam = team;
+    this.selectedTeamId = team.id;
+    this.searchResults = [];
+    this.teamSearchTerm = '';
+  }
+
+  clearSelectedTeam(): void {
+    this.selectedTeam = null;
+    this.selectedTeamId = '';
+    this.searchResults = [];
+    this.teamSearchTerm = '';
   }
 
   onFileSelected(event: Event): void {
@@ -284,7 +321,7 @@ export class AdminLogoUploadComponent implements OnInit {
   resetForm(): void {
     this.removeFile();
     this.linkToTeam = false;
-    this.selectedTeamId = '';
+    this.clearSelectedTeam();
     this.isHistorical = false;
     this.startYear = null;
     this.endYear = null;

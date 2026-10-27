@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://greek-football-logos.site/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -4651,6 +4651,10 @@
       <image:title>ΑΜΣ ΦΙΛΩΤΙ Logo / Λογότυπο</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%9A%CE%A5%CE%9A%CE%9B%CE%91%CE%94%CE%A9%CE%9D/%CE%91%CE%9F%20%CE%91%CE%93%CE%95%CE%A1%CE%A3%CE%91%CE%9D%CE%99%20%CE%9D%CE%91%CE%9E%CE%9F%CE%A3.png</image:loc>
+      <image:title>ΑΟ ΑΓΕΡΣΑΝΙ ΝΑΞΟΣ Logo / Λογότυπο</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://greek-football-logos.site/assets/logos/%CE%95%CE%A0%CE%A3%20%CE%9A%CE%A5%CE%9A%CE%9B%CE%91%CE%94%CE%A9%CE%9D/%CE%91%CE%9F%20%CE%9C%CE%A5%CE%9A%CE%9F%CE%9D%CE%9F%CE%A5.png</image:loc>
       <image:title>ΑΟ ΜΥΚΟΝΟΥ Logo / Λογότυπο</image:title>
     </image:image>
@@ -8217,19 +8221,19 @@
   </url>
   <url>
     <loc>https://greek-football-logos.site/misc</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://greek-football-logos.site/tag-manager</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://greek-football-logos.site/collections</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
