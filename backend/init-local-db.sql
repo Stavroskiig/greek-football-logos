@@ -4,7 +4,7 @@
 -- Run this script in DBeaver against your `greek_football_logos` database
 -- before starting the backend for the first time on a fresh setup.
 --
--- This creates the base schema that Flyway's migrations (V1-V8) build upon.
+-- This creates the base schema that Flyway's migrations (V1-V9) build upon.
 -- ====================================================================
 
 -- 1. Reset public schema to clear any previous failed Flyway attempts
@@ -80,6 +80,18 @@ CREATE TABLE IF NOT EXISTS logo_suggestion (
     logo_image_path VARCHAR(255),
     sender_email VARCHAR(255),
     url VARCHAR(255),
+    is_new_team BOOLEAN DEFAULT FALSE,
+    team_id VARCHAR(255),
     created_at TIMESTAMP,
     status VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS suggestion_audit_log (
+    id BIGSERIAL PRIMARY KEY,
+    suggestion_id BIGINT,
+    team_name VARCHAR(255),
+    action VARCHAR(50),
+    performed_by VARCHAR(255),
+    details TEXT,
+    timestamp TIMESTAMP
 );

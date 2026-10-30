@@ -134,7 +134,20 @@ export class AdminLogoUploadComponent implements OnInit, OnDestroy {
 
   private checkQueryParams(): void {
     this.querySub = this.route.queryParams.subscribe(params => {
-      if (params['teamName']) {
+      if (params['teamId']) {
+        this.linkToTeam = true;
+        this.teamService.getTeamById(params['teamId']).subscribe({
+          next: (team) => {
+            if (team) {
+              this.selectTeam(team);
+            }
+          },
+          error: (err) => console.warn('Could not load team by id from query params', err)
+        });
+        if (params['teamName'] && !this.filename) {
+          this.filename = params['teamName'].trim().replace(/\s+/g, '_') + '.png';
+        }
+      } else if (params['teamName']) {
         this.linkToTeam = true;
         this.teamSearchTerm = params['teamName'];
         this.onTeamSearchInput(this.teamSearchTerm);

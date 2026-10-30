@@ -9,7 +9,7 @@ import { TeamService } from '../../services/team.service';
 import { StadiumService } from '../../services/stadium.service';
 import { CollectionService } from '../../services/collection.service';
 import { TagService } from '../../services/tag.service';
-import { LogoSuggestionService, LogoSuggestion } from '../../services/logo-suggestion.service';
+import { LogoSuggestionService, LogoSuggestion, SuggestionAuditLog } from '../../services/logo-suggestion.service';
 import { Team, Stadium } from '../../models/team';
 import { League } from '../../models/league';
 import { environment } from '../../../environments/environment';
@@ -65,10 +65,14 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   // Suggestions & Submissions
   suggestions: LogoSuggestion[] = [];
-  filterSuggestionStatus: 'PENDING' | 'ALL' = 'PENDING';
+  filterSuggestionStatus: 'PENDING' | 'ALL' | 'AUDIT' = 'PENDING';
   isLoadingSuggestions: boolean = false;
   updatingSuggestionId: number | null = null;
   suggestionActionMessage: string | null = null;
+
+  // Audit Logs
+  auditLogs: SuggestionAuditLog[] = [];
+  isLoadingAuditLogs: boolean = false;
 
   // DB Sync
   isSyncing: boolean = false;
@@ -136,7 +140,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       pendingSuggestions: this.logoSuggestionService.getSuggestions(true).pipe(catchError(() => of([])))
     }).subscribe({
       next: ({ teamsPage, manifestPaths, stadiums, collectionsPage, tags, leagues, pendingSuggestions }) => {
-        const mappedGps = stadiums.filter(s => s.latitude && s.longitude).length;
+        const mappedGps = (stadiums || []).filter((s: Stadium) => s.latitude && s.longitude).length;
 
         this.stats = {
           totalTeams: teamsPage?.totalElements || 0,
@@ -211,9 +215,26 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  setSuggestionFilter(status: 'PENDING' | 'ALL'): void {
+  loadAuditLogs(): void {
+    this.isLoadingAuditLogs = true;
+    this.logoSuggestionService.getAuditLogs().pipe(
+      catchError(err => {
+        console.warn('Could not load audit logs from backend:', err);
+        return of([]);
+      })
+    ).subscribe((logs: SuggestionAuditLog[]) => {
+      this.auditLogs = logs || [];
+      this.isLoadingAuditLogs = false;
+    });
+  }
+
+  setSuggestionFilter(status: 'PENDING' | 'ALL' | 'AUDIT'): void {
     this.filterSuggestionStatus = status;
-    this.loadSuggestions();
+    if (status === 'AUDIT') {
+      this.loadAuditLogs();
+    } else {
+      this.loadSuggestions();
+    }
   }
 
   updateSuggestionStatus(suggestion: LogoSuggestion, newStatus: 'APPROVED' | 'REJECTED'): void {
@@ -261,12 +282,14 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   openUploadWithSuggestion(suggestion: LogoSuggestion): void {
-    this.router.navigate(['/admin/upload-logo'], {
-      queryParams: {
-        teamName: suggestion.teamName,
-        folder: suggestion.eps || 'SUPERLEAGUE'
-      }
-    });
+    const queryParams: any = {
+      teamName: suggestion.teamName,
+      folder: suggestion.eps || 'SUPERLEAGUE'
+    };
+    if (suggestion.teamId) {
+      queryParams.teamId = suggestion.teamId;
+    }
+    this.router.navigate(['/admin/upload-logo'], { queryParams });
   }
 
   async runSyncLogosDb(): Promise<void> {

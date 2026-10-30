@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Subject, Subscription, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import { LogoSuggestionService } from '../../services/logo-suggestion.service';
+import { TeamService } from '../../services/team.service';
+import { Team } from '../../models/team';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -10,67 +14,138 @@ import { TranslatePipe } from '@ngx-translate/core';
   imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './logo-suggestion.component.html'
 })
-export class LogoSuggestionComponent implements OnInit {
+export class LogoSuggestionComponent implements OnInit, OnDestroy {
   suggestionForm: FormGroup;
   isSubmitting = false;
   submitError: string | null = null;
   submitSuccess: string | null = null;
 
+  // Club Mode: 'EXISTING' or 'NEW'
+  clubMode: 'EXISTING' | 'NEW' = 'EXISTING';
+  selectedTeam: Team | null = null;
+  teamSearchTerm: string = '';
+  searchResults: Team[] = [];
+  isSearchingTeams = false;
+
+  private teamSearchSubject = new Subject<string>();
+  private teamSearchSub?: Subscription;
+
   constructor(
     private fb: FormBuilder,
-    private suggestionService: LogoSuggestionService
+    private suggestionService: LogoSuggestionService,
+    private teamService: TeamService
   ) {
     this.suggestionForm = this.fb.group({
       teamName: ['', Validators.required],
+      teamId: [''],
       eps: ['', Validators.required],
       senderEmail: ['', [Validators.required, Validators.email]],
       url: ['', [Validators.required, this.urlValidator()]]
     });
   }
 
-  ngOnInit() { }
+  ngOnInit(): void {
+    this.setupTeamSearch();
+  }
+
+  ngOnDestroy(): void {
+    if (this.teamSearchSub) {
+      this.teamSearchSub.unsubscribe();
+    }
+  }
+
+  private setupTeamSearch(): void {
+    this.teamSearchSub = this.teamSearchSubject.pipe(
+      debounceTime(250),
+      distinctUntilChanged(),
+      switchMap((term: string) => {
+        const clean = term.trim();
+        if (!clean) {
+          this.isSearchingTeams = false;
+          return of({ content: [] });
+        }
+        this.isSearchingTeams = true;
+        return this.teamService.getTeams(undefined, clean, 0, 10).pipe(
+          catchError(() => of({ content: [] }))
+        );
+      })
+    ).subscribe({
+      next: (page: any) => {
+        this.searchResults = page.content || [];
+        this.isSearchingTeams = false;
+      },
+      error: () => {
+        this.isSearchingTeams = false;
+      }
+    });
+  }
+
+  setClubMode(mode: 'EXISTING' | 'NEW'): void {
+    this.clubMode = mode;
+    this.clearSelectedTeam();
+  }
+
+  onTeamSearchInput(event: Event): void {
+    const term = (event.target as HTMLInputElement).value || '';
+    this.teamSearchTerm = term;
+    this.teamSearchSubject.next(term);
+  }
+
+  selectTeam(team: Team): void {
+    this.selectedTeam = team;
+    this.searchResults = [];
+    this.teamSearchTerm = '';
+    const epsName = team.league?.name || '';
+    this.suggestionForm.patchValue({
+      teamName: team.name,
+      teamId: team.id,
+      eps: epsName
+    });
+  }
+
+  clearSelectedTeam(): void {
+    this.selectedTeam = null;
+    this.teamSearchTerm = '';
+    this.searchResults = [];
+    this.suggestionForm.patchValue({
+      teamName: '',
+      teamId: '',
+      eps: ''
+    });
+  }
 
   get teamName() { return this.suggestionForm.get('teamName')!; }
   get eps() { return this.suggestionForm.get('eps')!; }
   get senderEmail() { return this.suggestionForm.get('senderEmail')!; }
   get url() { return this.suggestionForm.get('url')!; }
 
-  // Method to validate URL format
   isValidUrl(url: string): boolean {
     const urlPattern = /^https?:\/\/.*\.(png|jpg|jpeg|gif|svg|webp)$/i;
     return urlPattern.test(url);
   }
 
-  // URL validator
   urlValidator() {
     return (control: any): { [key: string]: any } | null => {
       const url = control.value;
       if (!url) {
         return { 'required': true };
       }
-
       if (!this.isValidUrl(url)) {
         return { 'invalidUrl': true };
       }
-
       return null;
     };
   }
 
   isFormValid(): boolean {
+    if (this.clubMode === 'EXISTING' && !this.selectedTeam) {
+      return false;
+    }
     return this.suggestionForm.valid;
   }
 
-  async onSubmit() {
+  async onSubmit(): Promise<void> {
     if (!this.isFormValid()) {
-      console.log('Form validation failed:', this.suggestionForm.errors);
-      console.log('Form validation details:', {
-        teamNameValid: this.teamName.valid,
-        epsValid: this.eps.valid,
-        emailValid: this.senderEmail.valid,
-        urlValue: this.url.value,
-        urlValid: this.url.valid
-      });
       return;
     }
 
@@ -84,25 +159,23 @@ export class LogoSuggestionComponent implements OnInit {
       formData.append('eps', this.eps.value.trim());
       formData.append('senderEmail', this.senderEmail.value.trim());
       formData.append('url', this.url.value.trim());
+      formData.append('isNewTeam', this.clubMode === 'NEW' ? 'true' : 'false');
+      if (this.clubMode === 'EXISTING' && this.selectedTeam?.id) {
+        formData.append('teamId', this.selectedTeam.id);
+      }
       formData.append('hasUrl', 'true');
       formData.append('hasFile', 'false');
 
-      console.log('Submitting with URL:', this.url.value.trim());
-
-      const response = await this.suggestionService.submitSuggestion(formData).toPromise();
-      console.log('Submission response:', response);
+      await this.suggestionService.submitSuggestion(formData).toPromise();
 
       // Reset form after successful submission
       this.suggestionForm.reset();
+      this.clearSelectedTeam();
       this.submitSuccess = 'Logo suggestion submitted successfully! We will review it and get back to you soon.';
-      console.log('Success message set:', this.submitSuccess);
 
-      // Clear success message after 5 seconds
       setTimeout(() => {
         this.submitSuccess = null;
-        console.log('Success message cleared');
       }, 5000);
-
     } catch (error) {
       console.error('Error in form submission:', error);
       if (error instanceof Error) {
@@ -112,7 +185,6 @@ export class LogoSuggestionComponent implements OnInit {
       }
     } finally {
       this.isSubmitting = false;
-      console.log('Form submission completed, isSubmitting set to false');
     }
   }
-} 
+}

@@ -151,6 +151,12 @@ export class TeamService {
     );
   }
 
+  getTeamById(id: string): Observable<Team> {
+    return this.getTeamsByIds([id], undefined, 0, 1).pipe(
+      map(page => page.content && page.content.length > 0 ? page.content[0] : null as any)
+    );
+  }
+
   deleteTeam(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }

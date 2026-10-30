@@ -10,8 +10,20 @@ export interface LogoSuggestion {
   eps?: string;
   senderEmail: string;
   url?: string;
+  isNewTeam?: boolean;
+  teamId?: string;
   createdAt?: string;
   status?: 'PENDING' | 'APPROVED' | 'REJECTED';
+}
+
+export interface SuggestionAuditLog {
+  id?: number;
+  suggestionId?: number;
+  teamName?: string;
+  action: string;
+  performedBy?: string;
+  details?: string;
+  timestamp: string;
 }
 
 @Injectable({
@@ -41,6 +53,11 @@ export class LogoSuggestionService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
+  getAuditLogs(suggestionId?: number): Observable<SuggestionAuditLog[]> {
+    const params = suggestionId ? `?suggestionId=${suggestionId}` : '';
+    return this.http.get<SuggestionAuditLog[]>(`${this.apiUrl}/audit-logs${params}`);
+  }
+
   submitSuggestion(formData: FormData): Observable<any> {
     return from(this.sendEmailsAndSave(formData));
   }
@@ -51,15 +68,19 @@ export class LogoSuggestionService {
       const teamName = formData.get('teamName') as string;
       const eps = formData.get('eps') as string;
       const url = formData.get('url') as string;
+      const isNewTeam = formData.get('isNewTeam') === 'true';
+      const teamId = formData.get('teamId') as string || undefined;
 
-      console.log('Processing submission:', { submitterEmail, teamName, eps, url });
+      console.log('Processing submission:', { submitterEmail, teamName, eps, url, isNewTeam, teamId });
 
       // Save suggestion to backend
-      const suggestionPayload = {
+      const suggestionPayload: LogoSuggestion = {
         teamName,
         eps,
         senderEmail: submitterEmail,
         url,
+        isNewTeam,
+        teamId,
         status: 'PENDING'
       };
 
@@ -108,7 +129,6 @@ export class LogoSuggestionService {
       team_name: teamName,
       eps: eps,
       url: url
-      // Removed reply_to to fix mail delivery issues
     };
 
     console.log('Sending admin notification with params:', params);
@@ -130,11 +150,10 @@ export class LogoSuggestionService {
   private async sendThankYouEmail(submitterEmail: string, teamName: string, eps: string): Promise<any> {
     const params = {
       to_email: submitterEmail,
-      to_name: submitterEmail, // Use email as name if no name provided
+      to_name: submitterEmail,
       from_name: 'Greek Football Logos',
       team_name: teamName,
       eps: eps
-      // Removed reply_to to fix mail delivery issues
     };
 
     console.log('Sending thank you email with:', params);
@@ -152,4 +171,4 @@ export class LogoSuggestionService {
       throw error;
     }
   }
-} 
+}

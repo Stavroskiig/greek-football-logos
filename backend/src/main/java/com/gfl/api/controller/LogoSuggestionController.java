@@ -1,6 +1,7 @@
 package com.gfl.api.controller;
 
 import com.gfl.api.model.LogoSuggestion;
+import com.gfl.api.model.SuggestionAuditLog;
 import com.gfl.api.service.LogoSuggestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +41,14 @@ public class LogoSuggestionController {
     public ResponseEntity<Void> deleteSuggestion(@PathVariable Long id) {
         logoSuggestionService.deleteSuggestion(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/audit-logs")
+    public ResponseEntity<List<SuggestionAuditLog>> getAuditLogs(
+            @RequestParam(required = false) Long suggestionId) {
+        if (suggestionId != null) {
+            return ResponseEntity.ok(logoSuggestionService.getAuditLogsForSuggestion(suggestionId));
+        }
+        return ResponseEntity.ok(logoSuggestionService.getAuditLogs());
     }
 }

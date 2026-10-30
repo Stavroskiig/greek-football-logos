@@ -116,7 +116,17 @@
     "pipeline_desc_2": "Vercel's automated workflow rebuilds the production app and refreshes static paths.",
     "manifest_sync_title": "Manifest Synchronization",
     "manifest_sync_desc": "When new physical files are committed, trigger a manifest sync to ensure newly indexed SVG/PNG paths are recognized across all team objects in the database.",
-    "run_db_sync_now": "Run DB Sync Now"
+    "run_db_sync_now": "Run DB Sync Now",
+    "audit_log": "Audit Log",
+    "existing_club_badge": "Existing Club",
+    "new_club_badge": "New Club",
+    "loading_audit_logs": "Loading audit history from database...",
+    "audit_empty": "No audit actions recorded in database yet.",
+    "audit_time": "Time",
+    "audit_action": "Action",
+    "audit_club": "Club",
+    "audit_performed_by": "Actor",
+    "audit_details": "Details"
   },
   "suggest": {
     "title": "Suggest a New Logo",
@@ -132,7 +142,14 @@
     "email": "Your Email",
     "email_invalid": "Please enter a valid email",
     "submit": "Submit Suggestion",
-    "submitting": "Submitting..."
+    "submitting": "Submitting...",
+    "team_selection_type": "Club Type",
+    "existing_team": "Existing Club in Database",
+    "new_team": "New Club / Not in Database",
+    "search_team_placeholder": "Search club by name (e.g. Panathinaikos, Olympiacos)...",
+    "no_teams_matched": "No clubs found matching your search.",
+    "change_club": "Change Club",
+    "select_club_required": "Please search and select an existing club from the list."
   },
   "logo": {
     "download": "Download"

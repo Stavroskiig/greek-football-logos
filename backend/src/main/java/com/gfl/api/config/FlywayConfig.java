@@ -110,8 +110,20 @@ public class FlywayConfig {
                             logo_image_path VARCHAR(255),
                             sender_email VARCHAR(255),
                             url VARCHAR(255),
+                            is_new_team BOOLEAN DEFAULT FALSE,
+                            team_id VARCHAR(255),
                             created_at TIMESTAMP,
                             status VARCHAR(255)
+                        );
+
+                        CREATE TABLE IF NOT EXISTS suggestion_audit_log (
+                            id BIGSERIAL PRIMARY KEY,
+                            suggestion_id BIGINT,
+                            team_name VARCHAR(255),
+                            action VARCHAR(50),
+                            performed_by VARCHAR(255),
+                            details TEXT,
+                            timestamp TIMESTAMP
                         );
                     """);
                     log.info("Baseline tables successfully created.");
@@ -123,6 +135,19 @@ public class FlywayConfig {
                 try {
                     stmt.execute("ALTER TABLE collection ADD COLUMN IF NOT EXISTS created_by VARCHAR(255)");
                     stmt.execute("CREATE TABLE IF NOT EXISTS collection_logos (collection_id VARCHAR(255) REFERENCES collection(id), logo_id VARCHAR(255))");
+                    stmt.execute("ALTER TABLE logo_suggestion ADD COLUMN IF NOT EXISTS is_new_team BOOLEAN DEFAULT FALSE");
+                    stmt.execute("ALTER TABLE logo_suggestion ADD COLUMN IF NOT EXISTS team_id VARCHAR(255)");
+                    stmt.execute("""
+                        CREATE TABLE IF NOT EXISTS suggestion_audit_log (
+                            id BIGSERIAL PRIMARY KEY,
+                            suggestion_id BIGINT,
+                            team_name VARCHAR(255),
+                            action VARCHAR(50),
+                            performed_by VARCHAR(255),
+                            details TEXT,
+                            timestamp TIMESTAMP
+                        )
+                    """);
                 } catch (Exception ignored) {}
             } catch (Exception e) {
                 log.warn("Could not check or initialize baseline schema: {}", e.getMessage());

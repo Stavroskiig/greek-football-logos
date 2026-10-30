@@ -27,6 +27,10 @@ public class LogoSuggestion {
 
     private String url;
 
+    private Boolean isNewTeam;
+
+    private String teamId;
+
     private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
