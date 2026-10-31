@@ -63,57 +63,63 @@ export class LogoSuggestionService {
   }
 
   private async sendEmailsAndSave(formData: FormData): Promise<any> {
+    const submitterEmail = formData.get('senderEmail') as string;
+    const teamName = formData.get('teamName') as string;
+    const eps = formData.get('eps') as string;
+    const url = formData.get('url') as string;
+    const isNewTeam = formData.get('isNewTeam') === 'true';
+    const teamId = formData.get('teamId') as string || undefined;
+
+    console.log('Processing submission:', { submitterEmail, teamName, eps, url, isNewTeam, teamId });
+
+    // Save suggestion to backend
+    const suggestionPayload: LogoSuggestion = {
+      teamName,
+      eps,
+      senderEmail: submitterEmail,
+      url,
+      isNewTeam,
+      teamId,
+      status: 'PENDING'
+    };
+
+    let savedToDb = false;
     try {
-      const submitterEmail = formData.get('senderEmail') as string;
-      const teamName = formData.get('teamName') as string;
-      const eps = formData.get('eps') as string;
-      const url = formData.get('url') as string;
-      const isNewTeam = formData.get('isNewTeam') === 'true';
-      const teamId = formData.get('teamId') as string || undefined;
+      await firstValueFrom(this.http.post(this.apiUrl, suggestionPayload));
+      savedToDb = true;
+      console.log('Suggestion successfully saved to backend database.');
+    } catch (dbError) {
+      console.error('Failed to save suggestion to backend database:', dbError);
+    }
 
-      console.log('Processing submission:', { submitterEmail, teamName, eps, url, isNewTeam, teamId });
-
-      // Save suggestion to backend
-      const suggestionPayload: LogoSuggestion = {
-        teamName,
-        eps,
-        senderEmail: submitterEmail,
-        url,
-        isNewTeam,
-        teamId,
-        status: 'PENDING'
-      };
-
-      try {
-        await firstValueFrom(this.http.post(this.apiUrl, suggestionPayload));
-        console.log('Suggestion successfully saved to backend database.');
-      } catch (dbError) {
-        console.error('Failed to save suggestion to backend database:', dbError);
-      }
-
-      // 1. Send notification to admin with all details
+    // 1. Send notification to admin with all details (resilient - don't block submission if email provider fails)
+    let adminEmailSent = false;
+    try {
       const adminResponse = await this.sendAdminNotification(
         submitterEmail,
         teamName,
         eps,
         url
       );
+      adminEmailSent = true;
       console.log('Admin notification sent:', adminResponse);
-
-      try {
-        // 2. Send thank you email to submitter
-        const thankYouResponse = await this.sendThankYouEmail(submitterEmail, teamName, eps);
-        console.log('Thank you email sent:', thankYouResponse);
-      } catch (thankYouError) {
-        // If thank you email fails, log it but don't fail the whole submission
-        console.error('Failed to send thank you email:', thankYouError);
-      }
-
-      return { success: true, adminEmailSent: true, savedToDb: true };
-    } catch (error) {
-      console.error('Error in sendEmailsAndSave:', error);
-      throw error;
+    } catch (emailError) {
+      console.warn('Failed to send admin notification email via EmailJS (check EmailJS Gmail connection):', emailError);
     }
+
+    // 2. Send thank you email to submitter (resilient)
+    try {
+      const thankYouResponse = await this.sendThankYouEmail(submitterEmail, teamName, eps);
+      console.log('Thank you email sent:', thankYouResponse);
+    } catch (thankYouError) {
+      console.warn('Failed to send thank you email:', thankYouError);
+    }
+
+    if (!savedToDb && !adminEmailSent) {
+      throw new Error('Failed to save suggestion to database and email notification failed.');
+    }
+
+    return { success: true, adminEmailSent, savedToDb };
   }
 
   private async sendAdminNotification(
