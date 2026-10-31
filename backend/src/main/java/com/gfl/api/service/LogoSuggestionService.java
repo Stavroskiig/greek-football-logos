@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +37,32 @@ public class LogoSuggestionService {
         if (suggestion.getStatus() == null) {
             suggestion.setStatus(LogoSuggestion.SuggestionStatus.PENDING);
         }
+
+        // Deduplication: if an identical suggestion (same team name + same logo URL) is already PENDING
+        if (suggestion.getTeamName() != null && suggestion.getUrl() != null) {
+            String cleanTeamName = suggestion.getTeamName().trim();
+            String cleanUrl = suggestion.getUrl().trim();
+            Optional<LogoSuggestion> existing = logoSuggestionRepository
+                    .findFirstByTeamNameIgnoreCaseAndUrlAndStatus(
+                            cleanTeamName,
+                            cleanUrl,
+                            LogoSuggestion.SuggestionStatus.PENDING
+                    );
+            if (existing.isPresent()) {
+                LogoSuggestion existingRecord = existing.get();
+                log.info("Duplicate pending suggestion detected for team '{}' with URL '{}'. Reusing record ID {}",
+                        cleanTeamName, cleanUrl, existingRecord.getId());
+
+                if (suggestion.getSenderEmail() != null && !suggestion.getSenderEmail().isBlank()) {
+                    existingRecord.setSenderEmail(suggestion.getSenderEmail().trim());
+                }
+                if (suggestion.getEps() != null && !suggestion.getEps().isBlank()) {
+                    existingRecord.setEps(suggestion.getEps().trim());
+                }
+                return logoSuggestionRepository.save(existingRecord);
+            }
+        }
+
         LogoSuggestion saved = logoSuggestionRepository.save(suggestion);
 
         try {
