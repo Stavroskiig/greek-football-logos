@@ -149,7 +149,15 @@
     "search_team_placeholder": "Search club by name (e.g. Panathinaikos, Olympiacos)...",
     "no_teams_matched": "No clubs found matching your search.",
     "change_club": "Change Club",
-    "select_club_required": "Please search and select an existing club from the list."
+    "select_club_required": "Please search and select an existing club from the list.",
+    "team_name_placeholder": "Enter team name",
+    "league": "League",
+    "league_required": "League is required",
+    "league_placeholder": "e.g. Super League, Gamma Ethniki, EPS Athens...",
+    "logo_url_placeholder": "https://example.com/logo.png",
+    "email_placeholder": "your.email@example.com",
+    "submit_success": "Logo suggestion submitted successfully! We will review it and get back to you soon.",
+    "submit_error": "Failed to submit logo suggestion. Please try again."
   },
   "logo": {
     "download": "Download"

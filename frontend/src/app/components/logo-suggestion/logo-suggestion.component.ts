@@ -6,6 +6,7 @@ import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/
 import { LogoSuggestionService } from '../../services/logo-suggestion.service';
 import { TeamService } from '../../services/team.service';
 import { Team } from '../../models/team';
+import { League } from '../../models/league';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -17,8 +18,8 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class LogoSuggestionComponent implements OnInit, OnDestroy {
   suggestionForm: FormGroup;
   isSubmitting = false;
-  submitError: string | null = null;
-  submitSuccess: string | null = null;
+  submitErrorKey: string | null = null;
+  submitSuccessKey: string | null = null;
 
   // Club Mode: 'EXISTING' or 'NEW'
   clubMode: 'EXISTING' | 'NEW' = 'EXISTING';
@@ -26,6 +27,8 @@ export class LogoSuggestionComponent implements OnInit, OnDestroy {
   teamSearchTerm: string = '';
   searchResults: Team[] = [];
   isSearchingTeams = false;
+
+  availableLeagues: League[] = [];
 
   private teamSearchSubject = new Subject<string>();
   private teamSearchSub?: Subscription;
@@ -46,12 +49,21 @@ export class LogoSuggestionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setupTeamSearch();
+    this.loadLeagues();
   }
 
   ngOnDestroy(): void {
     if (this.teamSearchSub) {
       this.teamSearchSub.unsubscribe();
     }
+  }
+
+  private loadLeagues(): void {
+    this.teamService.getLeagues().pipe(
+      catchError(() => of([]))
+    ).subscribe(leagues => {
+      this.availableLeagues = leagues || [];
+    });
   }
 
   private setupTeamSearch(): void {
@@ -95,11 +107,11 @@ export class LogoSuggestionComponent implements OnInit, OnDestroy {
     this.selectedTeam = team;
     this.searchResults = [];
     this.teamSearchTerm = '';
-    const epsName = team.league?.name || '';
+    const leagueName = team.league?.name || '';
     this.suggestionForm.patchValue({
       teamName: team.name,
       teamId: team.id,
-      eps: epsName
+      eps: leagueName
     });
   }
 
@@ -150,8 +162,8 @@ export class LogoSuggestionComponent implements OnInit, OnDestroy {
     }
 
     this.isSubmitting = true;
-    this.submitError = null;
-    this.submitSuccess = null;
+    this.submitErrorKey = null;
+    this.submitSuccessKey = null;
 
     try {
       const formData = new FormData();
@@ -171,18 +183,14 @@ export class LogoSuggestionComponent implements OnInit, OnDestroy {
       // Reset form after successful submission
       this.suggestionForm.reset();
       this.clearSelectedTeam();
-      this.submitSuccess = 'Logo suggestion submitted successfully! We will review it and get back to you soon.';
+      this.submitSuccessKey = 'suggest.submit_success';
 
       setTimeout(() => {
-        this.submitSuccess = null;
-      }, 5000);
+        this.submitSuccessKey = null;
+      }, 6000);
     } catch (error) {
       console.error('Error in form submission:', error);
-      if (error instanceof Error) {
-        this.submitError = `Submission failed: ${error.message}`;
-      } else {
-        this.submitError = 'Failed to submit logo suggestion. Please try again.';
-      }
+      this.submitErrorKey = 'suggest.submit_error';
     } finally {
       this.isSubmitting = false;
     }

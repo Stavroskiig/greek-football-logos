@@ -136,7 +136,8 @@
           <label for="teamName" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
             {{ 'suggest.team_name' | translate }} <span class="text-red-500">*</span>
           </label>
-          <input type="text" id="teamName" formControlName="teamName" placeholder="Enter team name"
+          <input type="text" id="teamName" formControlName="teamName" 
+            [placeholder]="'suggest.team_name_placeholder' | translate"
             [class.border-red-500]="teamName.invalid && teamName.touched"
             class="block w-full px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200">
           <div class="text-red-500 text-sm mt-1" *ngIf="teamName.invalid && teamName.touched">
@@ -144,16 +145,20 @@
           </div>
         </div>
 
-        <!-- EPS / League -->
+        <!-- League Selection / Input -->
         <div>
           <label for="eps" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-            {{ 'suggest.eps' | translate }} <span class="text-red-500">*</span>
+            {{ 'suggest.league' | translate }} <span class="text-red-500">*</span>
           </label>
-          <input type="text" id="eps" formControlName="eps" placeholder="Enter EPS name or League"
+          <input type="text" id="eps" formControlName="eps" list="leaguesList"
+            [placeholder]="'suggest.league_placeholder' | translate"
             [class.border-red-500]="eps.invalid && eps.touched"
             class="block w-full px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200">
+          <datalist id="leaguesList">
+            <option *ngFor="let league of availableLeagues" [value]="league.name"></option>
+          </datalist>
           <div class="text-red-500 text-sm mt-1" *ngIf="eps.invalid && eps.touched">
-            {{ 'suggest.eps_required' | translate }}
+            {{ 'suggest.league_required' | translate }}
           </div>
         </div>
 
@@ -168,7 +173,8 @@
             <label for="url" class="block text-sm text-gray-600 dark:text-gray-300 mb-2">
               {{ 'suggest.logo_url_hint' | translate }}
             </label>
-            <input type="url" id="url" formControlName="url" placeholder="https://example.com/logo.png"
+            <input type="url" id="url" formControlName="url" 
+              [placeholder]="'suggest.logo_url_placeholder' | translate"
               [class.border-red-500]="url.invalid && url.touched"
               class="block w-full px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200">
             <div class="text-red-500 text-sm mt-1" *ngIf="url.value && !isValidUrl(url.value)">
@@ -185,7 +191,8 @@
           <label for="senderEmail" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
             {{ 'suggest.email' | translate }} <span class="text-red-500">*</span>
           </label>
-          <input type="email" id="senderEmail" formControlName="senderEmail" placeholder="your.email@example.com"
+          <input type="email" id="senderEmail" formControlName="senderEmail" 
+            [placeholder]="'suggest.email_placeholder' | translate"
             [class.border-red-500]="senderEmail.invalid && senderEmail.touched"
             class="block w-full px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200">
           <div class="text-red-500 text-sm mt-1" *ngIf="senderEmail.invalid && senderEmail.touched">
@@ -207,14 +214,14 @@
         </div>
 
         <!-- Error Message -->
-        <div class="text-red-500 text-sm text-center mt-4" *ngIf="submitError">
-          {{ submitError }}
+        <div class="text-red-500 text-sm text-center mt-4" *ngIf="submitErrorKey">
+          {{ submitErrorKey | translate }}
         </div>
 
         <!-- Success Message -->
-        <div class="text-green-600 text-sm text-center bg-green-50 p-4 rounded-xl border border-green-200 mt-4"
-          *ngIf="submitSuccess">
-          {{ submitSuccess }}
+        <div class="text-green-600 text-sm text-center bg-green-50 dark:bg-green-900/30 p-4 rounded-xl border border-green-200 dark:border-green-800 mt-4"
+          *ngIf="submitSuccessKey">
+          {{ submitSuccessKey | translate }}
         </div>
       </form>
     </div>
